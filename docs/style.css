@@ -3,13 +3,13 @@
 /* --- 1. Global Styles & NEW Gradient Theme --- */
 :root {
     --light-bg: #f4f7f9;
-    --primary-accent: #d800a8; /* Vibrant Purple/Magenta */
-    --secondary-accent: #00a0c0; /* Vibrant Cyan/Blue */
+    --primary-accent: #d800a8; 
+    --secondary-accent: #00a0c0; 
     --text-primary: #212529;
     --text-secondary: #6c757d;
     --card-bg: #ffffff;
     --border-color: #dee2e6;
-    --shadow-color: rgba(111, 66, 193, 0.15); /* Shadow based on new primary */
+    --shadow-color: rgba(111, 66, 193, 0.15); 
 }
 
 * {
@@ -90,13 +90,11 @@ section {
     background: transparent;
 }
 
-/* --- REVISED: Glitch Effect with Delay --- */
 .hero-title {
     font-size: 4rem;
     margin-bottom: 20px;
     -webkit-text-fill-color: initial;
     position: relative;
-    /* Increased duration for the play/pause cycle */
     animation: glitch-skew 5s infinite linear;
 }
 
@@ -108,7 +106,7 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--light-bg); /* Match the page background */
+    background: var(--light-bg); 
 }
 
 .hero-title::before {
@@ -120,7 +118,6 @@ section {
 .hero-title::after {
     left: -2px;
     -webkit-text-fill-color: var(--primary-accent);
-    /* Stagger the second animation slightly for a better effect */
     animation: glitch-effect 5.2s infinite linear;
 }
 
@@ -153,13 +150,12 @@ section {
     box-shadow: 0 15px 30px var(--shadow-color);
 }
 
-/* Style for the new description */
 .hero-description {
     margin: 30px auto 0 auto;
     max-width: 800px;
     color: var(--text-secondary);
     font-size: 1.1rem;
-    font-weight: bold; /* <-- This is the change */
+    font-weight: bold; 
     line-height: 1.8;
 }
 
@@ -295,7 +291,6 @@ section {
     border-radius: 10px;
 }
 
-/* --- ADDED: Image Modal Styles --- */
 .modal {
     display: none;
     position: fixed;
@@ -375,33 +370,33 @@ section {
 
 /* --- 6. Interactive Feature Examples Section (NEW STYLES) --- */
 .example-content {
-    margin-top: 20px; /* Add some space above the content */
-    border-top: 1px solid var(--border-color); /* Add a separator line */
-    padding-top: 20px; /* Add space below the line */
+    margin-top: 20px; 
+    border-top: 1px solid var(--border-color); 
+    padding-top: 20px; 
 }
 
 .example-content h4 {
-    font-family: 'Roboto', sans-serif; /* Use a more readable font */
-    text-transform: none; /* Normal case */
+    font-family: 'Roboto', sans-serif;
+    text-transform: none; 
     letter-spacing: normal;
     font-size: 1rem;
     font-weight: 700;
-    color: var(--text-secondary); /* A more subtle color */
-    background: none; /* Remove gradient from h4 */
-    -webkit-text-fill-color: initial; /* Reset text fill */
+    color: var(--text-secondary); 
+    background: none; 
+    -webkit-text-fill-color: initial; 
     margin-bottom: 10px;
 }
 
 .example-content code {
     display: inline-block;
-    background-color: var(--light-bg); /* Use light page background */
+    background-color: var(--light-bg); 
     border: 1px solid var(--border-color);
     padding: 8px 12px;
     border-radius: 5px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.9rem;
     color: var(--text-primary);
-    word-wrap: break-word; /* Ensure long code snippets wrap */
+    word-wrap: break-word; 
     width: 100%;
 }
 
@@ -487,12 +482,11 @@ footer {
 }
 footer a { color: var(--secondary-accent); text-decoration: none; margin: 0 10px; }
 
-/* --- 11. Scroll Animations & REVISED Glitch Keyframes --- */
+/* --- 11. Scroll Animations & Keyframes --- */
 .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
 @keyframes glitch-effect {
-  /* ACTIVE PHASE */
   0% { clip-path: inset(85% 0 5% 0); transform: none; }
   2% { transform: translate(-2px, -1px); }
   4% { transform: translate(2px, 1px); clip-path: inset(15% 0 70% 0); }
@@ -506,13 +500,11 @@ footer a { color: var(--secondary-accent); text-decoration: none; margin: 0 10px
   20% { transform: translate(2px, 1px); }
   22% { transform: translate(-2px, -1px); }
   24% { clip-path: inset(55% 0 30% 0); }
-  /* INACTIVE/REST PHASE */
   25% { clip-path: none; transform: none; }
   100% { clip-path: none; transform: none; }
 }
 
 @keyframes glitch-skew {
-  /* ACTIVE PHASE */
   0% { transform: skew(0); }
   15% { transform: skew(0); }
   16% { transform: skew(2deg); }
@@ -520,7 +512,6 @@ footer a { color: var(--secondary-accent); text-decoration: none; margin: 0 10px
   18% { transform: skew(1deg); }
   19% { transform: skew(-1deg); }
   20% { transform: skew(0); }
-  /* INACTIVE/REST PHASE */
   21% { transform: skew(0); }
   100% { transform: skew(0); }
 }
