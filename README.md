@@ -126,12 +126,11 @@ This is the initial version of the project, and there is a huge potential for im
 
 ## 🚀 Getting Started
 
-Follow these steps to get PFS running on your local machine.
+This guide provides instructions for both regular users (via a simple installer) and developers (running from source code).
 
 ### Prerequisites
 
-*   **Python 3.11 or newer.**
-*   **Git** for cloning the repository.
+*   **Python 3.11 or newer** (only required for developers running from source).
 *   An internet connection is required during the initial setup to download dependencies and models.
 
 *   **Hardware Considerations:**
@@ -141,7 +140,27 @@ Follow these steps to get PFS running on your local machine.
         *   Larger, more capable models will require significantly more VRAM (e.g., 8GB, 16GB, or more).
     *   *Note: These GPU requirements **do not apply** if you are using a cloud-based LLM provider (like OpenAI, Groq, etc.) via an API key, as the computation happens on their servers.*
 
-### 🔧 Installation
+---
+
+### For Users (Recommended Installation)
+
+The easiest way to install Precision File Search is to download the latest official installer for Windows.
+
+[![Latest Release](https://img.shields.io/github/v/release/Eng-AliKazemi/PFS?label=Download%20Latest%20Release&style=for-the-badge&color=blueviolet)](https://github.com/Eng-AliKazemi/PFS/releases/latest)
+
+1.  Click the button above to go to the latest release page.
+2.  Under the **Assets** section, download the `pfs-installer-vX.X.X.exe` file.
+3.  Run the installer and follow the on-screen instructions.
+4.  Once installed, launch the application and navigate to the **Settings** tab to configure your LLM and Semantic models as needed.
+
+---
+
+### For Developers (Running from Source)
+
+<details>
+<summary>Click here for instructions on how to run the project from the source code.</summary>
+
+#### 🔧 Installation
 
 1.  **Clone the Repository:**
     Open your terminal and clone the PFS repository:
@@ -171,21 +190,21 @@ Follow these steps to get PFS running on your local machine.
     *   **What this command does:** `pip` reads `pyproject.toml` to find and install all required libraries. The `-e` flag ("editable" mode) installs the project so that changes you make to the code are immediately effective, which is ideal for development.
     *   **Be patient:** The initial installation may take several minutes as it downloads large AI and machine learning libraries.
 
+    <details>
+    <summary><i>Our Approach to Dependency Management (pip vs. uv)</i></summary>
 
-### Our Approach to Dependency Management
+    For a project of this complexity, choosing the right dependency management strategy is key. We use **`pyproject.toml`** as our standard definition file, which can be installed with the official **`pip`** installer or the high-speed alternative, **`uv`**.
 
-For a project of this complexity, choosing the right dependency management strategy is key. We use **`pyproject.toml`** as our standard definition file, which can be installed with the official **`pip`** installer or the high-speed alternative, **`uv`**.
+    This separates the **"what"** (the list of dependencies in `pyproject.toml`) from the **"how"** (the tool used to install them).
 
-This separates the **"what"** (the list of dependencies in `pyproject.toml`) from the **"how"** (the tool used to install them).
+    While the command above uses `pip` for universal compatibility, advanced users can get a significant speed boost by using `uv`. Since `uv` also understands the `pyproject.toml` standard, the command is nearly identical:
 
-While the command above uses `pip` for universal compatibility, advanced users can get a significant speed boost by using `uv`. Since `uv` also understands the `pyproject.toml` standard, the command is nearly identical:
-
-```bash
-# Optional: Using uv for a much faster installation
-pip install uv
-uv pip install -e .
-```
-
+    ```bash
+    # Optional: Using uv for a much faster installation
+    pip install uv
+    uv pip install -e .
+    ```
+    </details>
 
 4.  **Set Up LangSmith Tracing (Optional but Recommended):**
     This project is integrated with [LangSmith](https://smith.langchain.com/) for tracing and debugging the AI-powered search pipelines. To enable it:
@@ -215,7 +234,9 @@ uv pip install -e .
     python main.py --debug
     ```
     *   The server will start, and on the **first run**, it will begin downloading the default embedding and reranker models. You will see progress bars in your terminal. This can take several minutes.
-    *   Once the server and model checks are complete, your default web browser will automatically open to `http://12-7.0.0.1:9090`.
+    *   Once the server and model checks are complete, your default web browser will automatically open to `http://127.0.0.1:9090`.
+
+</details>
 
 
 ### ⚙️ Configuration (First Run)
