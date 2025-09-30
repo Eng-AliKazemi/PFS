@@ -146,7 +146,7 @@ This guide provides instructions for both regular users (via a simple installer)
 
 The easiest way to install Precision File Search is to download the latest official installer for Windows.
 
-[![Latest Release](https://img.shields.io/github/v/release/Eng-AliKazemi/PFS?label=Download%20Latest%20Release&style=for-the-badge&color=blueviolet)](https://github.com/Eng-AliKazemi/PFS/releases/latest)
+[![Latest Release](https://img.shields.io/badge/Download-v1.0.0-blueviolet?style=for-the-badge)](https://github.com/Eng-AliKazemi/PFS/releases/latest)
 
 1.  Click the button above to go to the latest release page.
 2.  Under the **Assets** section, download the `pfs-installer-vX.X.X.exe` file.
