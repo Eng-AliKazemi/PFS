@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision File Search - Converse with Your Files</title>
+    <meta name="description" content="An AI-powered desktop search and knowledge engine. Find, summarize, and converse with your local files using a private, offline RAG pipeline.">
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- New Canvas Background -->
+    <canvas id="dynamic-background"></canvas>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content container">
+            <h1 class="hero-title" data-text="Precision File Search">Precision File Search</h1>
+            <p class="hero-tagline"><b>The AI-powered desktop fast file search platform to find, classify, and converse with files</b></p>
+            <a href="https://github.com/Eng-AliKazemi/PFS/releases/latest" class="cta-button">Open-source and Free</a>
+            
+            <!-- Added Text Section -->
+            <div class="hero-description">
+                <p>Precision File Search (PFS) is a free and open-source powerful, intelligent desktop file search and management application that goes far beyond simple keyword matching. It integrates a classic high-speed search engine, a trainable machine learning classifier, and a state-of-the-art AI-powered RAG (Retrieval-Augmented Generation) pipeline into a single, intuitive user interface.</p>
+                <p>This project is designed for everyone, from casual users needing to find a lost document to developers searching through codebases and researchers extracting insights from vast archives. It can runs entirely on your local machine, ensuring Your Files remains private and secure.</p>
+            </div>
+            <!-- End of Added Text Section -->
+
+        </div>
+    </header>
+
+    <main>
+        <!-- 3D Cover Flow Slider Section -->
+        <section id="demo" class="container">
+            <div class="slider">
+                <div class="list">
+                    <div class="item">
+                        <img src="1.png" alt="AI Search Interface">
+                    </div>
+                    <div class="item">
+                        <img src="2.png" alt="Semantic Search Results">
+                    </div>
+                    <div class="item">
+                        <img src="3.png" alt="Document Classifier View">
+                    </div>
+                    <div class="item">
+                        <img src="4.png" alt="Application Settings">
+                    </div>
+                </div>
+                <!-- Navigation Buttons -->
+                <div class="buttons">
+                    <button id="prev">&lt;</button>
+                    <button id="next">&gt;</button>
+                </div>
+                <!-- Navigation Dots -->
+                <ul class="dots">
+                    <li class="active"></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="container">
+            <h2 class="fade-in">The Four Pillars of PFS</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-rocket"></i></div><h3>Blazing-Fast Classic Search</h3><p>Unleash the high-performance, concurrent file engine to find files and folders instantly. Built for maximum speed and memory efficiency, it tears through directories and even massive files without freezing.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-brain"></i></div><h3>Search by Meaning, Not Keywords</h3><p>Transform your files into a searchable knowledge base with the RAG pipeline. The intelligent re-indexing system keeps your knowledge fresh by only processing new or changed files, saving you time.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-magic-wand-sparkles"></i></div><h3>Command with Natural Language</h3><p>The AI Orchestrator is your intelligent conductor. Ask complex questions in plain English, and it automatically routes your query to the best tool and synthesizes the results into direct, summarized answers.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-sitemap"></i></div><h3>Automate Your Organization</h3><p>Bring order to chaos. The trainable Machine Learning model automatically classifies thousands of scattered documents into logical categories with a single click, tailored to your specific needs.</p></div>
+            </div>
+        </section>
+        
+        <!-- Interactive Examples Section (REBUILT) -->
+        <section id="examples" class="container">
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Classic Search</h3>
+                    <div class="example-content">
+                        <h4>Example</h4>
+                        <code>searching "API Keys" inside projects files</code>
+                    </div>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                    <h3>Search by Meaning</h3>
+                    <div class="example-content">
+                        <h4>Example</h4>
+                        <code>marketing strategies for Q4 inside documents</code>
+                    </div>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><i class="fas fa-magic-wand-sparkles"></i></div>
+                    <h3>Natural Language</h3>
+                    <div class="example-content">
+                        <h4>Example</h4>
+                        <code>summarize the titan project earnings report from documents</code>
+                    </div>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><i class="fas fa-sitemap"></i></div>
+                    <h3>Automate Organization</h3>
+                    <div class="example-content">
+                        <h4>Example</h4>
+                        <code>Classify & Auto-Organize Invoices from scattered files</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REFINED Privacy & Security Section -->
+        <section id="security" class="container">
+            <h2 class="fade-in">Privacy & Security First</h2>
+            <div class="security-grid">
+                <div class="security-card fade-in">
+                    <div class="security-icon"><i class="fas fa-server"></i></div>
+                    <h3>100% Local First</h3>
+                    <p>The entire application, including the server and AI models, can runs exclusively on your machine. No cloud dependency means it works offline and is completely self-contained.</p>
+                </div>
+                <div class="security-card fade-in">
+                    <div class="security-icon"><i class="fas fa-user-shield"></i></div>
+                    <h3>Your Files Stays Yours</h3>
+                    <p>PFS never uploads your files or search queries. Your personal data is never sent to any external server, ensuring maximum privacy and compliance with standards like GDPR.</p>
+                </div>
+                <div class="security-card fade-in">
+                    <div class="security-icon"><i class="fas fa-lock"></i></div>
+                    <h3>Engineered Securely</h3>
+                    <p>Built from the ground up with modern security principles, including path traversal prevention, XSS sanitization, and prompt injection hardening to protect your system.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Multilingual Support Section -->
+		<section id="languages" class="container">
+			<h2 class="fade-in">Global Reach: 18 Languages Supported</h2>
+			<div class="languages-grid fade-in">
+				<div class="language-item"><img src="https://flagcdn.com/w80/sa.png" alt="Arabic Flag" title="Arabic Flag"><span>Arabic</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/am.png" alt="Armenian Flag" title="Armenian Flag"><span>Armenian</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/cn.png" alt="Chinese Flag" title="Chinese Flag"><span>Chinese</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/gb.png" alt="English Flag" title="English Flag"><span>English</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/fr.png" alt="French Flag" title="French Flag"><span>French</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/ge.png" alt="Georgian Flag" title="Georgian Flag"><span>Georgian</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/de.png" alt="German Flag" title="German Flag"><span>German</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/in.png" alt="Hindi Flag" title="Hindi Flag"><span>Hindi</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/it.png" alt="Italian Flag" title="Italian Flag"><span>Italian</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/jp.png" alt="Japanese Flag" title="Japanese Flag"><span>Japanese</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/kr.png" alt="Korean Flag" title="Korean Flag"><span>Korean</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/ir.png" alt="Persian Flag" title="Persian Flag"><span>Persian</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/ro.png" alt="Romanian Flag" title="Romanian Flag"><span>Romanian</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/ru.png" alt="Russian Flag" title="Russian Flag"><span>Russian</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/es.png" alt="Spanish Flag" title="Spanish Flag"><span>Spanish</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/tr.png" alt="Turkish Flag" title="Turkish Flag"><span>Turkish</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/ua.png" alt="Ukrainian Flag" title="Ukrainian Flag"><span>Ukrainian</span></div>
+				<div class="language-item"><img src="https://flagcdn.com/w80/pk.png" alt="Urdu Flag" title="Urdu Flag"><span>Urdu</span></div>
+			</div>
+		</section>
+
+        <!-- Final CTA Section -->
+        <section id="download" class="cta-section">
+            <div class="container">
+                <h2 class="fade-in">Ready to Unleash Your Files?</h2>
+                <p class="fade-in cta-description">Download the latest version of Precision File Search and take control of your digital world.</p>
+                <a href="https://github.com/Eng-AliKazemi/PFS/releases/latest" class="cta-button fade-in">Get PFS from Github Release</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Ali Kazemi. All Rights Reserved.</p>
+            <p>
+                <a href="https://github.com/Eng-AliKazemi/PFS" target="_blank" rel="noopener">GitHub</a> |
+                <a href="https://www.linkedin.com/in/e-a-k/" target="_blank" rel="noopener">LinkedIn</a> |
+                <a href="https://github.com/Eng-AliKazemi/PFS/blob/main/LICENSE.md" target="_blank" rel="noopener">License</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage" alt="Preview of selected image">
+    </div>
+
+    <script src="scripts.js" defer></script>
+</body>
+</html>
