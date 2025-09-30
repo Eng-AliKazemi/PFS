@@ -142,7 +142,7 @@ This guide provides instructions for both regular users (via a simple installer)
 
 ---
 
-### For Users (Recommended Installation)
+### For Users (Recommended Easy Installation)
 
 The easiest way to install Precision File Search is to download the latest official installer for Windows.
 
