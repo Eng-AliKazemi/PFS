@@ -1,0 +1,49 @@
+# ==============================================================================
+# Precision File Search (PFS) - .gitignore
+# ==============================================================================
+
+# --- Environment Variables ---
+# Never commit your secret keys or environment-specific configurations.
+.env
+
+# --- Python Virtual Environments ---
+# Ignore the virtual environment folder.
+.venv/
+
+# --- Python Cache & Compiled Files ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Python Build & Distribution Artifacts ---
+build/
+dist/
+*.egg-info/
+*.spec
+
+# --- Application-Generated Data & Databases ---
+# Ignore log files, local status files, and databases.
+*.log
+semantic_status.json
+classifier_results.db
+docstore.db
+document_classifier.ml
+
+# --- Vector Database Storage ---
+# Ignore local Qdrant storage folders.
+qds/
+qds/
+
+# --- Fallback User Data Folder ---
+# This folder is created if the standard AppData/config directory fails.
+user_data/
+
+# --- IDE & Editor Configuration ---
+# Ignore configuration folders for VSCode and JetBrains IDEs.
+.vscode/
+.idea/
+
+# --- Operating System Specific Files ---
+# Ignore macOS .DS_Store files.
+.DS_Store

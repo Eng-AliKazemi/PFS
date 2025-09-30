@@ -1,0 +1,513 @@
+<!-- static\index.html -->
+
+<!-- # Precision File Search
+# Copyright (c) 2025 Ali Kazemi
+# Licensed under AGPL v3
+# This file is part of a derivative work and must retain this notice. -->
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<!-- 1. HEAD & METADATA ######################################################################################## -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n-key="appTitleAdvanced">Precision File Search</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/animation.css">
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<!-- 2. BODY & MAIN APP CONTAINER ############################################################################## -->
+<body>
+    <div id="main-app">
+        <!-- 3. HEADER & NAVIGATION ############################################################################ -->
+        <header>
+            <h1><i class="fas fa-crosshairs"></i> <span data-i18n-key="appTitle">Precision File Search</span></h1>
+            <div class="view-switcher">
+                <div id="search-view-btn" class="view-btn header-icon-active" data-i18n-title-key="searchViewTitle">
+                    <i class="fas fa-search"></i><span data-i18n-key="searchViewTitle">Search</span>
+                </div>
+                <div id="semantic-view-btn" class="view-btn" data-i18n-title-key="semanticViewTitle">
+                    <i class="fas fa-brain"></i><span data-i18n-key="semanticViewTitle">Semantic</span>
+                </div>
+                    <div id="ai-search-view-btn" class="view-btn" data-i18n-title-key="aiSearchViewTitle">
+                    <i class="fas fa-magic-wand-sparkles"></i><span data-i18n-key="aiSearchViewTitle">AI Search</span>
+                </div>
+                <div id="classifier-view-btn" class="view-btn" data-i18n-title-key="classifierViewTitle">
+                    <i class="fas fa-sitemap"></i><span data-i18n-key="classifierViewTitle">Classifier</span>
+                </div>
+                <div id="settings-view-btn" class="view-btn" data-i18n-title-key="settingsViewTitle">
+                    <i class="fas fa-cog"></i><span data-i18n-key="settingsViewTitle">Settings</span>
+                </div>
+                <div id="about-view-btn" class="view-btn" data-i18n-title-key="aboutViewTitle">
+                    <i class="fas fa-info-circle"></i><span data-i18n-key="aboutViewTitle">About</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 4. SEARCH VIEW ###################################################################################### -->
+        <div id="search-view">
+            <form id="searchForm">
+                <div class="form-field"><i class="fas fa-folder-open"></i><input type="text" id="search_path" placeholder="Enter search path" title="Search Path" data-i18n-placeholder-key="searchPathPlaceholder" data-i18n-aria-label-key="searchPathAriaLabel" required></div>
+                <div class="search-type-selector">
+                    <input type="radio" name="search_type" value="file_content" id="search_type_content" checked><label for="search_type_content" data-i18n-key="keywordsInFiles">Keywords in Files</label>
+                    <input type="radio" name="search_type" value="file_name" id="search_type_file"><label for="search_type_file" data-i18n-key="fileNames">File Names</label>
+                    <input type="radio" name="search_type" value="folder_name" id="search_type_folder"><label for="search_type_folder" data-i18n-key="folderNames">Folder Names</label>
+                    <input type="radio" name="search_type" value="file_category" id="search_type_category"><label for="search_type_category" data-i18n-key="fileCategory">File Category</label>
+                </div>
+                <div id="category_selector_container" class="form-field hidden"><i class="fas fa-tags"></i><select id="file_category" aria-label="Select File Category"></select></div>
+                <div class="form-field"><i class="fas fa-key"></i><input type="text" id="keywords" title="Keywords" placeholder="Enter keywords" data-i18n-placeholder-key="keywordsPlaceholder" data-i18n-aria-label-key="keywordsAriaLabel" required></div>
+                
+                <div id="size-filter-container" class="panel">
+                    <h3><i class="fas fa-balance-scale"></i> <span data-i18n-key="filterBySize">Filter by Size (Optional)</span></h3>
+                    <div class="size-filter-grid">
+                        <div class="settings-group">
+                            <label for="min_size_value" data-i18n-key="minSize">Min Size</label>
+                            <div class="form-field">
+                                <input type="number" id="min_size_value" min="0" data-i18n-placeholder-key="minPlaceholder">
+                                <select id="min_size_unit" aria-label="Minimum size unit">
+                                    <option value="KB">KB</option>
+                                    <option value="MB" selected>MB</option>
+                                    <option value="GB">GB</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <label for="max_size_value" data-i18n-key="maxSize">Max Size</label>
+                            <div class="form-field">
+                                 <input type="number" id="max_size_value" min="0" data-i18n-placeholder-key="maxPlaceholder">
+                                 <select id="max_size_unit" aria-label="Maximum size unit">
+                                    <option value="KB">KB</option>
+                                    <option value="MB" selected>MB</option>
+                                    <option value="GB">GB</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-options-grid">
+                    <div class="checkbox-field form-option"><input type="checkbox" id="case_sensitive"><label for="case_sensitive" data-i18n-key="caseSensitive">Case-Sensitive</label></div>
+                    <div class="checkbox-field form-option"><input type="checkbox" id="use_regex"><label for="use_regex" data-i18n-key="useRegex">Use Regex</label></div>
+                </div>
+                <button type="submit" class="primary-btn" id="searchButton"><i class="fas fa-search"></i> <span data-i18n-key="initiateScan">INITIATE SCAN</span></button>
+            </form>
+
+            <div id="scan-controls-container" class="hidden">
+                <button type="button" id="stopButton" class="stop-btn"><i class="fas fa-stop-circle"></i> <span data-i18n-key="terminateScan">TERMINATE SCAN</span></button>
+                <button type="button" id="newSearchButton" class="primary-btn hidden"><i class="fas fa-redo"></i> <span data-i18n-key="startNewScan">START NEW SCAN</span></button>
+            </div>
+            <div id="statusSection" class="data-panel hidden"><h2><i class="fas fa-wave-square"></i> <span data-i18n-key="liveTelemetry">LIVE TELEMETRY</span></h2><div id="log"></div></div>
+            <div id="resultsSection" class="data-panel hidden"><h2><i class="fas fa-file-invoice"></i> <span data-i18n-key="scanResults">SCAN RESULTS</span></h2><div id="results"></div><button id="exportButton" class="primary-btn hidden"><i class="fas fa-file-export"></i> <span data-i18n-key="exportDatalog">EXPORT DATALOG</span></button></div>
+            
+            <div class="panel-grid">
+                <div id="saved-searches-container" class="panel visible">
+                    <h2><i class="fas fa-bookmark"></i> <span data-i18n-key="savedSearches">Saved Searches</span></h2>
+                    <div class="saved-searches-controls">
+                        <select id="savedSearchesSelect" aria-label="Select a saved search">
+                            <option value="" disabled selected data-i18n-key="noSavedSearches">No saved searches</option>
+                        </select>
+                        <i id="saveSearchButton" class="fas fa-save icon-btn" data-i18n-title-key="saveSearch" aria-label="Save Current Search"></i>
+                        <button id="loadSearchButton" class="icon-btn" data-i18n-title-key="loadSearch" aria-label="Load Selected Search"><i class="fas fa-upload"></i></button>
+                        <button id="deleteSearchButton" class="icon-btn danger" data-i18n-title-key="deleteSearch" aria-label="Delete Selected Search"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>
+                 <div id="search-history-container" class="panel visible">
+                    <h2><i class="fas fa-history"></i> <span data-i18n-key="searchHistory">Search History</span></h2>
+                    <div id="search-history-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. AI SEARCH VIEW ################################################################################### -->
+        <div id="ai-search-view" class="hidden">
+            <h2><i class="fas fa-magic-wand-sparkles"></i> <span data-i18n-key="aiSearchTitle">AI-Powered Search</span></h2>
+            <p class="about-intro" data-i18n-key="aiSearchIntro">Use natural language to find files, ask about file content, and get insights from files. The AI will determine the best search strategy, analyze the results, and provide a comprehensive summary.</p>
+            
+            <div class="panel visible">
+                <form id="aiSearchForm">
+                    <div class="form-field">
+                        <i class="fas fa-keyboard"></i>
+                        <input type="text" id="ai_query" title="AI Search Query" placeholder="e.g., 'find all invoices from last month in my documents folder'" data-i18n-placeholder-key="aiQueryPlaceholder" required>
+                    </div>
+                    <button type="submit" class="primary-btn" id="aiSearchButton">
+                        <i class="fas fa-paper-plane"></i> <span data-i18n-key="aiSearchButton">ASK AI</span>
+                    </button>
+                </form>
+            </div>
+
+            <div id="ai-settings-panel" class="panel visible">
+                <h3><i class="fas fa-sliders-h"></i> <span data-i18n-key="aiSettingsTitle">AI Settings</span></h3>
+                <div class="quick-settings-grid">
+                    <div class="settings-group">
+                        <label for="ai_temperature" data-i18n-key="aiSettingTemperature">Temperature (Creativity)</label>
+                        <div class="slider-container">
+                            <input type="range" id="ai_temperature" min="0.0" max="1.0" step="0.1" value="0.2">
+                            <span id="ai_temperature_value" class="slider-value">0.2</span>
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <label for="ai_max_tokens" data-i18n-key="aiSettingMaxTokens">Max Response Length</label>
+                        <div class="slider-container">
+                            <input type="range" id="ai_max_tokens" min="512" max="8192" step="256" value="4096">
+                            <span id="ai_max_tokens_value" class="slider-value">4096</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ai-results-section" class="data-panel hidden">
+                <h2><i class="fas fa-file-invoice"></i> <span data-i18n-key="aiResultsTitle">AI RESPONSE</span></h2>
+                <div id="ai-results" class="markdown-body"></div>
+            </div>
+        </div>
+        <!-- 6. SEMANTIC VIEW #################################################################################### -->
+        <div id="semantic-view" class="hidden">
+            <h2><i class="fas fa-brain"></i> <span data-i18n-key="semanticTitle">Semantic Knowledge Search</span></h2>
+            <p class="about-intro" data-i18n-key="semanticIntro">This tool builds a knowledge index from your files, allowing you to search based on meaning and context, not just keywords.</p>
+
+            <div class="panel visible">
+                <h3><i class="fas fa-cogs"></i> <span data-i18n-key="semanticStep1Title">Step 1: Build the Knowledge Index</span></h3>
+                <p class="about-intro" data-i18n-key="semanticStep1Desc">Provide a directory to scan. The system will process supported files and create a searchable vector database.</p>
+                <div class="form-field">
+                    <i class="fas fa-folder-open"></i>
+                    <input type="text" id="semantic_path" title="Semantic Path" placeholder="Enter path to your documents" data-i18n-placeholder-key="semanticPathPlaceholder" required>
+                </div>
+                <button type="button" id="startIndexingButton" class="primary-btn">
+                    <i class="fas fa-play-circle"></i> <span data-i18n-key="semanticBuildButton">BUILD / UPDATE INDEX</span>
+                </button>
+            </div>
+
+            <div id="semantic-search-section" class="panel visible hidden">
+                <h3><i class="fas fa-question-circle"></i> <span data-i18n-key="semanticStep2Title">Step 2: Search the Index</span></h3>
+                <form id="semanticSearchForm">
+                    <div class="form-field">
+                        <i class="fas fa-key"></i>
+                        <input type="text" id="semantic_query" title="Semantic Query" placeholder="Enter a question or search concept..." data-i18n-placeholder-key="semanticQueryPlaceholderNew" required>
+                    </div>
+                    
+                    <div class="settings-divider-with-title" data-i18n-key="vectorSearchParams">Vector Search Parameters</div>
+                    
+                    <div class="quick-settings-grid">
+                        <div class="settings-group">
+                            <label for="quick_k_fetch_initial" data-i18n-key="settingsKFetchInitial">Initial Candidates (K)</label>
+                            <div class="slider-container">
+                                <input type="range" id="quick_k_fetch_initial" min="10" max="200" value="50">
+                                <span id="quick_k_fetch_initial_value" class="slider-value">50</span>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <label for="quick_vector_score_threshold" data-i18n-key="settingsVectorScore">Vector Score Threshold</label>
+                            <div class="slider-container">
+                                <input type="range" id="quick_vector_score_threshold" min="0.0" max="1.0" step="0.05" value="0.3">
+                                <span id="quick_vector_score_threshold_value" class="slider-value">0.3</span>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <label for="quick_vector_top_n" data-i18n-key="settingsVectorTopN">Max Results (Top-N)</label>
+                            <div class="slider-container">
+                                <input type="range" id="quick_vector_top_n" min="1" max="50" value="10">
+                                <span id="quick_vector_top_n_value" class="slider-value">10</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-divider-with-title" data-i18n-key="rerankerParams">Reranker Parameters</div>
+                    
+                    <div id="reranker-controls-wrapper">
+                        <div class="quick-settings-grid single-item">
+                            <div class="settings-group">
+                                <label for="enable_reranker_toggle" data-i18n-key="enableReranker">Enable Reranker</label>
+                                <div class="checkbox-field form-option">
+                                    <input type="checkbox" id="enable_reranker_toggle">
+                                    <label for="enable_reranker_toggle" data-i18n-key="rerankerToggleDescNew">Boosts with the Reranker</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="reranker-options">
+                            <div class="quick-settings-grid">
+                                <div class="settings-group">
+                                    <label for="quick_rerank_score_threshold" data-i18n-key="settingsRerankScore">Rerank Score Threshold</label>
+                                    <div class="slider-container">
+                                        <input type="range" id="quick_rerank_score_threshold" min="0.0" max="1.0" step="0.05" value="0.5">
+                                        <span id="quick_rerank_score_threshold_value" class="slider-value">0.5</span>
+                                    </div>
+                                </div>
+                                <div class="settings-group">
+                                    <label for="quick_rerank_top_n" data-i18n-key="settingsRerankTopN">Final Results (Top-N)</label>
+                                    <div class="slider-container">
+                                        <input type="range" id="quick_rerank_top_n" min="1" max="50" value="10">
+                                        <span id="quick_rerank_top_n_value" class="slider-value">10</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="primary-btn">
+                        <i class="fas fa-search"></i> <span data-i18n-key="semanticSearchButton">SEMANTIC SEARCH</span>
+                    </button>
+                </form>
+            </div>
+            <div id="semantic-results-section" class="data-panel hidden">
+                <h2><i class="fas fa-file-invoice"></i> <span data-i18n-key="semanticResultsTitle">SEMANTIC RESULTS</span></h2>
+                <div id="semantic-results"></div>
+            </div>
+        </div>
+
+        <!-- 7. CLASSIFIER VIEW ################################################################################## -->
+        <div id="classifier-view" class="hidden">
+            <h2><i class="fas fa-sitemap"></i> <span data-i18n-key="classifierTitle">Automatic Document Classifier</span></h2>
+            <p class="about-intro" data-i18n-key="classifierIntro">This tool scans a directory, predicts a category for each file using a machine learning model, and helps you organize them.</p>
+            <div class="panel visible">
+                <div class="form-field">
+                    <i class="fas fa-folder-open"></i>
+                    <label for="classifier_path" class="visually-hidden" data-i18n-key="classifierPathLabel">Classifier Path</label>
+                    <input type="text" id="classifier_path" title="Classifier Path" placeholder="Enter path to classify" data-i18n-placeholder-key="classifierPathPlaceholder" required>
+                </div>
+                <button type="button" id="startClassificationButton" class="primary-btn"><i class="fas fa-play-circle"></i> <span data-i18n-key="classifierStartButton">START CLASSIFICATION</span></button>
+            </div>
+            <div id="classifier-progress-section" class="data-panel hidden"><h2><i class="fas fa-wave-square"></i> <span data-i18n-key="classifierProgressTitle">CLASSIFICATION PROGRESS</span></h2><div class="progress-bar-container"><div id="classifier-progress-bar" class="progress-bar"></div></div><div id="classifier-status-text"></div></div>
+            
+            <div id="classifier-results-section" class="data-panel hidden">
+                <div class="results-header-with-action">
+                    <h2><i class="fas fa-file-invoice"></i> <span data-i18n-key="classifierResultsTitle">CLASSIFIED DOCUMENTS</span></h2>
+                    <button id="organizeAllButton" class="primary-btn organize-btn hidden"><i class="fas fa-folder-tree"></i> <span data-i18n-key="organizeAllButton">Auto Organize</span></button>
+                </div>
+                <div id="classifier-results-accordion"></div>
+            </div>
+        </div>
+
+        <!-- 8. SETTINGS VIEW #################################################################################### -->
+        <div id="settings-view" class="hidden">
+            <h2><i class="fas fa-sliders-h"></i> <span data-i18n-key="settingsTitle">Configuration Settings</span></h2>
+            <div class="panel visible">
+                <div class="settings-group">
+                    <label for="language-switcher" data-i18n-key="appLanguage">Application Language</label>
+                    <div class="form-field">
+                        <i class="fas fa-globe"></i>
+                        <select id="language-switcher"></select>
+                    </div>
+                </div>
+
+                <hr class="settings-divider" />
+                
+                <h3><i class="fas fa-search"></i> <span data-i18n-key="settingsFileScanTitle">File Scan Settings</span></h3>
+                <p class="about-intro mb-1" data-i18n-key="settingsFileScanDesc">Default settings for the traditional Keyword Search tool. These also affect which files are indexed by the Semantic engine.</p>
+                <div class="settings-group"><label for="excluded_folders" data-i18n-key="settingsExcludedFolders">Excluded Folders</label><div class="form-field"><i class="fas fa-folder-minus"></i><input type="text" id="excluded_folders" placeholder="e.g., node_modules, build, dist"></div></div>
+                <div class="settings-group"><label for="file_extensions" data-i18n-key="settingsFileExtensions">File Extensions (for content/category search)</label><div class="form-field"><i class="fas fa-file-code"></i><input type="text" id="file_extensions" placeholder="e.g., .py, .txt, .md, .pdf, .docx"></div></div>
+                <div class="settings-group"><div class="checkbox-field"><input type="checkbox" id="include_dot_folders"><label for="include_dot_folders" data-i18n-key="settingsIncludeDotFolders">Include folders starting with "."</label></div></div>
+                
+                <hr class="settings-divider" />
+
+                <h3><i class="fas fa-robot"></i> <span data-i18n-key="settingsLlmTitle">LLM Settings</span></h3>
+                <p class="about-intro mb-1" data-i18n-key="settingsLlmDesc">Large Language Model used for AI search configuration. </p>
+                <div class="settings-group">
+                    <label for="llm_api_key" data-i18n-key="settingsLlmApiKey">API Key</label>
+                    <div class="form-field"><i class="fas fa-key"></i><input type="password" id="llm_api_key"></div>
+                </div>
+                <div class="settings-group">
+                    <label for="llm_model_name" data-i18n-key="settingsLlmModelName">Model Name</label>
+                    <div class="form-field"><i class="fas fa-cogs"></i><input type="text" id="llm_model_name"></div>
+                </div>
+                <div class="settings-group">
+                    <label for="llm_base_url" data-i18n-key="settingsLlmBaseUrl">API Base URL</label>
+                    <div class="form-field"><i class="fas fa-link"></i><input type="text" id="llm_base_url"></div>
+                </div>
+
+                <hr class="settings-divider" />
+                
+                <h3><i class="fas fa-database"></i> <span data-i18n-key="settingsVectorDbTitle">Vector Database Settings</span></h3>
+                <p class="about-intro mb-1" data-i18n-key="settingsVectorDbDesc">Qdrant vector store configurations.</p>
+                <div class="settings-group">
+                    <label for="qds_path" data-i18n-key="settingsQdrantPath">Qdrant Storage Path</label>
+                    <div class="form-field"><i class="fas fa-folder"></i><input type="text" id="qds_path"></div>
+                </div>
+                <div class="settings-group">
+                    <label for="qdrant_collection_name" data-i18n-key="settingsQdrantCollection">Qdrant Collection Name</label>
+                    <div class="form-field"><i class="fas fa-stream"></i><input type="text" id="qdrant_collection_name"></div>
+                </div>
+
+                <hr class="settings-divider" />
+                
+                <h3><i class="fas fa-brain"></i> <span data-i18n-key="settingsSemanticModelsTitle">Semantic Model Settings</span></h3>
+                <p class="about-intro mb-1" data-i18n-key="settingsSemanticModelsDesc">Hugging Face models for the retrieval pipeline. </p>
+                <div class="settings-group">
+                    <label for="embedding_model_name" data-i18n-key="settingsEmbeddingModel">Embedding Model</label>
+                    <div class="form-field"><i class="fas fa-atom"></i><input type="text" id="embedding_model_name"></div>
+                </div>
+                <div class="settings-group">
+                    <label for="reranker_model_name" data-i18n-key="settingsRerankerModel">Reranker Model</label>
+                    <div class="form-field"><i class="fas fa-sort-amount-up"></i><input type="text" id="reranker_model_name"></div>
+                </div>
+
+                <hr class="settings-divider" />
+
+                <h3><i class="fas fa-cogs"></i> <span data-i18n-key="settingsRetrievalTitle">Advanced Retrieval Settings</span></h3>
+                <p class="about-intro mb-1" data-i18n-key="settingsRetrievalDesc"></p>
+                
+                <div class="settings-group">
+                    <div class="checkbox-field">
+                        <input type="checkbox" id="enable_reranker_setting">
+                        <label for="enable_reranker_setting" data-i18n-key="enableRerankerDefault">Enable Reranker by Default</label>
+                    </div>
+                     <p class="settings-help-text" data-i18n-key="enableRerankerDefaultHelp">If enabled, the reranker model will be used by default. Requires an app restart to load/unload the model.</p>
+                </div>
+
+                <div class="settings-group">
+                    <label for="k_fetch_initial" data-i18n-key="settingsKFetchInitial">Initial Candidates (K)</label>
+                    <div class="form-field"><i class="fas fa-list-ol"></i><input type="number" id="k_fetch_initial" value="50" min="10" max="200"></div>
+                </div>
+                 <div class="settings-group">
+                    <label for="vector_score_threshold" data-i18n-key="settingsVectorScore">Vector Score Threshold</label>
+                    <div class="form-field"><i class="fas fa-bullseye"></i><input type="number" id="vector_score_threshold" value="0.3" min="0.0" max="1.0" step="0.05"></div>
+                </div>
+                <div class="settings-group">
+                    <label for="vector_top_n" data-i18n-key="settingsVectorTopN">Max Results (Top-N)</label>
+                    <div class="form-field"><i class="fas fa-file-alt"></i><input type="number" id="vector_top_n" value="10" min="1" max="50"></div>
+                </div>
+                <div class="settings-group">
+                    <label for="rerank_top_n" data-i18n-key="settingsRerankTopN">Final Results to Display (Top-N)</label>
+                    <div class="form-field"><i class="fas fa-file-alt"></i><input type="number" id="rerank_top_n" value="10" min="1" max="50"></div>
+                </div>
+                <div class="settings-group">
+                    <label for="rerank_score_threshold" data-i18n-key="settingsRerankScore">Reranker Score Threshold</label>
+                    <div class="form-field"><i class="fas fa-bullseye"></i><input type="number" id="rerank_score_threshold" value="0.5" min="0.0" max="1.0" step="0.05"></div>
+                </div>
+
+                <hr class="settings-divider" />
+
+                <h3><i class="fas fa-dumbbell"></i> <span data-i18n-key="settingsTrainerTitle">Classifier Model Training</span></h3>
+                <p class="about-intro mb-1" data-i18n-key="settingsTrainerDesc">Re-train the document classifier using your own data. The directory should contain sub-folders, where each sub-folder's name is a category label (e.g., 'Invoices', 'Resumes'). </p>
+                <div class="settings-group">
+                    <label for="training_data_path" data-i18n-key="settingsTrainerPath">Training Data Path</label>
+                    <div class="form-field"><i class="fas fa-folder-open"></i><input type="text" id="training_data_path" placeholder="e.g., C:\Users\YourUser\Desktop\training_data"></div>
+                </div>
+                <div class="settings-group">
+                    <label for="test_size_split" data-i18n-key="settingsTrainerTestSize">Test/Train Split (<span id="test_size_value">20%</span>)</label>
+                    <input type="range" id="test_size_split" min="0.1" max="0.5" step="0.05" value="0.2">
+                    <p class="settings-help-text" data-i18n-key="settingsTrainerTestSizeHelp">The percentage of data to use for testing the model's accuracy after training.</p>
+                </div>
+                <div class="settings-group">
+                    <label for="n_estimators" data-i18n-key="settingsTrainerEstimators">Number of Estimators (Trees)</label>
+                    <div class="form-field"><i class="fas fa-tree"></i><input type="number" id="n_estimators" value="100" min="10" max="500"></div>
+                    <p class="settings-help-text" data-i18n-key="settingsTrainerEstimatorsHelp">More trees can increase accuracy but will significantly increase training time.</p>
+                </div>
+                <button type="button" id="startTrainingButton" class="primary-btn"><i class="fas fa-play-circle"></i> <span data-i18n-key="settingsTrainerStartButton">START TRAINING</span></button>
+                <div id="trainer-status-section" class="data-panel hidden">
+                    <h4><i class="fas fa-wave-square"></i> <span data-i18n-key="settingsTrainerProgressTitle">Training Progress</span></h4>
+                    <pre id="trainer-log"></pre>
+                    <div id="trainer-result"></div>
+                </div>
+
+                <hr class="settings-divider" />
+                
+                <div class="settings-buttons-container">
+                    <button type="button" id="saveSettingsButton" class="primary-btn"><i class="fas fa-save"></i> <span data-i18n-key="settingsSaveButton">SAVE ALL SETTINGS</span></button>
+                    <button type="button" id="resetSettingsButton" class="secondary-btn danger"><i class="fas fa-undo"></i> <span data-i18n-key="settingsResetButton">RESET TO DEFAULTS</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. ABOUT VIEW ####################################################################################### -->
+        <div id="about-view" class="hidden">
+            <div id="sci-fi-background">
+            </div>
+            <div class="about-content">
+                <h2 class="modal-title"><i class="fas fa-info-circle"></i> <span data-i18n-key="aboutTitle">About Precision File Search</span></h2>
+                <p class="about-intro" data-i18n-key="aboutIntro1">
+                    This project represents a thoughtful combination of five critical technology disciplines, creating a combined solutions architecture that addresses real-world problems in an innovative and intuitive form. As a full-stack development initiative, it demonstrates the combination of Python as a versatile programming language alongside the most popular web design technologies including HTML, CSS, and JavaScript. 
+                </p>
+                <p class="about-intro" data-i18n-key="aboutBestPractices">
+                    It is a showcase of best practices from:
+                </p>
+                <ul class="features-list-about">
+                    <li data-i18n-key="aboutDisciplineSE">
+                        <strong>Software Engineering:</strong> Built on a robust, modular, and asynchronous backend to ensure high performance and maintainability.
+                    </li>
+                    <li data-i18n-key="aboutDisciplineDS">
+                        <strong>Data Science:</strong> Features a classic, trainable machine learning model for automatically classifying and organizing unstructured documents.
+                    </li>
+                    <li data-i18n-key="aboutDisciplineAI">
+                        <strong>Artificial Intelligence:</strong> Leverages a state-of-the-art RAG pipeline and Large Language Models to enable conversational, context-aware search and data synthesis.
+                    </li>
+                    <li data-i18n-key="aboutDisciplineUX">
+                        <strong>User Experience (UX):</strong> Designed to hide immense technical complexity behind a simple, clean, and intuitive interface that empowers the user.
+                    </li>
+                    <li data-i18n-key="aboutDisciplineSecurity">
+                        <strong>Application Security:</strong> Engineered from the ground up with security-first principles to protect your local data and system integrity.
+                    </li>
+                </ul>
+                <p class="about-intro" data-i18n-key="aboutWeavingIntro">
+                    By weaving these fields together, Precision File Search transforms the chaotic, everyday challenge of managing digital files—finding keywords, classifying scattered documents, and extracting insights—into a powerful and seamless experience. It stands as a blueprint for how these distinct fields can be combined to build secure, intelligent, and user-centric tools that solve tangible problems.
+                </p>
+                <ul class="features-list-about">
+                    <li data-i18n-key="aboutFeatureFCS">
+                        <strong>Fast Complex Search:</strong> A foundational layer for high-speed, precise queries using regex, size filtering, and other advanced operators.
+                    </li>
+                    <li data-i18n-key="aboutFeatureMLC">
+                        <strong>Automatic ML Classifier:</strong> A trainable Machine Learning model that brings order to chaos by automatically sorting documents into logical categories.
+                    </li>
+                    <li data-i18n-key="aboutFeatureASE">
+                        <strong>Advanced Semantic Engine:</strong> A state-of-the-art RAG pipeline that transforms your files into a searchable knowledge base, allowing you to search by meaning and context, not just keywords.
+                    </li>
+                    <li data-i18n-key="aboutFeatureAIO">
+                        <strong>AI Search Orchestrator:</strong> The top-level intelligence that allows you to converse with your data. It understands natural language, routes queries to the best search tool, and synthesizes results into direct, actionable answers.
+                    </li>
+                </ul>
+                <br><br>
+                    <span data-i18n-key="aboutIssues">For any issue or question, please refer to the:</span><br>
+                    <a href="https://github.com/Eng-AliKazemi/PFS/issues" target="_blank" rel="noopener">GitHub Issues and Discussions</a>
+                    <br><br>
+                    <span data-i18n-key="aboutCollaborate">If you want to collaborate to extend the app and develop new systems, you can contact the author by email:</span> 
+                    <br>
+                    <a href="mailto:eng.ali.kazemi@outlook.com" rel="noopener">eng.ali.kazemi@outlook.com</a>
+                <br>
+                    <a href="/documentation" target="_blank" class="primary-btn">
+                    <i class="fas fa-book-open"></i> <span data-i18n-key="aboutViewDocs">View Documentation</span>
+                </a>
+            </div>
+        </div>
+
+    <!-- 10. FOOTER ############################################################################################## -->
+    <div class="footer-bar">
+        <span data-i18n-key="footerDevelopedBy">Developed by:</span> 
+        <a href="https://www.linkedin.com/in/e-a-k/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i> Ali Kazemi</a> |
+        <a href="https://github.com/Eng-AliKazemi/PFS" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a> |
+        <a href="/license" target="_blank"><i class="fas fa-file-contract"></i> License</a> | 
+        <span class="footer-item"><i class="fas fa-calendar-alt"></i> 2025</span> | 
+        <span class="footer-item"><i class="fas fa-code-branch"></i> V1.0.0</span>
+    </div>
+    
+    <!-- 11. MODAL DIALOGS ####################################################################################### -->
+    <div id="file-op-modal-overlay" class="modal-overlay hidden">
+        <div id="file-op-modal" class="modal-box">
+            <div class="modal-header">
+                <h2 id="modal-title">File Operation</h2>
+                <button id="modal-close-btn" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content">
+                <p id="modal-text">Enter the destination path:</p>
+                <div class="form-field">
+                    <i class="fas fa-folder-open"></i>
+                    <input type="text" id="modal-destination-path" placeholder="C:\Users\YourUser\Documents\Organized_Files" required>
+                </div>
+                <p id="modal-error-text" class="modal-error hidden"></p>
+            </div>
+            <div class="modal-actions">
+                <button id="modal-cancel-btn" class="secondary-btn">Cancel</button>
+                <button id="modal-confirm-btn" class="primary-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 12. SCRIPT IMPORTS ###################################################################################### -->
+    <script src="/static/main_app.js" type="module"></script>
+    <script src="/static/ui_handlers.js" type="module"></script>
+
+</body>
+</html>

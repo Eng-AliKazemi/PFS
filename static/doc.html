@@ -1,0 +1,493 @@
+<!-- static\doc.html -->
+
+<!-- # Precision File Search
+# Copyright (c) 2025 Ali Kazemi
+# Licensed under AGPL v3
+# This file is part of a derivative work and must retain this notice. -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- 1. HEAD & METADATA ########################################################################################## -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/complimentary.css">
+</head>
+
+<!-- 2. BODY & PAGE CONTAINER #################################################################################### -->
+<body>
+    <div class="help-container">
+        <header class="help-header">
+            <h1><i class="fas fa-book-open"></i> Project FPS Documentation</h1>
+            <p></p>
+            <a href="/" class="primary-btn back-btn"><i class="fas fa-arrow-left"></i> Back to Main App</a>
+        </header>
+
+        <div class="help-grid">
+            
+<!-- 2.1 DOCUMENTATION TITLES CARD ############################################################################### -->
+            <div class="help-card horizontal-card" id="documentation-titles">
+                <div class="card-icon-pane">
+                    <img src="/static/qr.png" alt="QR Code for Documentation" class="qr-code-img">
+                    <i class="fas fa-qrcode"></i>
+                    <h3>Titles</h3>
+                </div>
+                <div class="card-content-pane titles-card-content">
+                    <ul>
+                        <li><a href="#purpose-vision">Project Purpose </a></li>
+                        <li><a href="#ai-search">AI Search</a></li>
+                        <li><a href="#semantic-search">Semantic Search</a></li>
+                        <li><a href="#classic-search">Classic Search</a></li>
+                        <li><a href="#doc-classifier">Document Classifier</a></li>
+                        <li><a href="#app-security">Application Security</a></li>
+                        <li><a href="#architecture">Architecture & Design Patterns</a></li>
+                        <li><a href="#ml-deep-dive">ML Deep Dive: Classifier Engine</a></li>
+                        <li><a href="#rag-pipeline">RAG Pipeline Deep Dive</a></li>
+                        <li><a href="#settings-config">Settings & Configuration</a></li>
+                        <li><a href="#file-handling">File Handling & Best Practices</a></li>
+                    </ul>
+                    <hr class="settings-divider">
+                    <h4>Developer Information</h4>
+                    <ul class="developer-info">
+                        <li><strong>Developer: Ali Kazemi</strong></li>
+                        <li><strong>Email:</strong> <a href="mailto:eng.ali.kazemi@outlook.com">eng.ali.kazemi@outlook.com</a></li>
+                        <li><strong>Github:</strong> <a href="https://github.com/Eng-AliKazemi/PFS" target="_blank" rel="noopener">https://github.com/Eng-AliKazemi/PFS/</a></li>
+                    </ul>
+                </div>
+            </div>
+
+<!-- 3. PURPOSE  CARD #################################################################################### -->
+            <div class="help-card horizontal-card" id="purpose-vision">
+                <div class="card-icon-pane">
+                    <i class="fas fa-compass"></i>
+                    <h3>Project Purpose </h3>
+                </div>
+                <div class="card-content-pane">
+                    <p>Precision File Search (PFS) was conceived to solve the everyday chaos of digital file management. It was built to address real-world pain points with a comprehensive, innovative, and modern approach not found in other single applications.</p>
+                    <h4>Core Problems Solved:</h4>
+                    <ul>
+                        <li><strong>Fast File & Folder Search:</strong> Instantly locate files and folders, even those buried deep inside nested subdirectories, with lightning-fast performance. No indexing required, making it ideal for dynamic or frequently changing environments.</li>
+                        <li><strong>Instant Keyword Search:</strong> Specific keywords can be found inside  documents scattered across drives and sub-folders, without a pre-indexing process.</li>
+                        <li><strong>Semantic & Contextual Search:</strong> Beyond keywords, documents can be found based on meaning and concepts, uncovering information that might otherwise be difficult to find.</li>
+                        <li><strong>Adaptive Natural Language Search:</strong> Users can type questions or phrases in plain English, no special syntax required. The AI automatically interprets the intent and selects the most effective search method, whether it's a classic keyword match or a more nuanced semantic search based on meaning and context. This ensures the most relevant results, even when the user doesn’t know the exact terms to look for.</li>
+                        <li><strong>Natural Language Insights:</strong> Complex questions can be asked in plain English to receive summarized answers with cited sources, turning files into a conversational knowledge base.</li>
+                        <li><strong>Automated Organization:</strong> A messy collection of scattered files can be automatically sorted into clean, organized categories with a single click.</li>
+                    </ul>
+                    <h4>Guiding Principles:</h4>
+                    <ul>
+                        <li><strong>Accessible to All Users:</strong> PFS was designed with a clean, modern, and intuitive user interface, hiding immense technical complexity to make its powerful features accessible to all users, not just developers.</li>
+                        <li><strong>Privacy-First & Offline:</strong> File privacy is a core principle. The application runs entirely on the local machine. File contents are not sent to any external servers*, making it a secure tool that aligns with the principles of GDPR and HIPAA.</li>
+                        <li><strong>Built for the Future:</strong> Engineered with a modular architecture, PFS is designed to be easily maintained, upgraded, and extended with new features.</li>
+                    </ul>
+                    <p><small><em>*The only exception is the LLM provider which can be optionally configured by the user for the AI Search feature.</em></small></p>
+                </div>
+            </div>
+
+<!-- 4. AI SEARCH CARD ########################################################################################### -->
+            <div class="help-card horizontal-card" id="ai-search">
+                <div class="card-icon-pane">
+                    <i class="fas fa-magic-wand-sparkles"></i>
+                    <h3>AI Search</h3>
+                </div>
+                <div class="card-content-pane">
+                    <p>In the Precision File Search (PFS) application, AI Search is the primary and most powerful interface for interacting with files. It allows natural language to be used to ask complex questions, find documents, and get summarized answers.</p>
+                    <h4>How it Works:</h4>
+                    <ol>
+                        <li><strong>Intent Routing:</strong> The AI first determines the query's intent. If a question is asked about the app, the internal knowledge base is used. If a request is made to find local files, the file search pipeline is initiated. You can ask about any part of the application, including full documentation, technical details, and licensing, by starting your query with <strong>PFS: + QUERY</strong></li>
+                        <li><strong>File Search Pipeline:</strong> For file searches, the best tool is determined: a fast "Classic Search" for filenames, or a deep "Semantic Search" for conceptual content.</li>
+                        <li><strong>Synthesis and Response:</strong> After information is retrieved, a final, summarized answer is generated by the AI in Markdown, complete with source files.</li>
+                    </ol>
+                    <h4>Best Use Example:</h4>
+                    <code>Example: PFS: How semantic search works?</code>
+                    <code>What was the net profit for Project Titan in Q3?</code>
+                    <p class="best-use">The AI will use semantic search, find the files or knowledge, read the content, extract the exact number, and present it as the answer.</p>
+                </div>
+            </div>
+            
+<!-- 5. SEMANTIC SEARCH CARD ##################################################################################### -->
+            <div class="help-card horizontal-card" id="semantic-search">
+            <div class="card-icon-pane">
+                <i class="fas fa-brain"></i>
+                <h3>Semantic Search</h3>
+            </div>
+            <div class="card-content-pane">
+                <p>The Semantic Search tab provides direct access to the application's advanced RAG (Retrieval-Augmented Generation) engine. It transforms your local files into a private, searchable knowledge base, allowing you to search by meaning and context, not just keywords.</p>
+                <h4>How to Use:</h4>
+                <ol>
+                    <li><strong>Build Index:</strong> Provide a directory path and click "BUILD / UPDATE INDEX". The first time you build an index, the engine processes all supported files. On subsequent updates, the <strong>intelligent re-indexing system</strong> automatically detects only new or modified files, making the process significantly faster.</li>
+                    <li><strong>Search:</strong> Once the index is ready, you can ask conceptual questions or search for topics to find the most relevant sections within your documents.</li>
+                </ol>
+                <h4>Understanding the Parameters:</h4>
+                <ul>
+                    <li><strong>Initial Candidates (K):</strong> The number of potential results to pull in the first pass.</li>
+                    <li><strong>Vector Score Threshold:</strong> The minimum similarity score for a result to be considered.</li>
+                    <li><strong>Enable Reranker (Recommended):</strong> A powerful model is used to re-analyze and re-order the initial results for much higher accuracy.</li>
+                </ul>
+            </div>
+        </div>
+
+<!-- 6. CLASSIC SEARCH CARD ###################################################################################### -->
+            <div class="help-card horizontal-card" id="classic-search">
+            <div class="card-icon-pane">
+                <i class="fas fa-search-location"></i>
+                <h3>Classic Search</h3>
+            </div>
+            <div class="card-content-pane">
+                <p>Classic Search is powered by a <strong>High-Performance File Engine</strong> designed for maximum speed and efficiency. It uses a concurrent architecture to parallelize file system operations, allowing it to remain responsive while scanning thousands of files. It supports fast content searching across 60+ file types at a rate of approximately 3,000 files per second.</p>
+                <h4>Core Engine Features:</h4>
+                <ul>
+                    <li><strong>Concurrent Processing:</strong> The engine uses multiple threads to read and search files simultaneously, making full use of modern hardware.</li>
+                    <li><strong>Memory Efficiency:</strong> Large files are read in small, manageable chunks, ensuring that memory usage remains low and stable, preventing crashes.</li>
+                    <li><strong>Optimized Matching:</strong> Multi-keyword searches are compiled into a single, efficient pattern, allowing for rapid scanning in one pass.</li>
+                </ul>
+                <h4>Search Types:</h4>
+                <ul>
+                    <li><strong>Keywords in Files:</strong> The text content inside files is scanned.</li>
+                    <li><strong>File Names:</strong> Only filenames are searched. Supports wildcards like `*`.</li>
+                    <li><strong>Folder Names:</strong> Only the names of folders are searched.</li>
+                    <li><strong>Filter by Category:</strong> Searches can be refined using predefined categories such as Documents, Pictures, Videos, Audio, Compressed and Executable.</li>
+                </ul>
+                <h4>Search Management:</h4>
+                <p>The **Saved Searches** and **Search History** panels can be used to save and quickly re-run complex queries.</p>
+            </div>
+        </div>
+
+<!-- 7. DOCUMENT CLASSIFIER CARD ################################################################################# -->
+<div class="help-card horizontal-card" id="doc-classifier">
+    <div class="card-icon-pane">
+        <i class="fas fa-sitemap"></i>
+        <h3>Document Classifier</h3>
+    </div>
+    <div class="card-content-pane">
+        <p>In the Precision File Search (PFS) application, the Classifier uses a pre-trained Machine Learning model to automatically sort files into predefined categories like "Resume", "Invoice", "Report", etc.</p>
+        <h4>How it Works:</h4>
+        <ol>
+            <li>A directory path is provided and "START CLASSIFICATION" is clicked.</li>
+            <li>Each file is scanned and a category is predicted.</li>
+            <li>Results are grouped by tag. Manual file operations (<strong>Copy</strong>, <strong>Move</strong>, <strong>Delete Entry</strong>) can be performed on each category individually.</li>
+        </ol>
+
+        <h4>One-Click Auto Organization</h4>
+        <p>For maximum efficiency, after a classification is complete, a new <strong>"Auto Organize"</strong> button will appear above the results. This feature streamlines the entire sorting process:</p>
+        <ol>
+            <li>The <strong>"Auto Organize"</strong> button is clicked.</li>
+            <li>A single base destination folder is provided (e.g., <code>C:\Organized Documents</code>).</li>
+            <li>Sub-folders for each tag (e.g., <code>\Invoices</code>, <code>\Resumes</code>) are automatically created inside the destination.</li>
+            <li>All classified files are then moved into their corresponding new folders in one operation, clearing the results list.</li>
+        </ol>
+        <p class="best-use">This turns a multi-step manual process into a single-click action, perfect for quickly sorting large, scattered archives.</p>
+        
+        <h4>Model Training: Building Your Custom Classifier</h4>
+        <p>In the <strong>Settings</strong> tab, you have the power to re-train the document classification model using your own data. This allows you to move beyond the default categories and create a classifier perfectly tailored to your specific needs, whether for sorting legal documents, academic papers, or project files.</p>
+        <p>The performance of your custom model is <strong>heavily dependent on the quality and structure of your training data</strong>. Follow this guide carefully to achieve the best results.</p>
+        <br>
+        <strong>Step 1: Preparing Your Training Data - The Blueprint for Success</strong>
+        <p>The training process requires a specific directory structure. The model learns by example, associating the content of files with the name of the folder they are in.</p>
+        <p>The structure is simple: a main parent folder containing one sub-folder for each category you want to create.</p>
+        <ol>
+            <li><strong>Create a Main Training Folder:</strong> On your computer, create a new folder. This will be your main data directory. Let's call it <code>My-Training-Data</code>.</li>
+            <li><strong>Create Category Sub-Folders:</strong> Inside <code>My-Training-Data</code>, create one folder for each category you want the model to learn. The <strong>name of each folder</strong> will become the <strong>category label</strong> in the application.</li>
+            <li><strong>Add Your Documents:</strong> Place at least 15-20 example documents into each category sub-folder. These are the "textbooks" the model will study to learn what defines that category.</li>
+        </ol>
+
+        <p><strong>Visual Example:</strong></p>
+        <p>Imagine you are a researcher and want to classify documents into three categories: <code>Climate-Studies</code>, <code>Economic-Reports</code>, and <code>Policy-Briefs</code>. Your directory structure <strong>must</strong> look like this:</p>
+        <pre><code>D:\My-Training-Data\
+├── Climate-Studies\
+│   ├── arctic_melt_rates.pdf
+│   ├── ocean_acidification_2024.docx
+│   ├── report_on_amazon_deforestation.txt
+│   └── ... (at least 15-20 total files)
+│
+├── Economic-Reports\
+│   ├── Q3_gdp_analysis.xlsx
+│   ├── inflation_trends_memo.docx
+│   ├── market_summary.pdf
+│   └── ... (at least 15-20 total files)
+│
+└── Policy-Briefs\
+    ├── healthcare_reform_proposal.pdf
+    ├── summary_of_energy_bill.docx
+    ├── notes_on_urban_planning.txt
+    └── ... (at least 15-20 total files)</code></pre>
+        <p>When you point the trainer to the <code>D:\My-Training-Data</code> folder, it will automatically understand that it needs to learn three labels: <code>Climate-Studies</code>, <code>Economic-Reports</code>, and <code>Policy-Briefs</code>.</p>
+
+        <strong>Step 2: Tips for Training the Best Possible Model</strong>
+        <p>Merely having the right structure isn't enough. Follow these professional tips to ensure your model is accurate and reliable.</p>
+        <ul>
+            <li><strong>Tip 1: Quality Over Quantity.</strong> Clean, relevant examples are far better than thousands of messy ones. Ensure the documents in each category are truly representative of that category. A single misfiled document can confuse the model.</li>
+            <li><strong>Tip 2: Balance Your Dataset.</strong> Try to have a roughly equal number of documents in each category. If you have 1000 <code>Invoices</code> but only 10 <code>Resumes</code>, the model may become biased and lazy, tending to guess "Invoice" more often because it's statistically safer. A balanced dataset forces it to learn the real differences.</li>
+            <li><strong>Tip 3: Ensure Categories are Distinct.</strong> The model learns from the unique vocabulary within your documents. If two categories are too similar, the model will struggle. For example, training on <code>Contracts</code> and <code>Agreements</code> might be difficult if the documents use very similar legal language. The more unique the keywords and phrases in each category, the higher the model's accuracy will be.</li>
+            <li><strong>Tip 4: Provide Enough Data to Learn.</strong> While there is no magic number, a good starting point is <strong>at least 15-20 documents per category</strong>. For highly complex topics, more is better (50+). You need enough examples for the model to identify statistically significant patterns.</li>
+            <li><strong>Tip 5: Understanding the Training Parameters in Settings.</strong> You have two sliders to fine-tune the training process:
+                <ul>
+                    <li><strong>Test/Train Split:</strong> This determines what percentage of your data is held back to "test" the model after training. A value of 20% means the model trains on 80% of your files and is then given a final exam on the 20% it has never seen before. The final accuracy score reflects its performance on this unseen data.</li>
+                    <li><strong>Number of Estimators (Trees):</strong> The model (a RandomForest) is like a committee of decision-making "trees." More trees can lead to a more accurate model, but it will also significantly increase the training time. The default of <code>100</code> is a good balance, but you can increase it to <code>200</code> or <code>300</code> for potentially better results on complex datasets.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <strong>Step 3: Running the Training and Interpreting Results</strong>
+        <ol>
+            <li><strong>Navigate:</strong> Go to the <strong>Settings</strong> tab in the application.</li>
+            <li><strong>Locate:</strong> Scroll down to the <strong>Classifier Model Training</strong> section.</li>
+            <li><strong>Input Path:</strong> Enter the full path to your main training folder (e.g., <code>D:\My-Training-Data</code>).</li>
+            <li><strong>Adjust Parameters:</strong> Set the Test/Train split and Number of Estimators as desired.</li>
+            <li><strong>Start Training:</strong> Click the <strong>START TRAINING</strong> button.</li>
+            <li><strong>Monitor:</strong> The "Training Progress" box will appear, showing you a live log of the process: loading categories, splitting data, training, and evaluating.</li>
+            <li><strong>Check Accuracy:</strong> When complete, a <strong>Final Model Accuracy</strong> will be displayed. An accuracy of <strong>85% or higher</strong> is generally considered very good and indicates you have a reliable model. If your accuracy is low, revisit the tips in Step 2.</li>
+        </ol>
+        <p>After the training is complete, the new <code>document_classifier.ml</code> file is saved. <strong>You must restart the application</strong> for it to load and use your new custom model.</p>
+    </div>
+</div>
+
+<!-- 8. APPLICATION SECURITY CARD ################################################################################ -->
+            <div class="help-card horizontal-card" id="app-security">
+                <div class="card-icon-pane">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Application Security</h3>
+                </div>
+                <div class="card-content-pane">
+                    <p>The Precision File Search (PFS) application is designed from the ground up to be a secure, locally-run tool. Modern application security best practices are followed to protect user data and system integrity.</p>
+                    <h4>Core Security Principles:</h4>
+                    <ul>
+                        <li><strong>Local First:</strong> The server is bound to <code>127.0.0.1</code> (localhost) by default. This is the single most important security feature, as it prevents any external computers on the network from accessing the application.</li>
+                        <li><strong>No Data Exfiltration:</strong> File contents or search queries are not sent to any external servers, with the sole exception of the LLM provider configured for AI Search.</li>
+                    </ul>
+                    <h4>Built-in Security Features:</h4>
+                    <ul>
+                        <li>
+                            <strong>SQL Injection Prevention</strong>
+                            <p><strong>The Vulnerability:</strong> An attacker provides malicious input that tricks the application into running unintended database commands, potentially leading to data theft or corruption.</p>
+                            <p><strong>The Prevention Method:</strong> All database queries use parameterized statements. This industry-standard technique separates the command from the data, making it impossible for user input to be executed as a command.</p>
+                        </li>
+                        <li>
+                            <strong>Prompt Injection Hardening</strong>
+                            <p><strong>The Vulnerability:</strong> Malicious instructions hidden inside files or user queries manipulate the AI into ignoring its primary goal, potentially causing it to generate harmful content or reveal its internal programming.</p>
+                            <p><strong>The Prevention Method:</strong> The prompts sent to the AI are engineered with defensive instructions, warning it about untrusted content and reinforcing its core mandate. This helps the AI to distinguish between its mission and malicious user data.</p>
+                        </li>
+                        <li>
+                            <strong>Path Traversal Prevention</strong>
+                            <p><strong>The Vulnerability:</strong> A user crafts a query that tricks the application into accessing or indexing sensitive system files outside of the intended search directories (e.g., <code>../../../../etc/passwd</code>).</p>
+                            <p><strong>The Prevention Method:</strong> Before any file system operation, the application validates the target path to ensure it is safely contained within the user's designated root search directory. All attempts to "climb" out of this directory are blocked.</p>
+                        </li>
+                        <li>
+                            <strong>Cross-Site Scripting (XSS) Prevention</strong>
+                            <p><strong>The Vulnerability:</strong> XSS occurs when an application renders unsanitized data, allowing an attacker to inject malicious scripts that execute in the user's browser. This could steal API keys or perform unauthorized actions.</p>
+                            <p><strong>The Prevention Method:</strong> The application employs a two-layered defense. First, all AI-generated content is passed through a security sanitizer (DOMPurify) to strip out any malicious code before it is displayed. Second, all file and folder paths shown in classic search results are strictly escaped to ensure they are rendered as plain text, not executable code.</p>
+                        </li>
+                        <li>
+                            <strong>Regular Expression Denial of Service (ReDoS) Mitigation</strong>
+                            <p><strong>The Vulnerability:</strong> ReDoS is an attack where a specially crafted regular expression can cause an application to hang or crash by consuming excessive CPU resources.</p>
+                            <p><strong>The Prevention Method:</strong> This is mitigated by running the regular expression matching in a separate, non-blocking process. This isolates the potentially slow operation, ensuring that even a malicious pattern cannot freeze the main application server or the user interface.</p>
+                        </li>
+                        <li>
+                            <strong>Information Disclosure Prevention</strong>
+                            <p><strong>The Vulnerability:</strong> This can occur when an application's error messages reveal sensitive internal details, such as full file paths or configuration values, which could aid an attacker.</p>
+                            <p><strong>The Prevention Method:</strong> The application is designed to catch all backend exceptions. It logs the full, detailed error server-side for debugging but only sends a generic, safe error message to the user's browser, preventing any sensitive information from being leaked.</p>
+                        </li>
+                    </ul>
+                    <hr class="settings-divider">
+                    <h4>User Responsibility & Disclaimer</h4>
+                    <p>
+                        Like any tool, this application can be misused. The primary security responsibility lies with the user. Since this application runs locally and has access to the file system, granting physical access to the machine running this software to an untrusted individual could lead to a security breach.
+                    </p>
+                    <p>
+                        Therefore, the application is provided "as-is" without any warranty of any kind, express or implied. In no event shall the developer be liable for any claim, damages, or other liability arising from the use of the software.
+                    </p>
+                    <p>
+                        However, the developer is committed to maintaining and improving the security of the application. Security issues will be followed up on seriously, and patches will be provided in future versions.
+                    </p>
+                </div>
+            </div>
+
+<!-- 9. ARCHITECTURE CARD ######################################################################################## -->
+            <div class="help-card horizontal-card" id="architecture">
+                <div class="card-icon-pane">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Architecture & Design Patterns</h3>
+                </div>
+                <div class="card-content-pane">
+                        <p>The Precision File Search (PFS) project represents a deliberate synthesis of five critical technology disciplines, creating a combined solutions architecture that addresses real-world problems in an innovative and intuitive form. It is a showcase of best practices from:</p>
+                    <ul>
+                        <li><strong>Software Engineering:</strong> Built on a robust, modular, and asynchronous Python (FastAPI) backend to ensure high performance and maintainability.</li>
+                        <li><strong>Data Science:</strong> Features a classic, trainable machine learning model (Scikit-learn) for automatically classifying and organizing unstructured documents.</li>
+                        <li><strong>Artificial Intelligence:</strong> Leverages a state-of-the-art RAG pipeline (LangChain) and Large Language Models to enable conversational, context-aware search and data synthesis.</li>
+                        <li><strong>User Experience (UX):</strong> Designed to hide immense technical complexity behind a simple, clean, and intuitive JavaScript and CSS frontend.</li>
+                        <li><strong>Application Security:</strong> Engineered from the ground up with security-first principles like path validation, XSS sanitization, parameterized queries, and more.</li>
+                    </ul>
+                     <h4>Core Design Patterns:</h4>
+                    <ul>
+                        <li><strong>AI Orchestrator:</strong> The AI Search acts as an intelligent controller that routes user requests through a chain of: Intent Routing → Strategy Selection → Data Retrieval → Final Summarization.</li>
+                        <li><strong>Two-Stage Retrieval (Recall & Precision):</strong> The semantic engine uses a fast vector search to "recall" candidates, followed by a powerful reranker to ensure "precision" of the final results.</li>
+                        <li><strong>Parent-Child Chunking:</strong> Documents are split into large "parent" chunks (for context) and small "child" chunks (for precise searching).</li>
+                         <li><strong>Centralized, Persistent Configuration:</strong> All application settings are managed in a dedicated SQLite database, ensuring consistency and persistence.</li>
+                         <li><strong>Centralized Logging System:</strong> A robust logging module provides structured, level-based logs to both the console and rotating files for easy debugging and monitoring.</li>
+                    </ul>
+                     <h4>Technology Stack:</h4>
+                    <ul>
+                        <li><strong>Backend:</strong> FastAPI, Uvicorn, LangChain.</li>
+                        <li><strong>Data Storage:</strong> Qdrant (Vector DB), SQLite (Document Store & Config).</li>
+                        <li><strong>NLP Models:</strong> Hugging Face Transformers for embeddings and reranking.</li>
+                        <li><strong>ML Model:</strong> Scikit-learn Random Forest, A supervised machine learning classifer.</li>
+                        <li><strong>AI Models:</strong> Offline or Online, Open-source or Proprietary.</li>
+                    </ul>
+                </div>
+            </div>
+
+<!-- 10. ML DEEP DIVE CARD ####################################################################################### -->
+            <div class="help-card horizontal-card" id="ml-deep-dive">
+                <div class="card-icon-pane">
+                    <i class="fas fa-robot"></i>
+                    <h3>ML Deep Dive: Classifier Engine</h3>
+                </div>
+                <div class="card-content-pane">
+                    <p>The Document Classifier is powered by a classic supervised machine learning model: the <strong>RandomForestClassifier</strong> from the **Scikit-learn** library.</p>
+                    <h4>Why This Model Was Chosen:</h4>
+                    <ul>
+                        <li><strong>Balance of Speed and Accuracy:</strong> Random Forest offers excellent performance for text classification tasks without requiring the heavy computational resources (like a GPU) that deep learning models need and it is fully offline.</li>
+                        <li><strong>Robustness:</strong> By averaging the predictions of many individual decision trees, it is less prone to overfitting and generally more stable than single models.</li>
+                        <li><strong>Accessibility:</strong> It can be trained effectively on a standard CPU, making it perfect for a locally-run application.</li>
+                    </ul>
+                    <h4>How It Works:</h4>
+                    <ol>
+                        <li><strong>Text to Numbers (TF-IDF):</strong> The model first uses a `TfidfVectorizer`. This crucial step turns the text content of a document into a numerical signature. It does this by identifying which words are most important and unique to that document compared to all other documents.</li>
+                        <li><strong>The 'Forest' of Trees:</strong> The model then builds a "forest" of many individual "decision trees." Each tree is like a flowchart of questions about the words in the document (e.g., "Does it contain the word 'invoice' more than 3 times?").</li>
+                        <li><strong>Voting for a Category:</strong> Each tree in the forest independently "votes" for a category. The final prediction is the category that receives the most votes, a process which makes the model highly reliable.</li>
+                    </ol>
+                   </div>
+            </div>
+
+<!-- 11. RAG PIPELINE CARD ####################################################################################### -->
+            <div class="help-card horizontal-card" id="rag-pipeline">
+                <div class="card-icon-pane">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>RAG Pipeline Deep Dive</h3>
+                </div>
+                <div class="card-content-pane">
+                    <p>The Semantic and AI Search features are powered by a <strong>Retrieval-Augmented Generation (RAG)</strong> pipeline. This is a state-of-the-art AI technique that combines factual knowledge from documents with the reasoning ability of a Large Language Model (LLM).</p>
+                    <h4>How the Pipeline Works:</h4>
+                    <ol>
+                        <li>
+                            <strong>Indexing (The 'Library'):</strong> When an index is built, documents are processed:
+                            <ul>
+                                <li><strong>Hugging Face Embeddings:</strong> A specialized model converts each text chunk into a "vector", a numerical representation of its semantic meaning.</li>
+                                <li><strong>Qdrant (Vector Database):</strong> This high-speed database stores these vectors, creating a multi-dimensional "map" of the documents' meaning that can be searched instantly.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Retrieval (The 'Search'):</strong> When a question is asked, the two-stage retrieval process begins:
+                            <ul>
+                                <li><strong>1. Vector Search (Recall):</strong> The query is converted into a vector. Qdrant rapidly finds the document chunks with the most similar vectors. This is a broad but fast initial search.</li>
+                                <li><strong>2. Reranking (Precision):</strong> A more powerful "Cross-Encoder" model from Hugging Face takes these initial results and does a deep, pairwise comparison against the original query, re-scoring and re-ordering them for maximum relevance.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Generation (The 'Answer'):</strong>
+                            <ul>
+                                <li><strong>LangChain:</strong> This framework acts as the "conductor." It takes the top-ranked, relevant chunks from the reranker and packages them into a carefully engineered prompt along with the original question.</li>
+                                <li><strong>LLM Synthesis:</strong> This complete package is sent to the configured LLM (e.g., LM Studio, Ollama, Groq, OpenAI). The LLM uses the provided text as its sole source of truth to generate a final, factual, and synthesized answer.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <h4>Benefits & Proper Usage:</h4>
+                    <p>This approach dramatically reduces AI "hallucinations" by forcing the model to base its answers on actual data. For best results, the **AI Search** tab should be used to ask conceptual, natural language questions (e.g., "Summarize the Q4 marketing strategy" instead of  "last month marketing").</p>
+                </div>
+            </div>            
+
+<!-- 12. SETTINGS CARD ########################################################################################### -->
+            <div class="help-card horizontal-card" id="settings-config">
+                <div class="card-icon-pane">
+                    <i class="fas fa-sliders-h"></i>
+                    <h3>Settings & Configuration</h3>
+                </div>
+                <div class="card-content-pane">
+                    <p>In the Precision File Search (PFS) application, the Settings tab allows every component of the application to be fine-tuned. Note that changes to models or the default Reranker state require an application restart to take effect.</p>
+                    
+                    <h4>File Scan Settings</h4>
+                    <ul>
+                        <li><strong>Excluded Folders:</strong> A comma-separated list of folder names (e.g., `node_modules, .git`) to ignore during all search and indexing operations.</li>
+                        <li><strong>File Extensions:</strong> Defines which file types will have their content read. This affects both "Keywords in Files" searches and Semantic Indexing.</li>
+                    </ul>
+
+                    <h4>LLM Settings</h4>
+                    <p>These settings are required for the <strong>AI Search</strong> feature to function. They connect the application to a Large Language Model provider.</p>
+                    <ul>
+                        <li><strong>API Key, Model Name, API Base URL:</strong> Credentials for the LLM service (e.g., LM Studio, Ollama, Groq, OpenAI).</li>
+                    </ul>
+
+                    <h4>Advanced Retrieval Settings</h4>
+                    <p>These parameters control the behavior of the Semantic Search engine, allowing a balance between speed and accuracy.</p>
+                    <ul>
+                        <li><strong>Enable Reranker by Default:</strong> If checked, the powerful (but memory-intensive) reranker model is loaded on application startup. This provides the highest quality search results.</li>
+                        <li><strong>The Search Funnel:</strong> The retrieval process can be thought of as a funnel. It starts wide and progressively narrows down to the best results:
+                            <ol>
+                                <li><strong>Initial Candidates (K):</strong> A wide net is cast, retrieving this many documents in the first fast search.</li>
+                                <li><strong>Vector Score Threshold:</strong> The first filter, keeping only documents with a basic similarity score above this value.</li>
+                                <li><strong>Rerank Score Threshold:</strong> The second, stricter filter applied after the expert reranker model has re-scored the documents.</li>
+                                <li><strong>Final Results to Display (Top-N):</strong> The final number of top-scoring documents to show in the UI.</li>
+                            </ol>
+                        </li>
+                    </ul>
+
+                     <h4>Classifier Model Training</h4>
+                     <p>These settings control the retraining process for the Document Classifier.</p>
+                     <ul>
+                        <li><strong>Test/Train Split:</strong> The percentage of the data set aside to test the model's accuracy after it has been trained.</li>
+                        <li><strong>Number of Estimators:</strong> Controls the complexity of the machine learning model. More estimators can increase accuracy but will also increase training time.</li>
+                     </ul>
+                </div>
+            </div>
+
+<!-- 13. FILE HANDLING CARD ###################################################################################### -->
+            <div class="help-card horizontal-card" id="file-handling">
+                <div class="card-icon-pane">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>File Handling & Best Practices</h3>
+                </div>
+                <div class="card-content-pane">
+                    <p> The Precision File Search (PFS) application's ability to read and index file content is crucial for all its features. Understanding how different file types are handled will help achieve the best results.</p>
+                    
+                    <h4>Optimizing the Search Index</h4>
+                    <p>While the app can technically process many file types, for the highest quality search results, the focus should be on files with rich text content. The following master list is curated for this purpose. Extensions can be added or removed from this list in the **Settings** tab to control what gets indexed.</p>
+                    <div class="extensions-list-block">
+                        <span>.txt</span><span>.md</span><span>.pdf</span><span>.docx</span><span>.doc</span><span>.rtf</span><span>.log</span><span>.csv</span><span>.json</span><span>.xml</span><span>.eml</span><span>.msg</span><span>.epub</span><span>.html</span><span>.htm</span><span>.rst</span><span>.odt</span><span>.wpd</span><span>.pages</span><span>.xlsx</span><span>.xls</span><span>.pptx</span><span>.ppt</span><span>.ods</span><span>.odp</span><span>.tsv</span><span>.tex</span><span>.py</span><span>.js</span><span>.java</span><span>.c</span><span>.cpp</span><span>.h</span><span>.hpp</span><span>.cs</span><span>.go</span><span>.rb</span><span>.rs</span><span>.swift</span><span>.kt</span><span>.scala</span><span>.php</span><span>.pl</span><span>.vb</span><span>.css</span><span>.scss</span><span>.sass</span><span>.less</span><span>.svg</span><span>.jsx</span><span>.tsx</span><span>.yaml</span><span>.yml</span><span>.ini</span><span>.toml</span><span>.sql</span><span>.conf</span><span>.cfg</span><span>.env</span><span>.properties</span><span>.sh</span><span>.bash</span><span>.ps1</span><span>.bat</span>
+                    </div>
+                    
+                    <h4>Tips for Different File Types</h4>
+                    <ul>
+                        <li><strong>Emails (.eml, .msg):</strong> Perfect for indexing. The entire email body, headers (To, From, Subject), and text-based attachments are made searchable.</li>
+                        <li><strong>Spreadsheets (.xlsx, .xls):</strong> The text content from all cells across all sheets is extracted and combined. Searches will be most effective when looking for specific data points, names, or terms known to be within the spreadsheet.</li>
+                        <li><strong>Presentations (.pptx, .ppt):</strong> Text from all slides and from the "speaker notes" section is indexed. This makes it easy to find an entire presentation based on a single bullet point or note.</li>
+                        <li><strong>Code & Config (.py, .json, .yml):</strong> These are treated as pure text, making the search engine a powerful tool for developers looking for specific functions, API keys, or configuration settings across a large codebase.</li>
+                        <li><strong>A Note on Scanned PDFs & Images:</strong> The application does **not** currently perform Optical Character Recognition (OCR). This means text within image files (.jpg, .png) or PDFs that are scans of paper documents will not be read. For a PDF to be searchable, its text must be selectable.</li>
+                    </ul>
+
+                    <h4>Recommended Excluded Folders</h4>
+                    <br>
+                    <p>To ensure fast and relevant searches, it is highly recommended that the following folders be added to the "Excluded Folders" list in Settings. This prevents the engine from scanning millions of unnecessary files.</p>
+                    <br>
+                    <h5>Core Recommendations (For All Users)</h5>
+                    <br>
+                    <div class="extensions-list-block">
+                        <span>$RECYCLE.BIN</span><span>System Volume Information</span><span>.Trash</span><span>.Trashes</span><span>AppData</span><span>Application Data</span><span>Library</span><span>.cache</span><span>cache</span><span>logs</span><span>tmp</span><span>temp</span>
+                    </div>
+                    <br>
+                    <h5>Extended List (For Developers & Power Users)</h5>
+                    <br>
+                    <div class="extensions-list-block">
+                        <span>node_modules</span><span>.git</span><span>.svn</span><span>.hg</span><span>dist</span><span>build</span><span>out</span><span>target</span><span>bin</span><span>obj</span><span>venv</span><span>.venv</span><span>env</span><span>.env</span><span>__pycache__</span><span>.vscode</span><span>.idea</span><span>.vs</span><span>vendor</span><span>bower_components</span><span>.npm</span><span>.nuget</span><span>.gradle</span><span>.project</span><span>.settings</span><span>.classpath</span><span>.pytest_cache</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+# ==============================================================================
+# Precision File Search (PFS) - pyproject.toml
+# ==============================================================================
+# This file defines project metadata and dependencies.
+# By omitting version specifiers, pip will install the latest available
+# versions of all packages.
+# ==============================================================================
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+# --- Core Project Metadata ---
+name = "precision-file-search"
+version = "1.0.0"
+authors = [
+    { name = "Ali Kazemi", email = "eng.ali.kazemi@outlook.com" },
+]
+description = "An AI-powered local file search and classification platform."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "AGPL-3.0-or-later" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: FastAPI",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Advanced Search",
+    "Topic :: Utilities",
+]
+keywords = ["search", "rag", "ai", "fastapi", "llm", "semantic-search", "classifier"]
+
+
+# --- Project Dependencies ---
+# These are the packages required to run the application. No versions are
+# specified, so the latest versions will be installed by default.
+dependencies = [
+    # Web Framework & Server
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic",
+
+    # Environment & Utilities
+    "python-dotenv",
+    "rich",
+    "aiofiles",
+
+    # Machine Learning & Classifier
+    "scikit-learn",
+    "joblib",
+
+    # Document & File Handling
+    "unstructured[all-docs]",
+    "pypdf",
+    "python-docx",
+
+    # Core AI & NLP Libraries (LangChain & Hugging Face)
+    "langchain",
+    "langchain-community",
+    "langchain-openai",
+    "langchain-huggingface",
+    "langchain_qdrant",
+    "langchain_unstructured",
+    "torch",
+    "transformers",
+    "sentence-transformers",
+
+    # Vector Database Client
+    "qdrant-client",
+    
+    # Other utilities that might be required by dependencies
+    "hf_xet",
+    "dill",
+]
+
+[project.urls]
+Homepage = "https://github.com/Eng-AliKazemi/PFS"
+"Bug Tracker" = "https://github.com/Eng-AliKazemi/PFS/issues"
+
+# --- Tool Specific Configuration ---
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["backend*"]

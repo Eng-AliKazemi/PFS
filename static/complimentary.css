@@ -1,0 +1,328 @@
+/* static\complimentary.css */
+
+/* # Precision File Search
+# Copyright (c) 2025 Ali Kazemi
+# Licensed under AGPL v3
+# This file is part of a derivative work and must retain this notice. */
+
+/* 1. GENERAL PAGE LAYOUT ######################################################################################## */
+body {
+    padding: 2rem 1rem;
+    align-items: flex-start;
+    background-color: #f7fafc;
+}
+
+.help-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 2. HEADER STYLES ############################################################################################## */
+.help-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.help-header h1 {
+    font-family: var(--font-header);
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.help-header p {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto 1.5rem auto;
+}
+
+.back-btn {
+    width: auto;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    display: inline-flex;
+    border-width: 2px;
+}
+
+/* 3. HELP PAGE CARD LAYOUT ###################################################################################### */
+.help-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.help-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s ease;
+}
+
+.horizontal-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .horizontal-card {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2.5rem;
+    }
+}
+
+.card-icon-pane {
+    flex-shrink: 0;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .card-icon-pane {
+        width: 200px;
+        border-bottom: none;
+        padding-bottom: 0;
+        border-right: 1px solid var(--color-border);
+        padding-right: 2.5rem;
+    }
+}
+
+.card-icon-pane i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--color-accent-primary);
+    display: block;
+}
+
+.card-icon-pane h3 {
+    font-family: var(--font-header);
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+/* 4. HELP CARD CONTENT ########################################################################################## */
+.card-content-pane {
+    flex-grow: 1;
+}
+
+.card-content-pane h4 {
+    font-family: var(--font-header);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-accent-secondary);
+}
+.card-content-pane > h4:first-child {
+    margin-top: 0;
+}
+
+.card-content-pane p, .card-content-pane li {
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+}
+
+.card-content-pane ol, .card-content-pane ul {
+    padding-left: 20px;
+    margin-bottom: 1rem;
+}
+
+.card-content-pane li {
+    margin-bottom: 0.5rem;
+}
+
+.card-content-pane code {
+    display: block;
+    background-color: #e2e8f0;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    margin: 1rem 0;
+    border: 1px solid var(--color-border);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.card-content-pane .best-use {
+    background-color: rgba(0, 160, 192, 0.05);
+    border-left: 3px solid var(--color-accent-secondary);
+    padding: 1rem;
+    margin-top: 0;
+    border-radius: 0 4px 4px 0;
+}
+
+/* 5. LICENSE PAGE STYLES ######################################################################################## */
+.license-content {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-soft);
+    text-align: left;
+}
+
+.license-content h3 {
+    font-family: var(--font-header);
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+}
+
+.license-content p, .license-content li {
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+}
+
+.license-divider {
+    border: 0;
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 2rem 0;
+}
+
+.license-clause {
+    margin-bottom: 1.5rem;
+}
+
+.license-clause h4 {
+    font-family: var(--font-header);
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+}
+
+.license-clause ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 1rem;
+}
+
+.definition {
+    background-color: rgba(0, 160, 192, 0.05);
+    border-left: 3px solid var(--color-accent-secondary);
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 0 4px 4px 0;
+}
+
+.definition p {
+    margin: 0;
+}
+
+.contact-info {
+    list-style: none;
+    padding-left: 0;
+    line-height: 1.8;
+}
+
+.contact-info a {
+    color: var(--color-accent-primary);
+    text-decoration: none;
+}
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+/*
+=====================================================
+  6. STYLES FOR REFACTORED LICENSE PAGE (NO INLINE)
+=====================================================
+*/
+.license-header-intro {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.license-details-summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--color-accent-primary);
+    display: inline-block;
+    padding: 0.25rem 0;
+    transition: color 0.2s;
+}
+
+.license-details-summary:hover {
+    text-decoration: underline;
+    color: var(--color-accent-secondary);
+}
+
+.license-text-block {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 0.8em;
+    line-height: 1.6;
+    margin-top: 1rem;
+    background-color: #f7fafc;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* 7. DOCUMENTATION TITLES CARD ################################################################################## */
+.qr-code-img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    padding: 5px;
+    background-color: #fff;
+}
+
+.titles-card-content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.titles-card-content ul li {
+    margin-bottom: 0.75rem;
+}
+
+.titles-card-content ul li a {
+    color: var(--color-accent-primary);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s, text-decoration 0.2s;
+}
+
+.titles-card-content ul li a:hover {
+    color: var(--color-accent-secondary);
+    text-decoration: underline;
+}
+
+.developer-info {
+    list-style: none;
+    padding-left: 0;
+}
+
+.developer-info li {
+    margin-bottom: 0.5rem;
+}
+
+.developer-info a {
+    color: var(--color-accent-primary);
+    text-decoration: none;
+}
+
+.developer-info a:hover {
+    text-decoration: underline;
+}
