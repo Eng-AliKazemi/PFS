@@ -494,7 +494,7 @@ For more details, please see the full security documentation.
 
 ## 🙏 Acknowledgments
 
-The development of Precision File Search relies on the exceptional work of the open-source community. We extend our deepest gratitude to the developers behind the incredible tools that made PFS possible, including FastAPI, LangChain, Hugging Face, Scikit-learn, Qdrant, and many more.
+The development of Precision File Search relies on the exceptional work of the open-source community. We extend our deepest gratitude to the developers behind the incredible tools that made PFS possible, including **IBM Granite Team**, FastAPI, LangChain, Hugging Face, Scikit-learn, Qdrant, and many more.
 
 For a complete list of third-party dependencies and their licenses, please see the [DEPENDENCIES.md](DEPENDENCIES.md) file.
 
