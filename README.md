@@ -1,4 +1,4 @@
-<<div align="center">
+<div align="center">
   <img src="./static/logo.png" alt="Logo" width="150" style="border: 1px solid #ddd; border-radius: 4px; padding: 5px;"/>
   <h1>Precision File Search (PFS)</h1>
   <a href="https://eng-alikazemi.github.io/PFS/" target="_blank">Project Official Website</a>
