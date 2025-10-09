@@ -153,10 +153,6 @@ The easiest way to install Precision File Search is to download the latest offic
 3.  Run the installer and follow the on-screen instructions.
 4.  Once installed, launch the application and navigate to the **Settings** tab to configure your LLM and Semantic models as needed.
 
-Here’s a polished and technically accurate version of your guideline, Ali — optimized for clarity, onboarding, and credibility:
-
----
-
 ## 🧠 Precision File Search: Offline AI Inference Setup with Ollama  
 **Powered by IBM Granite 4.0 Hybrid Intelligence**  
 
