@@ -531,6 +531,10 @@ For all commercial inquiries, please contact the project lead, **Ali Kazemi**. H
 
 He holds more than 20 specialization and professional certifications from **IBM**, underscoring his deep expertise in AI and related technologies, and is a member of the **European AI Alliance**.
 
+![European AI Alliance](https://futurium.ec.europa.eu/system/files/styles/fut_group_logo/private/2025-09/AI%20Alliance%20logo%201.png?h=d0ac640d&itok=C2EbFBbk)
+
+🔗 [Read the official project article on the European AI Alliance portal](https://futurium.ec.europa.eu/en/apply-ai-alliance/community-content/precision-file-search-precise-combination-search-engine-and-ai)
+
 #### Contact & Inquiries
 
 **For professional inquiries, consulting opportunities, or engagement in commercial systems development, please connect on LinkedIn.**
