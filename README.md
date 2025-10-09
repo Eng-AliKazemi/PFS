@@ -1,7 +1,8 @@
 <div align="center">
   <img src="./static/logo.png" alt="Logo" width="150" style="border: 1px solid #ddd; border-radius: 4px; padding: 5px;"/>
-  <h1>Precision File Search (PFS)</h1>
-  <p><strong>An AI-powered, locally-run platform that transforms digital chaos into organized clarity.</strong></p>
+<h1>Precision File Search (PFS)</h1>
+[Project Official Website](https://eng-alikazemi.github.io/PFS/)
+<p><strong>An AI-powered, locally-run platform that transforms digital chaos into organized clarity.</strong></p>
   
  <p>
     <img src="https://img.shields.io/badge/Python-3.11+-blue.svg" alt="Python 3.11+">
