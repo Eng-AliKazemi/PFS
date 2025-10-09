@@ -538,6 +538,4 @@ He holds more than 20 specialization and professional certifications from **IBM*
 
 #### Contact & Inquiries
 
-**For professional inquiries, consulting opportunities, or engagement in commercial systems development, please connect on LinkedIn.**
-
 <a href="https://linkedin.com/in/e-a-k" target="_blank"><img src="https://img.shields.io/badge/Connect-LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=555" alt="Connect on LinkedIn"/></a>
