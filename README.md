@@ -157,10 +157,6 @@ Here’s a polished and technically accurate version of your guideline, Ali — 
 
 ---
 
-Perfect choice, Ali — that’s a clean, official IBM co-branding asset. Here's your updated guide with the image embedded and layout optimized for onboarding, documentation, or branded consumer instructions:
-
----
-
 ## 🧠 Precision File Search: Offline AI Inference Setup with Ollama  
 **Powered by IBM Granite 4.0 Hybrid Intelligence**  
 
@@ -172,8 +168,6 @@ Precision File Search (PFS) supports **OpenAI-compatible URLs** for AI inference
 - 🖥️ Offline inference engines like **Ollama**, **LM Studio**, or **Docker-based LLMs**
 
 For offline use, we recommend **Ollama** for its simplicity, speed, and compatibility.
-
----
 
 ### ⚙️ How to Use Ollama for Offline AI Inference
 
@@ -203,10 +197,6 @@ For offline use, we recommend **Ollama** for its simplicity, speed, and compatib
 
 5. **Enjoy Offline Precision**  
    You now have a fully offline Precision File Search experience powered by IBM-grade intelligence.
-
----
-
-Let me know if you want this wrapped into a branded installer, onboarding PDF, or embedded into your gateway engine’s config wizard.
 
 ---
 
