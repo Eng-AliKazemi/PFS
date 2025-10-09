@@ -153,6 +153,61 @@ The easiest way to install Precision File Search is to download the latest offic
 3.  Run the installer and follow the on-screen instructions.
 4.  Once installed, launch the application and navigate to the **Settings** tab to configure your LLM and Semantic models as needed.
 
+Here’s a polished and technically accurate version of your guideline, Ali — optimized for clarity, onboarding, and credibility:
+
+---
+
+Perfect choice, Ali — that’s a clean, official IBM co-branding asset. Here's your updated guide with the image embedded and layout optimized for onboarding, documentation, or branded consumer instructions:
+
+---
+
+## 🧠 Precision File Search: Offline AI Inference Setup with Ollama  
+**Powered by IBM Granite 4.0 Hybrid Intelligence**  
+
+![IBM Co-Branding](https://www.ibm.com/brand/experience-guides/developer/static/b2467f8258b1b1b99aecfa46fac8976b/3cbba/10_co-branding-events.png)
+
+Precision File Search (PFS) supports **OpenAI-compatible URLs** for AI inference. These endpoints can be hosted by:
+
+- 🌐 Online providers (e.g., OpenAI, Together.ai)  
+- 🖥️ Offline inference engines like **Ollama**, **LM Studio**, or **Docker-based LLMs**
+
+For offline use, we recommend **Ollama** for its simplicity, speed, and compatibility.
+
+---
+
+### ⚙️ How to Use Ollama for Offline AI Inference
+
+1. **Download Ollama**  
+   👉 [https://ollama.com/download](https://ollama.com/download)
+
+2. **Run the IBM Granite Model**  
+   Open PowerShell or Command Prompt and enter:
+   ```powershell
+   ollama run granite4:micro-h
+   ```
+   This will download and launch **IBM Granite 4.0 Micro-Hybrid**, a state-of-the-art hybrid LLM optimized for PFS.
+
+3. **Configure PFS to Use Ollama**  
+   - Open the **PFS Settings** page  
+   - In the **API Key** field, enter:
+     ```
+     ollama
+     ```
+   - In the **Model Name** field, enter:
+     ```
+     granite4:micro-h
+     ```
+
+4. **Apply Settings**  
+   Save your changes, close PFS, and relaunch the application.
+
+5. **Enjoy Offline Precision**  
+   You now have a fully offline Precision File Search experience powered by IBM-grade intelligence.
+
+---
+
+Let me know if you want this wrapped into a branded installer, onboarding PDF, or embedded into your gateway engine’s config wizard.
+
 ---
 
 ### For Developers (Running from Source)
@@ -488,8 +543,10 @@ Professional services are available for organizations that need to take PFS to t
 
 For all commercial inquiries, please contact the project lead, **Ali Kazemi**. He is a certified IBM AI Engineer and AI Solution Architect who specializes in developing and consulting on intelligent systems for enterprise clients.
 
--   **Certifications:** Holds over 20 professional IBM certificates in AI and related fields.
--   **Experience:** Over 15 years of experience in IT, with extensive management experience at international companies.
--   **Affiliation:** Member of the European AI Alliance.
+He holds more than 20 professional certifications from IBM, underscoring his deep expertise in AI and related technologies, and is a member of the European AI Alliance.
 
-**Contact:** [linkedin.com/in/e-a-k](https://www.linkedin.com/in/e-a-k/)
+#### Contact & Inquiries
+
+For professional inquiries, consulting opportunities, or engagement in commercial systems development, please connect with Ali Kazemi on LinkedIn.
+
+<a href="https://linkedin.com/in/e-a-k" target="_blank"><img src="https://img.shields.io/badge/Connect-LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=555" alt="Connect on LinkedIn"/></a>
