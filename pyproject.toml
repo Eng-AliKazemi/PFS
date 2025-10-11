@@ -62,6 +62,7 @@ dependencies = [
     "unstructured[all-docs]",
     "pypdf",
     "python-docx",
+    "PyMuPDF",
 
     # Core AI & NLP Libraries (LangChain & Hugging Face)
     "langchain",
