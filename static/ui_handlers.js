@@ -1,4 +1,4 @@
-// static\ui_handlers.js
+// static/ui_handlers.js
 
 // # Precision File Search
 // # Copyright (c) 2025 Ali Kazemi
@@ -91,33 +91,50 @@ export async function performAISearch(event) {
     aiSearchButton.disabled = true;
     aiSearchButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${currentTranslations.aiSearching || 'ASK AI'}`;
     aiResultsSection.classList.remove('hidden');
-    
     aiResultsDiv.innerHTML = '<div class="spinner-container"><div class="loading-spinner"></div><p>AI is processing your request...</p></div>';
 
-    const semanticParams = {
-        k_fetch_initial: parseInt(quickKFetch.value, 10),
-        vector_score_threshold: parseFloat(quickVectorScoreThreshold.value),
-        vector_top_n: parseInt(quickVectorTopN.value, 10),
-        enable_reranker: enableRerankerToggle.checked,
-        rerank_score_threshold: parseFloat(quickScoreThreshold.value),
-        rerank_top_n: parseInt(quickTopN.value, 10)
-    };
+    let endpoint = '/api/ai/search';
+    let body = {};
+
+    if (lastSemanticResults && lastSemanticResults.length > 0) {
+        console.log("Context found. Using /api/ai/summarize-results endpoint.");
+        endpoint = '/api/ai/summarize-results';
+        body = {
+            query: query,
+            search_results: lastSemanticResults, // Pass the stored context
+            temperature: parseFloat(aiTemperatureSlider.value),
+            max_tokens: parseInt(aiMaxTokensSlider.value, 10),
+        };
+    } else {
+        console.log("No context found. Using /api/ai/search endpoint.");
+        const semanticParams = {
+            k_fetch_initial: parseInt(quickKFetch.value, 10),
+            vector_score_threshold: parseFloat(quickVectorScoreThreshold.value),
+            vector_top_n: parseInt(quickVectorTopN.value, 10),
+            enable_reranker: enableRerankerToggle.checked,
+            rerank_score_threshold: parseFloat(quickScoreThreshold.value),
+            rerank_top_n: parseInt(quickTopN.value, 10)
+        };
+        endpoint = '/api/ai/search';
+        body = {
+            query: query,
+            temperature: parseFloat(aiTemperatureSlider.value),
+            max_tokens: parseInt(aiMaxTokensSlider.value, 10),
+            ...semanticParams
+        };
+    }
 
     try {
-        const response = await fetch('/api/ai/search', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                query: query,
-                temperature: parseFloat(aiTemperatureSlider.value),
-                max_tokens: parseInt(aiMaxTokensSlider.value, 10),
-                ...semanticParams
-            })
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
         });
         const result = await response.json();
         if (!response.ok) {
             const errorData = result.detail?.data || { summary: result.detail || 'An unknown server error occurred.' };
             renderAIResults(errorData);
-            return; 
+            return;
         }
         if (result.status === 'success') {
             renderAIResults(result.data);
@@ -129,12 +146,10 @@ export async function performAISearch(event) {
         renderAIResults({ summary: `<h3>Error</h3><p>${error.message}</p>` });
     } finally {
         aiSearchButton.disabled = false;
-        const btnSpan = aiSearchButton.querySelector('span');
-        if (btnSpan) btnSpan.textContent = currentTranslations.aiSearchButton || 'ASK AI';
-        const btnIcon = aiSearchButton.querySelector('i');
-        if (btnIcon) btnIcon.className = 'fas fa-paper-plane';
+        aiSearchButton.innerHTML = `<i class="fas fa-paper-plane"></i> <span>${currentTranslations.aiSearchButton || 'ASK AI'}</span>`;
     }
 }
+
 
 export async function handleAIResultsClick(event) {
     const button = event.target.closest('.action-btn');
@@ -170,9 +185,9 @@ export async function startIndexing() {
         indexingPoller = setInterval(updateIndexingProgress, 1500);
     } catch (error) {
         startIndexingButton.disabled = false;
-        startIndexingButton.innerHTML = '<i class="fas fa-times"></i> FAILED TO START';
+        startIndexingButton.innerHTML = `<i class="fas fa-times"></i> FAILED TO START`;
         setTimeout(() => {
-             startIndexingButton.innerHTML = `<i class="fas fa-play-circle"></i> <span data-i18n-key="semanticBuildButton">${currentTranslations.semanticBuildButton}</span>`;
+             startIndexingButton.innerHTML = `<i class="fas fa-play-circle"></i> <span data-i18n-key="semanticBuildButton">${currentTranslations.semanticBuildButton || 'BUILD INDEX'}</span>`;
         }, 3000);
     }
 }
@@ -200,7 +215,7 @@ export async function updateIndexingProgress(once = false) {
             startIndexingButton.innerHTML = finalHTML;
             setTimeout(() => {
                 if (!startIndexingButton.disabled) {
-                    startIndexingButton.innerHTML = `<i class="fas fa-play-circle"></i> <span data-i18n-key="semanticBuildButton">${currentTranslations.semanticBuildButton}</span>`;
+                    startIndexingButton.innerHTML = `<i class="fas fa-play-circle"></i> <span data-i18n-key="semanticBuildButton">${currentTranslations.semanticBuildButton || 'BUILD INDEX'}</span>`;
                     startIndexingButton.title = '';
                 }
             }, 4000);
@@ -210,7 +225,7 @@ export async function updateIndexingProgress(once = false) {
         startIndexingButton.disabled = false;
         startIndexingButton.innerHTML = '<i class="fas fa-exclamation-triangle"></i> CONNECTION ERROR';
          setTimeout(() => {
-            startIndexingButton.innerHTML = `<i class="fas fa-play-circle"></i> <span data-i18n-key="semanticBuildButton">${currentTranslations.semanticBuildButton}</span>`;
+            startIndexingButton.innerHTML = `<i class="fas fa-play-circle"></i> <span data-i18n-key="semanticBuildButton">${currentTranslations.semanticBuildButton || 'BUILD INDEX'}</span>`;
         }, 3000);
     }
 }
@@ -222,6 +237,8 @@ export async function performSemanticSearch(event) {
     semanticResultsSection.classList.remove('hidden');
     semanticResultsDiv.innerHTML = '<div><i class="fas fa-spinner fa-spin"></i> Searching for meaning...</div>';
     
+    lastSemanticResults = [];
+
     try {
         const response = await fetch('/api/semantic/search', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -242,7 +259,9 @@ export async function performSemanticSearch(event) {
             throw error; 
         }
         const results = await response.json();
+        
         lastSemanticResults = results;
+        
         renderSemanticResults(results);
         finishSound.play().catch(error => console.error("Audio playback failed:", error)); 
     } catch (error) {
@@ -340,7 +359,7 @@ export async function startClassification() {
     } catch (error) {
         statusText.textContent = `Error: ${error.message}`;
         startClassificationButton.disabled = false;
-        startClassificationButton.innerHTML = `<i class="fas fa-play-circle"></i> <span data-i18n-key="classifierStartButton">${currentTranslations.classifierStartButton}</span>`;
+        startClassificationButton.innerHTML = `<i class="fas fa-play-circle"></i> <span data-i18n-key="classifierStartButton">${currentTranslations.classifierStartButton || 'CLASSIFY FILES'}</span>`;
     }
 }
 
@@ -358,7 +377,7 @@ async function updateClassificationProgress() {
             progressBar.style.width = '100%'; progressBar.textContent = '100%';
             statusText.textContent = data.current_file || 'Finished!';
             startClassificationButton.disabled = false;
-            startClassificationButton.innerHTML = `<i class="fas fa-play-circle"></i> <span data-i18n-key="classifierStartButton">${currentTranslations.classifierStartButton}</span>`;
+            startClassificationButton.innerHTML = `<i class="fas fa-play-circle"></i> <span data-i18n-key="classifierStartButton">${currentTranslations.classifierStartButton || 'CLASSIFY FILES'}</span>`;
             if (data.status === 'complete') {
                 renderClassificationResults();
                 finishSound.play().catch(error => console.error("Audio playback failed:", error));
