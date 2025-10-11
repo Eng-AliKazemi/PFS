@@ -15,9 +15,9 @@ Retrieval-Augmented Generation (RAG) pipeline with embeddings, a vector database
 
 Key functionalities include:
 - **Indexing (`run_indexing_task`):** Scans a specified directory, loads supported
-  documents using the `unstructured` library, splits them into parent/child
-  chunks for context-aware retrieval, generates embeddings for the child chunks,
-  and upserts them into a Qdrant vector store.
+  documents. It uses PyMuPDF for fast, self-contained PDF parsing and falls back
+  to `unstructured` for other file types. It then splits documents into parent/child
+  chunks, generates embeddings, and upserts them into a Qdrant vector store.
 - **Document Storage:** Implements a persistent document store using an SQLite
   database (`docstore.db`). This stores the larger parent chunks, which are
   retrieved after a smaller child chunk is found via vector search, providing
@@ -44,6 +44,10 @@ import os
 import logging
 from pathlib import Path
 from typing import List, Set, Dict, Any, Tuple
+
+import fitz
+from langchain_core.documents import Document
+
 from qdrant_client import QdrantClient, models
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_unstructured import UnstructuredLoader
@@ -117,7 +121,6 @@ def init_docstore_db():
     try:
         with sqlite3.connect(DOCSTORE_DB_FILE) as conn:
             cursor = conn.cursor()
-            # Create table with source_path column to match expected schema
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS parent_documents (
                     id TEXT PRIMARY KEY,
@@ -177,7 +180,6 @@ def _get_file_state() -> Dict[str, float]:
         logger.exception("Failed to retrieve file states from the database.")
         return {}
 
-# --- MEMORY OPTIMIZATION: New function to retrieve specific chunks from the DB on demand. ---
 def _get_parent_chunks_from_db(parent_ids: List[str]) -> Dict[str, str]:
     """
     Retrieves specific parent document chunks from the SQLite DB by their IDs.
@@ -251,10 +253,8 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
         root_path = Path(validated_path)
         allowed_extensions = {ext.lower() for ext in file_extensions}
         
-        # Get previously indexed file states
         previous_file_states = _get_file_state()
         
-        # Find all files matching criteria
         all_filepaths = [
             p for p in root_path.rglob('*') 
             if p.is_file() and p.suffix.lower() in allowed_extensions and
@@ -262,33 +262,20 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
             (include_dot_folders or not any(part.startswith('.') for part in p.parts))
         ]
         
-        # Determine which files have changed
         files_to_process = []
-        unchanged_count = 0
         for file_path in all_filepaths:
             current_mtime = file_path.stat().st_mtime
             previous_mtime = previous_file_states.get(str(file_path))
-            
             if previous_mtime is None or current_mtime != previous_mtime:
                 files_to_process.append(file_path)
-            else:
-                unchanged_count += 1
         
-        total_files = len(all_filepaths)
         files_to_index = len(files_to_process)
-        
-        logger.info(f"Found {total_files} files matching criteria, {files_to_index} changed, {unchanged_count} unchanged.")
-        if total_files == 0:
-            _update_status("complete", 0, 0, "No files found matching criteria.")
-            return
-
-        # Skip indexing if no files have changed
         if files_to_index == 0:
-            logger.info("No files changed, skipping indexing.")
-            _update_status("complete", total_files, total_files, "No changes detected.")
+            logger.info("No new or modified files to index.")
+            _update_status("complete", len(all_filepaths), len(all_filepaths), "No changes detected.")
             return
             
-        logger.info("Phase 2: Loading and processing documents...")
+        logger.info(f"Phase 2: Loading and processing {files_to_index} new/modified documents...")
         _update_status("running", 0, files_to_index, f"Found {files_to_index} changed files, starting processing...")
         docs = []
         processed_file_states = {}
@@ -296,15 +283,36 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
         for i, file_path in enumerate(files_to_process):
             _update_status("running", i + 1, files_to_index, f"Loading: {file_path.name}")
             try:
-                loader = UnstructuredLoader(str(file_path), mode="elements")
-                loaded_docs = loader.load()
-                for doc in loaded_docs:
-                    doc.metadata['source'] = str(file_path)
-                docs.extend(loaded_docs)
-                # Update file state
-                processed_file_states[str(file_path)] = file_path.stat().st_mtime
-            except Exception:
-                logger.warning(f"Could not load file '{file_path}' with UnstructuredLoader.", exc_info=True)
+                loaded_content = False
+                if file_path.suffix.lower() == ".pdf":
+                    with fitz.open(file_path) as pdf_doc:
+                        full_text = "".join(page.get_text() for page in pdf_doc)
+                    
+                    if full_text.strip():
+                        metadata = {'source': str(file_path)}
+                        doc = Document(page_content=full_text, metadata=metadata)
+                        docs.append(doc)
+                        loaded_content = True
+                    else:
+                        logger.info(
+                            f"Skipping PDF file '{file_path.name}' as it contains no extractable digital text. "
+                            "It might be a scanned or image-only document."
+                        )
+
+                else:
+                    loader = UnstructuredLoader(str(file_path), mode="elements")
+                    loaded_docs = loader.load()
+                    if loaded_docs:
+                        for doc in loaded_docs:
+                            doc.metadata['source'] = str(file_path)
+                        docs.extend(loaded_docs)
+                        loaded_content = True
+
+                if loaded_content:
+                    processed_file_states[str(file_path)] = file_path.stat().st_mtime
+
+            except Exception as e:
+                logger.warning(f"Could not load file '{file_path}'. Error: {e}", exc_info=True)
 
         if not docs:
             _update_status("complete", files_to_index, files_to_index, "No processable documents found.")
@@ -318,7 +326,6 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
         
         parent_docs = parent_splitter.split_documents(docs)
         child_docs_to_index = []
-        
         parent_docs_to_save = []
 
         for parent_doc in parent_docs:
@@ -341,14 +348,9 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
         logger.info(f"Phase 4: Indexing {len(child_docs_to_index)} child chunks into Qdrant collection '{collection_name}'.")
         _update_status("running", files_to_index, files_to_index, "Setting up vector collection...")
         
-        # Create collection if it doesn't exist, otherwise just update
-        collection_exists = False
-        try:
-            client.get_collection(collection_name=collection_name)
-            collection_exists = True
-        except Exception:  # Fixed: replaced bare except
-            pass  # Collection doesn't exist, will be created
-        
+        collection_exists = any(
+            coll.name == collection_name for coll in client.get_collections().collections
+        )
         if not collection_exists:
             client.recreate_collection(
                 collection_name=collection_name,
@@ -371,7 +373,9 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
 
         logger.info("Phase 5: Persisting document store and file states to disk...")
         _save_docstore_to_db(parent_docs_to_save)
-        _save_file_state(processed_file_states)
+        master_file_state = _get_file_state()
+        master_file_state.update(processed_file_states)
+        _save_file_state(master_file_state)
         
         _update_status("complete", files_to_index, files_to_index, "Indexing complete.")
         logger.info("Qdrant indexing task finished successfully.")
@@ -396,7 +400,6 @@ def perform_semantic_search(
     if not all([EMBEDDINGS, client]):
         raise RuntimeError("Cannot search: Embedding model is not configured or Qdrant client is not available.")
     
-
     effective_reranker = enable_reranker and RERANKER_COMPONENTS is not None
     if enable_reranker and RERANKER_COMPONENTS is None:
         logger.warning("Reranking was requested but model is not loaded. Falling back to vector search only.")
