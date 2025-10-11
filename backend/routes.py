@@ -61,6 +61,7 @@ from .semantic_search import (
 )
 from .ai_search import run_ai_search
 from .file_engine import FileSearchEngine
+from .ai_search import summarize_results_with_llm
 
 logger = logging.getLogger(__name__)
 
@@ -144,6 +145,12 @@ class DeleteTagRequest(BaseModel):
 
 class OrganizeAllRequest(BaseModel):
     base_destination_path: str
+
+class SummarizeRequest(BaseModel):
+    query: str
+    search_results: List[Dict[str, Any]]
+    temperature: float = 0.2
+    max_tokens: int = 4096
 
 
 # 3. CLASSIFIER API ENDPOINTS ###################################################################################
@@ -394,6 +401,39 @@ async def ai_search_endpoint(req: AISearchRequest):
             detail={"status": "error", "data": error_data}
         )
 
+@router.post("/api/ai/summarize-results")
+async def ai_summarize_endpoint(req: SummarizeRequest):
+    """
+    Takes existing search results and a new query, and uses an LLM to generate a summary.
+    This bypasses the search and routing steps for a more direct Q&A experience.
+    """
+    llm_config = get_config("llm_config")
+    if not llm_config or not llm_config.get("api_key") or "YOUR_LLM_API_KEY_HERE" in llm_config.get("api_key"):
+        error_data = {
+            "summary": "### AI Search is Not Configured\n\nTo use this feature, you must provide a valid API Key for your Large Language Model in the **Settings** tab.",
+            "relevant_files": []
+        }
+        raise HTTPException(status_code=409, detail={"status": "error", "data": error_data})
+
+    try:
+        strategy = "semantic_content" 
+        
+        summary_response = summarize_results_with_llm(
+            user_query=req.query,
+            search_results=req.search_results,
+            strategy=strategy,
+            temperature=req.temperature,
+            max_tokens=req.max_tokens
+        )
+        return JSONResponse(content={"status": "success", "data": summary_response})
+    except Exception as e:
+        logger.exception("A critical error occurred in the AI summarization endpoint.")
+        error_data = {
+            "summary": f"### A critical server error occurred:\n\n```\n{str(e)}\n```",
+            "relevant_files": []
+        }
+        raise HTTPException(status_code=500, detail={"status": "error", "data": error_data})
+    
 # 7. GENERAL & CONFIG API ENDPOINTS #############################################################################
 @router.post("/api/open")
 async def open_path(req: OpenRequest):
@@ -465,7 +505,6 @@ async def websocket_search_endpoint(websocket: WebSocket):
     await websocket.accept()
     search_task = None
     try:
-        # Create a temporary FileSearchEngine instance to access file categories
         temp_engine = FileSearchEngine(app_logic.DEFAULT_EXCLUDED_FOLDERS, app_logic.DEFAULT_FILE_EXTENSIONS)
         
         await websocket.send_json({
