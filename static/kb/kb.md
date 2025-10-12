@@ -187,8 +187,9 @@ The Precision File Search (PFS) application is designed from the ground up to be
     **The Prevention Method:** The prompts sent to the AI are engineered with defensive instructions, warning it about untrusted content and reinforcing its core mandate. This helps the AI to distinguish between its mission and malicious user data.
 
 *   **Path Traversal Prevention**
-    **The Vulnerability:** A user crafts a query that tricks the application into accessing or indexing sensitive system files outside of the intended search directories (e.g., `../../../../etc/passwd`).
-    **The Prevention Method:** Before any file system operation, the application validates the target path to ensure it is safely contained within the user's designated root search directory. All attempts to "climb" out of this directory are blocked.
+    **The Vulnerability:** A*   **Path Traversal Prevention**
+    *   **The Vulnerability:** A malicious query attempts to trick the application into accessing or modifying sensitive system files outside of the intended directory by using relative path components (e.g., `../../../../Windows/System32`).
+    *   **The Prevention Method:** Before any file system operation, the application validates and **canonicalizes** the target path. This process safely resolves any relative path components (like `..`), transforming the input into a direct, absolute path. This effectively blocks any attempt to "climb" out of the requested directory, ensuring that only the explicitly specified folder is ever accessed.
 
 *   **Cross-Site Scripting (XSS) Prevention**
     **The Vulnerability:** XSS occurs when an application renders unsanitized data, allowing an attacker to inject malicious scripts that execute in the user's browser. This could steal API keys or perform unauthorized actions.
