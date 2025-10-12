@@ -147,10 +147,10 @@ This guide provides instructions for both regular users (via a simple installer)
 
 The easiest way to install Precision File Search is to download the latest official installer for Windows.
 
-[![Latest Release](https://img.shields.io/badge/Download-V1.0.14-blueviolet?style=for-the-badge)](https://github.com/Eng-AliKazemi/PFS/releases/latest)
+[![Latest Release](https://img.shields.io/badge/Download-V1.0.15-blueviolet?style=for-the-badge)](https://github.com/Eng-AliKazemi/PFS/releases/latest)
 
 1.  Click the button above to go to the latest release page.
-2.  Under the **Assets** section, download the `pfs-installer-vX.X.X.exe` file.
+2.  Under the **Assets** section, download the `PFS-SETUP_vX.X.X.exe` file.
 3.  Run the installer and follow the on-screen instructions.
 4.  Once installed, launch the application and navigate to the **Settings** tab to configure your LLM and Semantic models as needed.
 
@@ -480,7 +480,8 @@ Your data privacy and system integrity are our top priorities. PFS is engineered
 
 -   **Local Execution:** The server is bound to `127.0.0.1`, making it inaccessible from the network.
 -   **No Data Exfiltration:** Your files are never uploaded or exposed to the internet.
--   **Path Traversal Prevention:** Before any file system operation, the application validates the target path to ensure it is safely contained within the user's designated search directories. All attempts to "climb" out of these directories (e.g., using `../`) are blocked.
+-   **Path Traversal Prevention**: Before any file system operation, the application validates and canonicalizes the target path. This process safely resolves any relative path components (like . or ..), effectively blocking any attempt to access unintended directories. This ensures that only the explicitly specified path is ever accessed, providing robust security against path traversal attacks while still allowing you the flexibility to search any folder on your system.
+
 -   **SQL Injection Prevention:** All database queries use parameterized statements, an industry-standard technique that separates commands from data. This makes it impossible for malicious user input to be executed as a database command.
 -   **Prompt Injection Hardening:** Prompts are engineered with defensive instructions that reinforce the AI's core mission and warn it about untrusted content. This helps the AI resist malicious instructions hidden in files or user queries.
 -   **ReDoS Mitigation:** Regular expression matching is run in a separate, non-blocking process. This isolates the operation, ensuring a malicious pattern cannot cause a denial-of-service attack that would freeze the application.

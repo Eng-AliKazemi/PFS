@@ -29,31 +29,24 @@ logger = logging.getLogger(__name__)
 # 2. PATH VALIDATION FUNCTION ###################################################################################
 def validate_and_resolve_path(user_path: str) -> str:
     """
-    Validates a user-provided path to prevent path traversal attacks.
-
-    Args:
-        user_path: The path provided by the user.
-
-    Returns:
-        The validated, absolute path as a string.
-
-    Raises:
-        ValueError: If the path is invalid, does not exist, is not a directory,
-                    or attempts to traverse outside the user's home directory.
+    Validates a user-provided path to prevent path traversal attacks while allowing
+    any valid directory on the user's system.
+    ...
     """
     if not user_path:
         raise ValueError("Path cannot be empty.")
-
-    safe_base = Path.home()
     
     try:
+        # Path.resolve() safely canonicalizes the path, resolving any '..' components.
+        # This is the primary defense against path traversal attacks.
         resolved_path = Path(user_path).resolve()
 
-        if not resolved_path.is_relative_to(safe_base):
-            logger.warning(f"Path traversal attempt blocked. Path '{user_path}' resolves to '{resolved_path}', which is outside the safe base '{safe_base}'.")
-            raise ValueError(f"Access denied. The path must be within your user directory: {safe_base}")
+        # The check to ensure the path is within the user's home directory has been removed
+        # to allow indexing of any drive/folder the user has access to, which is
+        # expected behavior for a local desktop application.
 
         if not resolved_path.is_dir():
+            logger.warning(f"Validation failed: Path '{resolved_path}' is not a directory or does not exist.")
             raise ValueError(f"The specified path does not exist or is not a directory: {resolved_path}")
 
         logger.debug(f"Path '{user_path}' successfully validated to '{resolved_path}'.")

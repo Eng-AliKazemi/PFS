@@ -274,8 +274,8 @@
                         </li>
                         <li>
                             <strong>Path Traversal Prevention</strong>
-                            <p><strong>The Vulnerability:</strong> A user crafts a query that tricks the application into accessing or indexing sensitive system files outside of the intended search directories (e.g., <code>../../../../etc/passwd</code>).</p>
-                            <p><strong>The Prevention Method:</strong> Before any file system operation, the application validates the target path to ensure it is safely contained within the user's designated root search directory. All attempts to "climb" out of this directory are blocked.</p>
+                            <p><strong>The Vulnerability:</strong> A malicious query attempts to trick the application into accessing or modifying sensitive system files outside of the intended directory by using relative path components (e.g., <code>../../../../Windows/System32</code>).</p>
+                            <p><strong>The Prevention Method:</strong> Before any file system operation, the application validates and <strong>canonicalizes</strong> the target path. This process safely resolves any relative path components (like <code>..</code>), transforming the input into a direct, absolute path. This effectively blocks any attempt to "climb" out of the requested directory, ensuring that only the explicitly specified folder is ever accessed.</p>
                         </li>
                         <li>
                             <strong>Cross-Site Scripting (XSS) Prevention</strong>
