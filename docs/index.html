@@ -13,6 +13,9 @@
     <!-- Google Site Verification Tag -->
     <meta name="google-site-verification" content="rLJGmWefTBQyDiHR56Zf0BpaE8cx-KBs_sL0gDVqRac" />
 
+    <!-- Canonical Tag -->
+    <link rel="canonical" href="https://eng-alikazemi.github.io/PFS/" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://eng-alikazemi.github.io/PFS/">
@@ -31,8 +34,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Performance Hint -->
+    <link rel="preload" href="style.css" as="style">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Precision File Search",
+      "operatingSystem": "Windows, Linux",
+      "applicationCategory": "DesktopApplication",
+      "author": {
+        "@type": "Person",
+        "name": "Ali Kazemi"
+      },
+      "description": "AI-powered desktop search and knowledge engine using a private, offline RAG pipeline.",
+      "url": "https://eng-alikazemi.github.io/PFS/"
+    }
+    </script>
 </head>
 <body>
     <canvas id="dynamic-background"></canvas>
@@ -183,7 +207,7 @@
             <div class="container">
                 <h2 class="fade-in">Ready to Unleash Your Files?</h2>
                 <p class="fade-in cta-description">Download the latest version of Precision File Search and take control of your digital world.</p>
-                <a href="https://github.com/Eng-AliKazemi/PFS/releases/latest" class="cta-button fade-in">Download</a>
+                <a href="https://github.com/Eng-AliKazemi/PFS/releases/latest" class="cta-button fade-in">Get PFS from Github Release</a>
             </div>
         </section>
     </main>
