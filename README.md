@@ -12,7 +12,7 @@
     <img src="https://img.shields.io/badge/Scikit--learn-Classifier-orange" alt="Scikit-learn">
     <img src="https://img.shields.io/badge/Qdrant-Vector_DB-953da1" alt="Qdrant">
     <br>
-    <img src="https://img.shields.io/badge/License-AGPL_v3-blue.svg" alt="License: AGPL v3">
+	<img src="https://img.shields.io/badge/License-MPL_2.0-blue.svg" alt="License: MPL 2.0">
     <img src="https://img.shields.io/github/issues/Eng-AliKazemi/PFS" alt="GitHub issues">
     <img src="https://img.shields.io/github/discussions/Eng-AliKazemi/PFS" alt="GitHub discussions">
   </p>
