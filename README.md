@@ -518,7 +518,7 @@ For a complete list of third-party dependencies and their licenses, please see t
 
 This means you are free to use, study, share, and modify the software. If you modify any of the MPL-licensed files, you must make the source code of your changes to those specific files available. However, you are free to combine this software with your own proprietary code in a larger project without needing to release the source code of your other components.
 
-For the full license text, please see the [LICENSE.md](LICENSE.md) file.
+For the full license text, please see the [LICENSE.md](LICENSE) file.
 
 ---
 
