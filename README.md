@@ -480,12 +480,16 @@ We look forward to collaborating with you!
 
 ---
 
+
 ## 🛡️ Security First
 
 Your data privacy and system integrity are our top priorities. PFS is engineered with a security-first mindset. Throughout the development process, best practices in AI security were implemented to safeguard against emerging threats.
 
 To validate our commitment to high-quality, secure code, the project is continuously analyzed by **SonarCloud**, a leading static code analysis tool. We are proud to have achieved a **passed Quality Gate** and maintain an **'A' rating for both Security and Maintainability**, ensuring the code is not only functional but also robust and secure from the ground up.
 
+<a href="https://sonarcloud.io/summary/new_code?id=Eng-AliKazemi_PFS"><img src="https://sonarcloud.io/api/project_badges/measure?project=Eng-AliKazemi_PFS&metric=alert_status" alt="Quality Gate Status"></a> <a href="https://sonarcloud.io/summary/new_code?id=Eng-AliKazemi_PFS"><img src="https://sonarcloud.io/api/project_badges/measure?project=Eng-AliKazemi_PFS&metric=security_rating" alt="Security Rating"></a> <a href="https://sonarcloud.io/summary/new_code?id=Eng-AliKazemi_PFS"><img src="https://sonarcloud.io/api/project_badges/measure?project=Eng-AliKazemi_PFS&metric=sqale_rating" alt="Maintainability Rating"></a> <a href="https://sonarcloud.io/summary/new_code?id=Eng-AliKazemi_PFS"><img src="https://sonarcloud.io/api/project_badges/measure?project=Eng-AliKazemi_PFS&metric=vulnerabilities" alt="Vulnerabilities"></a>
+
+**Security Measures:**
 -   **Local Execution:** The server is bound to `127.0.0.1`, making it inaccessible from the network.
 -   **No Data Exfiltration:** Your files are never uploaded or exposed to the internet.
 -   **Path Traversal Prevention**: Before any file system operation, the application validates and canonicalizes the target path. This process safely resolves any relative path components (like . or ..), effectively blocking any attempt to access unintended directories. This ensures that only the explicitly specified path is ever accessed, providing robust security against path traversal attacks while still allowing you the flexibility to search any folder on your system.
