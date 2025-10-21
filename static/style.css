@@ -2,7 +2,7 @@
 
 /* # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice. */
 
 /* 1. ROOT VARIABLES & FONT IMPORTS ############################################################################## */
@@ -259,8 +259,8 @@ input:focus, select:focus { outline: none; border-color: var(--color-accent-prim
     margin-bottom: 1rem;
     text-align: left;
 }
-#aiSearchForm, 
-#semantic-view > .panel:first-of-type, 
+#aiSearchForm,
+#semantic-view > .panel:first-of-type,
 #classifier-view > .panel:first-of-type {
     margin-top: 2rem;
 }
@@ -286,7 +286,7 @@ input:focus, select:focus { outline: none; border-color: var(--color-accent-prim
 .markdown-body blockquote { border-left: 4px solid var(--color-border); padding-left: 1em; margin-left: 0; color: var(--color-text-secondary); }
 .markdown-body strong { font-weight: bold; }
 
-.loading-spinner { width: 48px; height: 48px; border: 5px solid var(--color-border); border-top: 5px solid var(--color-accent-primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; } @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } 
+.loading-spinner { width: 48px; height: 48px; border: 5px solid var(--color-border); border-top: 5px solid var(--color-accent-primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; } @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .spinner-container { display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; min-height: 200px; color: var(--color-text-secondary); }
 /* 14. ABOUT VIEW ################################################################################################ */
 .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }

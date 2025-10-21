@@ -3,7 +3,7 @@
 """
 # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 Provides security-related utility functions for the application.
@@ -35,7 +35,7 @@ def validate_and_resolve_path(user_path: str) -> str:
     """
     if not user_path:
         raise ValueError("Path cannot be empty.")
-    
+
     try:
         # Path.resolve() safely canonicalizes the path, resolving any '..' components.
         # This is the primary defense against path traversal attacks.

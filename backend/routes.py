@@ -3,7 +3,7 @@
 """
 # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 Defines the API layer for the backend using FastAPI.
@@ -190,7 +190,7 @@ async def handle_file_operation(req: FileOperationRequest):
     dest_dir = Path(req.destination_path)
     if not dest_dir.is_dir():
         raise HTTPException(status_code=404, detail="Destination directory does not exist.")
-    
+
     conn = sqlite3.connect(app_logic.DB_FILE)
     cursor = conn.cursor()
     cursor.execute("SELECT path FROM classified_files WHERE tag = ?", (req.tag,))
@@ -222,7 +222,7 @@ async def handle_file_operation(req: FileOperationRequest):
         with sqlite3.connect(app_logic.DB_FILE) as conn:
             conn.cursor().execute("DELETE FROM classified_files WHERE tag = ?", (req.tag,))
             conn.commit()
-    
+
     op_word = "Copied" if req.action == FileAction.COPY else "Moved"
     message = f"{op_word} {success_count} of {len(source_paths)} files to '{dest_dir}'."
     if failures:
@@ -247,11 +247,11 @@ async def handle_organize_all(req: OrganizeAllRequest):
 
         logger.info(f"Starting 'Auto Organize' operation for {len(all_files)} files to base path: {base_dest_dir}")
         success_count, failures = 0, []
-        
+
         for file_path_str, tag in all_files:
             src_path = Path(file_path_str)
             target_dir = base_dest_dir / tag
-            target_dir.mkdir(exist_ok=True) 
+            target_dir.mkdir(exist_ok=True)
 
             if src_path.exists():
                 try:
@@ -265,7 +265,7 @@ async def handle_organize_all(req: OrganizeAllRequest):
         with sqlite3.connect(app_logic.DB_FILE) as conn:
             conn.cursor().execute("DELETE FROM classified_files")
             conn.commit()
-        
+
         message = f"Successfully organized {success_count} of {len(all_files)} files into categorized subfolders under '{base_dest_dir}'."
         if failures:
             message += f" Failures: {len(failures)}. See server logs for details."
@@ -284,7 +284,7 @@ async def delete_classification_tag(req: DeleteTagRequest):
             cursor.execute("SELECT 1 FROM classified_files WHERE tag = ?", (req.tag,))
             if not cursor.fetchone():
                  raise HTTPException(status_code=404, detail=f"No classification results found for tag '{req.tag}'.")
-            
+
             logger.info(f"Deleting all classification entries for tag: '{req.tag}'")
             cursor.execute("DELETE FROM classified_files WHERE tag = ?", (req.tag,))
             conn.commit()
@@ -306,7 +306,7 @@ async def start_training(req: TrainerRequest, background_tasks: BackgroundTasks)
     app_logic.trainer_status = {"status": "starting", "log": [], "accuracy": None}
     logger.info(f"Starting model training with data from: {req.data_path}")
     background_tasks.add_task(run_training_task, app_logic.trainer_status, req.data_path, req.test_size, req.n_estimators, app_logic.DEFAULT_EXCLUDED_FOLDERS)
-    
+
     return JSONResponse(content={"status": "success", "message": "Model training started."})
 
 @router.get("/api/trainer/status")
@@ -326,7 +326,7 @@ async def start_indexing(req: IndexRequest, background_tasks: BackgroundTasks):
 
     if not os.path.isdir(req.search_path):
         raise HTTPException(status_code=404, detail="The specified directory does not exist.")
-    
+
     logger.info(f"Starting semantic indexing for path: {req.search_path}")
     background_tasks.add_task(run_indexing_task, req.search_path, app_logic.DEFAULT_EXCLUDED_FOLDERS, app_logic.DEFAULT_FILE_EXTENSIONS, req.include_dot_folders)
     return JSONResponse(content={"status": "success", "message": "Semantic indexing started."})
@@ -338,7 +338,7 @@ async def get_indexing_status():
             status = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         status = {"status": "idle", "progress": 0, "total": 0, "current_file": ""}
-    
+
     status["index_ready"] = is_index_ready()
     return JSONResponse(content=status)
 
@@ -346,7 +346,7 @@ async def get_indexing_status():
 async def semantic_search(req: SemanticSearchRequest):
     if not is_index_ready():
         raise HTTPException(status_code=503, detail="Semantic index is not ready. Please build it first.")
-    
+
     try:
         results = perform_semantic_search(
             query=req.query, k_initial=req.k_fetch_initial, vector_score_threshold=req.vector_score_threshold,
@@ -373,7 +373,7 @@ async def ai_search_endpoint(req: AISearchRequest):
             "relevant_files": []
         }
         raise HTTPException(
-            status_code=409, 
+            status_code=409,
             detail={"status": "error", "data": error_data}
         )
 
@@ -397,7 +397,7 @@ async def ai_search_endpoint(req: AISearchRequest):
             "relevant_files": []
         }
         raise HTTPException(
-            status_code=500, 
+            status_code=500,
             detail={"status": "error", "data": error_data}
         )
 
@@ -416,8 +416,8 @@ async def ai_summarize_endpoint(req: SummarizeRequest):
         raise HTTPException(status_code=409, detail={"status": "error", "data": error_data})
 
     try:
-        strategy = "semantic_content" 
-        
+        strategy = "semantic_content"
+
         summary_response = summarize_results_with_llm(
             user_query=req.query,
             search_results=req.search_results,
@@ -433,7 +433,7 @@ async def ai_summarize_endpoint(req: SummarizeRequest):
             "relevant_files": []
         }
         raise HTTPException(status_code=500, detail={"status": "error", "data": error_data})
-    
+
 # 7. GENERAL & CONFIG API ENDPOINTS #############################################################################
 @router.post("/api/open")
 async def open_path(req: OpenRequest):
@@ -457,14 +457,14 @@ async def save_config(config_request: ConfigRequest):
     try:
         set_config("excluded_folders", config_request.excluded_folders)
         set_config("file_extensions", config_request.file_extensions)
-        
+
         retrieval_params = get_config("retrieval_params")
         retrieval_params["enable_reranker"] = config_request.enable_reranker
         set_config("retrieval_params", retrieval_params)
-        
+
         if config_request.llm_config:
             set_config("llm_config", config_request.llm_config)
-            
+
         if config_request.embedding_model:
             emb_config = get_config("embedding_model")
             emb_config.update(config_request.embedding_model)
@@ -474,11 +474,11 @@ async def save_config(config_request: ConfigRequest):
             rer_config = get_config("reranker_model")
             rer_config.update(config_request.reranker_model)
             set_config("reranker_model", rer_config)
-            
+
         app_logic.DEFAULT_EXCLUDED_FOLDERS = set(config_request.excluded_folders)
         app_logic.DEFAULT_FILE_EXTENSIONS = config_request.file_extensions
         RETRIEVAL_CONFIG['enable_reranker'] = config_request.enable_reranker
-        
+
         logger.info("Configuration saved successfully.")
         return JSONResponse(content={"status": "success", "message": "Configuration saved."})
     except Exception as e:
@@ -492,7 +492,7 @@ async def reset_config():
         app_logic.DEFAULT_EXCLUDED_FOLDERS = set(get_config("excluded_folders"))
         app_logic.DEFAULT_FILE_EXTENSIONS = get_config("file_extensions")
         RETRIEVAL_CONFIG.update(get_config("retrieval_params"))
-        
+
         logger.info("Configuration has been reset to defaults.")
         return JSONResponse(content={"status": "success", "message": "Configuration reset to defaults."})
     except Exception as e:
@@ -506,7 +506,7 @@ async def websocket_search_endpoint(websocket: WebSocket):
     search_task = None
     try:
         temp_engine = FileSearchEngine(app_logic.DEFAULT_EXCLUDED_FOLDERS, app_logic.DEFAULT_FILE_EXTENSIONS)
-        
+
         await websocket.send_json({
             "type": "config",
             "defaults": {

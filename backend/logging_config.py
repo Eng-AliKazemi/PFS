@@ -3,7 +3,7 @@
 """
 # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 Configures the logging setup for the entire backend application.
@@ -94,7 +94,7 @@ def setup_logging(level: str = DEFAULT_LOG_LEVEL):
     # --- Add Handlers to Root Logger ---
     root_logger.addHandler(console_handler)
     root_logger.addHandler(file_handler)
-    
+
     # Log the initial configuration status
     initial_logger = logging.getLogger(__name__)
     initial_logger.info(f"Logging configured successfully with {log_level_str} level verbosity.")

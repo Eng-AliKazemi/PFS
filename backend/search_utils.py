@@ -3,7 +3,7 @@
 """
 # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 Provides utility functions for classic file system searches.
@@ -49,7 +49,7 @@ async def perform_classic_search(search_path: str, keywords: List[str], search_t
     """
     found_items = []
     pattern = keywords[0] if keywords else '*'
-    
+
     logger.debug(
         f"Performing classic search in '{search_path}' for pattern '{pattern}' "
         f"(type: {search_type}, case_sensitive: {case_sensitive})"

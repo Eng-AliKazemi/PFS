@@ -3,7 +3,7 @@
 """
 # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 Manages the core components of the Retrieval-Augmented Generation (RAG) pipeline.
@@ -44,7 +44,7 @@ def get_torch_device(configured_device: str = "auto") -> str:
     """Determines the optimal torch device (CUDA, MPS, CPU) for model loading."""
     configured_device = configured_device.lower().strip()
     logger.debug(f"Requesting device: '{configured_device}'")
-    
+
     if configured_device == "cuda" and torch.cuda.is_available():
         logger.info("CUDA device selected by user and is available.")
         return "cuda"
@@ -54,14 +54,14 @@ def get_torch_device(configured_device: str = "auto") -> str:
     if configured_device == "cpu":
         logger.info("CPU device selected by user.")
         return "cpu"
-        
+
     if torch.cuda.is_available():
         logger.info("Auto-detected and selected CUDA device.")
         return "cuda"
     if hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
         logger.info("Auto-detected and selected MPS device.")
         return "mps"
-        
+
     logger.info("No GPU detected, falling back to CPU.")
     return "cpu"
 
@@ -83,7 +83,7 @@ def ensure_model_is_downloaded(model_name: str, model_type: str) -> None:
         # This function will check the cache first. If the model is present, it does nothing and returns instantly.
         # If not, it will download the model and show a progress bar in the console.
         logger.info(f"Verifying {model_type} '{model_name}'...")
-        
+
         # --- MODIFIED: Added force_download and resume_download parameters as requested ---
         # NOTE: force_download=True is generally for debugging and will re-download models on every app start.
         snapshot_download(
@@ -92,9 +92,9 @@ def ensure_model_is_downloaded(model_name: str, model_type: str) -> None:
             resume_download=False
         )
         # --- END OF MODIFICATION ---
-        
+
         logger.info(f"{model_type} '{model_name}' is available locally.")
-        
+
     except Exception as e:
         logger.critical(
             f"Failed to download or verify {model_type} '{model_name}'. "
@@ -111,11 +111,11 @@ def initialize_embedding_model(model_name: str, device: str) -> Optional[Hugging
     if not model_name:
         logger.warning("No embedding model name provided in config. Semantic-based features will be disabled.")
         return None
-    
+
     try:
         # Call the verification function before trying to load
         ensure_model_is_downloaded(model_name, "Embedding Model")
-        
+
         logger.info(f"Loading embedding model: {model_name} on device: {device}")
         model_kwargs = {'device': device}
         encode_kwargs = {'normalize_embeddings': True}
@@ -136,11 +136,11 @@ def initialize_reranker_model(model_name: str, device: str) -> Optional[Tuple]:
     if not model_name:
         logger.warning("No reranker model name provided in config. Reranker will be disabled.")
         return None
-        
+
     try:
         # Call the verification function before trying to load
         ensure_model_is_downloaded(model_name, "Reranker Model")
-        
+
         logger.info(f"Loading reranker model: {model_name} on device: {device}")
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         model = AutoModelForSequenceClassification.from_pretrained(model_name).to(device)
@@ -159,12 +159,12 @@ def rerank_retrieved_documents(query: str, documents: List[Dict[str, Any]], rera
     if not reranker_components:
         logger.warning("Rerank called but no reranker components available. Returning original document order.")
         return documents
-        
+
     tokenizer, model, device = reranker_components
     logger.debug(f"Reranking {len(documents)} documents for query: '{query[:50]}...'")
-    
+
     pairs = [[query, doc["chunk"]] for doc in documents]
-    
+
     with torch.no_grad():
         inputs = tokenizer(pairs, padding=True, truncation=True, return_tensors="pt", max_length=512).to(device)
         scores = model(**inputs, return_dict=True).logits.view(-1).float()
@@ -174,6 +174,6 @@ def rerank_retrieved_documents(query: str, documents: List[Dict[str, Any]], rera
         doc["rerank_score"] = float(score)
 
     documents.sort(key=lambda x: x["rerank_score"], reverse=True)
-    
+
     logger.debug("Reranking complete.")
     return documents
