@@ -3,7 +3,7 @@
   <h1>Precision File Search (PFS)</h1>
   <a href="https://eng-alikazemi.github.io/PFS/" target="_blank">Project Official Website</a>
 <p><strong>An AI-powered, locally-run platform that transforms digital chaos into organized clarity.</strong></p>
-  
+
  <p>
     <img src="https://img.shields.io/badge/Python-3.11+-blue.svg" alt="Python 3.11+">
     <img src="https://img.shields.io/badge/Framework-FastAPI-green.svg" alt="Framework FastAPI">
@@ -160,32 +160,32 @@ The easiest way to install Precision File Search is to download the latest offic
 3.  Run the installer and follow the on-screen instructions.
 4.  Once installed, launch the application and navigate to the **Settings** tab to configure your LLM and Semantic models as needed.
 
-## 🧠 Precision File Search: Offline AI Inference Setup with Ollama  
-**Powered by IBM Granite 4.0 Hybrid Intelligence**  
+## 🧠 Precision File Search: Offline AI Inference Setup with Ollama
+**Powered by IBM Granite 4.0 Hybrid Intelligence**
 
 ![IBM Co-Branding](https://www.ibm.com/brand/experience-guides/developer/static/b2467f8258b1b1b99aecfa46fac8976b/3cbba/10_co-branding-events.png)
 
 Precision File Search (PFS) supports **OpenAI-compatible URLs** for AI inference. These endpoints can be hosted by:
 
-- 🌐 Online providers (e.g., OpenAI, Together.ai)  
+- 🌐 Online providers (e.g., OpenAI, Together.ai)
 - 🖥️ Offline inference engines like **Ollama**, **LM Studio**, or **Docker-based LLMs**
 
 For offline use, we recommend **Ollama** for its simplicity, speed, and compatibility.
 
 ### ⚙️ How to Use Ollama for Offline AI Inference
 
-1. **Download Ollama**  
+1. **Download Ollama**
    👉 [https://ollama.com/download](https://ollama.com/download)
 
-2. **Run the IBM Granite Model**  
+2. **Run the IBM Granite Model**
    Open PowerShell or Command Prompt and enter:
    ```powershell
    ollama run granite4:micro-h
    ```
    This will download and launch **IBM Granite 4.0 Micro-Hybrid**, a state-of-the-art hybrid LLM optimized for PFS.
 
-3. **Configure PFS to Use Ollama**  
-   - Open the **PFS Settings** page  
+3. **Configure PFS to Use Ollama**
+   - Open the **PFS Settings** page
    - In the **API Key** field, enter:
      ```
      ollama
@@ -195,10 +195,10 @@ For offline use, we recommend **Ollama** for its simplicity, speed, and compatib
      granite4:micro-h
      ```
 
-4. **Apply Settings**  
+4. **Apply Settings**
    Save your changes, close PFS, and relaunch the application.
 
-5. **Enjoy Offline Precision**  
+5. **Enjoy Offline Precision**
    You now have a fully offline Precision File Search experience powered by IBM-grade intelligence.
 
 ---
@@ -316,10 +316,10 @@ These models power the ability to search by meaning and context.
 
 -   **Reranker Model (Optional, for Advanced Users)**
     -   **Purpose:** The Reranker (or Cross-Encoder) dramatically improves the relevance of search results by performing a second, more computationally intensive analysis on the top results from the embedding search.
-    -   **Trade-offs:** This provides higher accuracy at the cost of slower search speeds and requires more system resources (especially VRAM). It is recommended for 
-	
+    -   **Trade-offs:** This provides higher accuracy at the cost of slower search speeds and requires more system resources (especially VRAM). It is recommended for
+
 > **Important Note on Models & Connectivity:**
-> Hugging Face models can be large, with sizes ranging from **~100 MB to several gigabytes**. An active internet connection is required the first time you run the application with a new model, as it will be downloaded and cached locally. This process is for downloading model files only; **your personal data and file content are never sent to the internet.**	
+> Hugging Face models can be large, with sizes ranging from **~100 MB to several gigabytes**. An active internet connection is required the first time you run the application with a new model, as it will be downloaded and cached locally. This process is for downloading model files only; **your personal data and file content are never sent to the internet.**
 
 ---
 
@@ -514,9 +514,9 @@ For a complete list of third-party dependencies and their licenses, please see t
 
 ## 📝 License
 
-This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+**This project is licensed under the [Mozilla Public License 2.0 (MPL-2.0)](https://www.mozilla.org/en-US/MPL/2.0/).**
 
-This means you are free to use, study, share, and modify the software. However, if you modify it and run it on a network server to provide a service to others, you must also make your modified source code available to them.
+This means you are free to use, study, share, and modify the software. If you modify any of the MPL-licensed files, you must make the source code of your changes to those specific files available. However, you are free to combine this software with your own proprietary code in a larger project without needing to release the source code of your other components.
 
 For the full license text, please see the [LICENSE.md](LICENSE.md) file.
 
@@ -524,7 +524,7 @@ For the full license text, please see the [LICENSE.md](LICENSE.md) file.
 
 ## 📜 Code of Conduct
 
-This project and everyone participating in it is governed by the [PFS Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. 
+This project and everyone participating in it is governed by the [PFS Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
 
 ---
 
