@@ -15,7 +15,13 @@
 	<img src="https://img.shields.io/badge/License-MPL_2.0-blue.svg" alt="License: MPL 2.0">
     <img src="https://img.shields.io/github/issues/Eng-AliKazemi/PFS" alt="GitHub issues">
     <img src="https://img.shields.io/github/discussions/Eng-AliKazemi/PFS" alt="GitHub discussions">
-  </p>
+    <br>
+    <a href="https://sonarcloud.io/summary/new_code?id=Eng-AliKazemi_PFS"><img src="https://sonarcloud.io/api/project_badges/measure?project=Eng-AliKazemi_PFS&metric=alert_status" alt="Quality Gate Status"></a>
+    <a href="https://sonarcloud.io/summary/new_code?id=Eng-AliKazemi_PFS"><img src="https://sonarcloud.io/api/project_badges/measure?project=Eng-AliKazemi_PFS&metric=security_rating" alt="Security Rating"></a>
+    <a href="https://sonarcloud.io/summary/new_code?id=Eng-AliKazemi_PFS"><img src="https://sonarcloud.io/api/project_badges/measure?project=Eng-AliKazemi_PFS&metric=sqale_rating" alt="Maintainability Rating"></a>
+    <a href="https://sonarcloud.io/summary/new_code?id=Eng-AliKazemi_PFS"><img src="https://sonarcloud.io/api/project_badges/measure?project=Eng-AliKazemi_PFS&metric=vulnerabilities" alt="Vulnerabilities"></a>
+</p>
+
 </div>
 
 <div align="center">
