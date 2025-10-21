@@ -2,7 +2,7 @@
 
 // # Precision File Search
 // # Copyright (c) 2025 Ali Kazemi
-// # Licensed under AGPL v3
+// # Licensed under MPL 2.0
 // # This file is part of a derivative work and must retain this notice.
 
 // 1. SHARED EXPORTS & SELECTORS #################################################################################
@@ -242,7 +242,7 @@ async function initialLoad() {
     const initialLang = getInitialLanguage();
     languageSwitcher.value = initialLang;
     await translatePage(initialLang);
-    
+
     const tempWs = new WebSocket(`ws://${window.location.host}/ws/search`);
     tempWs.onmessage = (event) => {
         const data = JSON.parse(event.data);
@@ -253,26 +253,26 @@ async function initialLoad() {
             initializeAISearchUI(data.defaults);
             tempWs.close();
         }
-        createParticles(); 
+        createParticles();
     };
-    
-    loadSavedSearches(); 
-    loadSearchHistory(); 
-    renderClassificationResults(); 
+
+    loadSavedSearches();
+    loadSearchHistory();
+    renderClassificationResults();
     updateIndexingProgress(true);
 }
 
 // 7. CLASSIC SEARCH LOGIC #######################################################################################
 function startSearch() {
     finishSound.play().catch(() => {}); finishSound.pause(); finishSound.currentTime = 0;
-    const payload = buildSearchPayload(); 
+    const payload = buildSearchPayload();
     addSearchToHistory(payload);
     ws = new WebSocket(`ws://${window.location.host}/ws/search`);
     ws.onopen = () => {
-        resetUIBeforeSearch(); 
+        resetUIBeforeSearch();
 
         const initialLogMessage = `> SEARCHING FOR: "${payload.keywords.join(', ')}"`;
-        appendLog(initialLogMessage, true); 
+        appendLog(initialLogMessage, true);
 
         appendLog(`> TARGET PATH: ${payload.search_path}`);
         ws.send(JSON.stringify({ type: "start_search", payload }));
@@ -333,7 +333,7 @@ function handleWebSocketMessage(data) {
 }
 
 function resetUIBeforeSearch() {
-    searchResults = []; resultsSection.classList.remove('hidden'); 
+    searchResults = []; resultsSection.classList.remove('hidden');
     resultsDiv.innerHTML = currentTranslations['awaitingData'] || '> AWAITING DATA...';
     statusSection.classList.remove('hidden'); exportButton.classList.add('hidden');
     searchForm.classList.add('hidden'); scanControlsContainer.classList.remove('hidden');
@@ -494,7 +494,7 @@ function loadAndApplySettings(defaults) {
     const qdrantConfig = defaults?.vectordb?.qdrant || {};
     document.getElementById('qds_path').value = qdrantConfig.storage_path || 'qds';
     document.getElementById('qdrant_collection_name').value = qdrantConfig.collection_name || 'precision_search_kb';
-    
+
     // --- UPDATED: Set UI-level default model names ---
     embeddingModelNameInput.value = defaults?.embedding_model?.model_name || 'sentence-transformers/all-MiniLM-L6-v2';
     rerankerModelNameInput.value = defaults?.reranker_model?.model_name || '';
@@ -554,7 +554,7 @@ async function saveSettings() {
         });
         if (!response.ok) throw new Error(`Server responded with status: ${response.status}`);
         const result = await response.json();
-        if (result.status === 'success') { 
+        if (result.status === 'success') {
             saveSettingsButton.innerHTML = '<i class="fas fa-check"></i> SAVED!';
             alert("Settings saved! Note: Changes to Models, DB paths, or the default Reranker state require an application restart to take effect.");
         } else { throw new Error(result.message || 'Failed to save.'); }
@@ -595,7 +595,7 @@ classifierViewBtn.addEventListener('click', () => switchView('classifier'));
 settingsViewBtn.addEventListener('click', () => switchView('settings'));
 aboutViewBtn.addEventListener('click', () => switchView('about'));
 saveSettingsButton.addEventListener('click', saveSettings);
-resetSettingsButton.addEventListener('click', resetSettings); 
+resetSettingsButton.addEventListener('click', resetSettings);
 searchForm.addEventListener('submit', (event) => { event.preventDefault(); startSearch(); });
 stopButton.addEventListener('click', stopSearch);
 newSearchButton.addEventListener('click', resetUIForNewSearch);

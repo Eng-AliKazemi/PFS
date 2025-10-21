@@ -3,7 +3,7 @@
 """
 # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 Manages the application's internal Knowledge Base (KB).
@@ -16,7 +16,7 @@ to use the application itself.
 Key functionalities:
 - `load_and_index_knowledge_base()`: Called once at startup, this function
   loads a markdown document, splits it into manageable chunks, generates
-  embeddings using the HuggingFace model specified in the user's config, 
+  embeddings using the HuggingFace model specified in the user's config,
   and indexes them into an in-memory Qdrant vector store.
 - `get_kb_retriever()`: Provides a LangChain `VectorStoreRetriever` object,
   which the AI search module can use to fetch relevant document chunks based on
@@ -52,7 +52,7 @@ def load_and_index_knowledge_base():
     in-memory Qdrant vector store at application startup using the configured model.
     """
     global _db, _embeddings
-    
+
     if _db is not None:
         logger.info("Knowledge base is already initialized.")
         return
@@ -80,36 +80,36 @@ def load_and_index_knowledge_base():
         # --- MODIFIED: Use configured model and device ---
         device = get_torch_device(embedding_config.get("device", "auto"))
         logger.debug(f"Initializing KB embedding model: {model_name} on device: {device}")
-        
+
         _embeddings = HuggingFaceEmbeddings(
             model_name=model_name,
             model_kwargs={'device': device},
             encode_kwargs={'normalize_embeddings': True} # Consistent with main RAG pipeline
         )
-        
+
         embedding_dim = len(_embeddings.embed_query("test"))
         logger.debug(f"Knowledge Base embedding dimension: {embedding_dim}")
 
         logger.debug("Initializing in-memory Qdrant client for KB.")
         client = QdrantClient(":memory:")
         collection_name = "app_knowledge_base"
-        
+
         client.recreate_collection(
             collection_name=collection_name,
             vectors_config=models.VectorParams(size=embedding_dim, distance=models.Distance.COSINE),
         )
         logger.debug(f"In-memory collection '{collection_name}' created successfully.")
-        
+
         _db = QdrantVectorStore(
-            client=client, 
-            collection_name=collection_name, 
+            client=client,
+            collection_name=collection_name,
             embedding=_embeddings
         )
-        
+
         _db.add_documents(chunked_docs)
 
         logger.info("Application Knowledge Base initialized successfully.")
-        
+
     except Exception:
         logger.critical("Could not initialize Application Knowledge Base. Q&A feature will be disabled.", exc_info=True)
         _db = None
@@ -132,7 +132,7 @@ def search_knowledge_base(query: str, k: int = 3) -> List[str]:
     if not retriever:
         logger.warning("Attempted to search knowledge base, but it is not available.")
         return ["The application's knowledge base is not available."]
-    
+
     try:
         logger.debug(f"Searching knowledge base with k={k} for query: '{query}'")
         results = retriever.invoke(query)

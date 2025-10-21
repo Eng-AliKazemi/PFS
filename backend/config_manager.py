@@ -3,7 +3,7 @@
 """
 # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 Manages the application's configuration using a persistent SQLite database.
@@ -74,7 +74,7 @@ def get_user_data_dir() -> str:
         # As a last resort, fall back to a local folder, though this is not ideal for installed apps
         user_dir = "user_data"
         os.makedirs(user_dir, exist_ok=True)
-        
+
     return user_dir
 
 # Use the new function to define the data folder
@@ -174,7 +174,7 @@ def get_config(key: str) -> Any:
                 return json.loads(result[0])
     except (sqlite3.Error, json.JSONDecodeError) as e:
         logger.warning(f"Could not read key '{key}' from config DB, using default. Error: {e}")
-    
+
     logger.debug(f"Key '{key}' not found in DB or read failed; returning default value.")
     return DEFAULT_CONFIG.get(key)
 
@@ -191,7 +191,7 @@ def set_config(key: str, value: Any):
     except Exception:
         logger.exception(f"Failed to set configuration for key '{key}'.")
         raise
-        
+
 def reset_to_defaults():
     """
     Resets the configuration by clearing the config table and re-populating it with default values.
@@ -200,10 +200,10 @@ def reset_to_defaults():
         with sqlite3.connect(CONFIG_DB) as conn:
             cursor = conn.cursor()
             cursor.execute("DELETE FROM config")
-            
+
             for key, value in DEFAULT_CONFIG.items():
                 cursor.execute("INSERT INTO config (key, value) VALUES (?, ?)", (key, json.dumps(value)))
-            
+
             conn.commit()
         logger.info("Configuration database has been reset to defaults.")
     except Exception:

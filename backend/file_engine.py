@@ -3,14 +3,14 @@
 """
 # Precision File Search - High-Performance File Engine
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 High-performance, concurrent file engine module.
 
-This module implements the principles of the High-Performance Concurrent 
-File-Search Checklist to provide maximum search speed and efficiency. It uses a 
-producer-consumer model with a ThreadPoolExecutor to parallelize file system 
+This module implements the principles of the High-Performance Concurrent
+File-Search Checklist to provide maximum search speed and efficiency. It uses a
+producer-consumer model with a ThreadPoolExecutor to parallelize file system
 I/O and content processing.
 
 Key Features:
@@ -66,7 +66,7 @@ def _is_match_content_chunked(file_path: Path, pattern: re.Pattern) -> bool:
     """
     try:
         with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
-            overlap = 1024 
+            overlap = 1024
             buffer = ""
             while chunk := f.read(CONTENT_CHUNK_SIZE):
                 if pattern.search(buffer + chunk):
@@ -120,7 +120,7 @@ class FileSearchEngine:
         it translates common wildcards (*, ?) to their regex equivalents.
         """
         flags = 0 if case_sensitive else re.IGNORECASE
-        
+
         if use_regex:
             # Translate each keyword from wildcard to regex before joining
             translated_keywords = [_translate_wildcard_to_regex(k) for k in keywords]
@@ -128,7 +128,7 @@ class FileSearchEngine:
         else:
             # Just escape for literal search
             pattern_str = '|'.join(map(re.escape, keywords))
-        
+
         return re.compile(pattern_str, flags)
     # --- END OF MODIFICATION ---
 
@@ -143,7 +143,7 @@ class FileSearchEngine:
         Self-contained worker function to process a single file in a thread pool.
         """
         file_path = Path(file_path_str)
-        
+
         try:
             if req.search_type.value in ["file_content", "file_category"] and extensions:
                 if file_path.suffix.lower() not in extensions:
@@ -164,7 +164,7 @@ class FileSearchEngine:
 
             if match_found:
                 return {"status": "found", "path": file_path_str, "mtime": stat_info.st_mtime}
-            
+
             return {"status": "no_match"}
         except Exception:
             return {"status": "error_processing"}
@@ -176,7 +176,7 @@ class FileSearchEngine:
         start_time = time.monotonic()
         found_items = []
         items_scanned = 0
-        
+
         try:
             pattern = self._compile_search_pattern(req.keywords, req.use_regex, req.case_sensitive)
         except re.error as e:
@@ -185,7 +185,7 @@ class FileSearchEngine:
 
         extensions = self._get_file_extensions(req)
         excluded = set(req.excluded_folders or self.default_excluded_folders)
-        
+
         loop = asyncio.get_running_loop()
         process_func = partial(self._process_file, req=req, pattern=pattern, extensions=extensions)
 
@@ -231,12 +231,12 @@ class FileSearchEngine:
 
         found_items.sort(key=lambda x: x["mtime"], reverse=True)
         sorted_paths = [item["path"] for item in found_items]
-        
+
         duration = time.monotonic() - start_time
         item_type = "folders" if req.search_type.value == "folder_name" else "files"
         summary = f"Search complete in {duration:.2f} seconds. Scanned {items_scanned} items and found {len(found_items)} matching {item_type}."
         logger.info(summary)
-        
+
         await websocket.send_json({
             "type": "scan_complete", "task_id": search_id, "results": sorted_paths, "summary": summary
         })

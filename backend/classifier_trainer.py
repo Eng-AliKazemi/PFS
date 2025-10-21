@@ -3,7 +3,7 @@
 """
 # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 Handles the machine learning model training for the document classifier.
@@ -81,19 +81,19 @@ def run_training_task(status_dict: dict, data_path: str, test_size: float, n_est
         status_dict['log'] = ["Training process started..."]
         status_dict['accuracy'] = None
         logger.info(f"Starting classifier training with data from '{data_path}'.")
-        
+
         data_dir = Path(data_path)
         if not data_dir.is_dir():
             raise FileNotFoundError("The specified training data directory does not exist.")
-            
+
         texts = []
         labels = []
         log_entry = "Phase 1: Loading and extracting text from documents."
         status_dict['log'].append(log_entry)
         logger.info(log_entry)
-        
+
         category_dirs = [d for d in data_dir.iterdir() if d.is_dir() and d.name not in excluded_folders]
-        
+
         if not category_dirs:
              raise ValueError(f"No valid category directories found in '{data_path}'. All subdirectories were either excluded or non-existent.")
 
@@ -102,14 +102,14 @@ def run_training_task(status_dict: dict, data_path: str, test_size: float, n_est
             log_msg = f"-> Loading category '{category}' ({i+1}/{len(category_dirs)})..."
             status_dict['log'].append(log_msg)
             logger.debug(log_msg)
-            
+
             for file_path in category_dir.rglob("*"):
                 if file_path.is_file():
                     content = _extract_text(file_path)
                     if content:
                         texts.append(content)
                         labels.append(category)
-        
+
         if len(texts) < 10 or len(set(labels)) < 2:
              raise ValueError("Insufficient data. Need at least 10 documents and 2 different categories.")
 
@@ -121,7 +121,7 @@ def run_training_task(status_dict: dict, data_path: str, test_size: float, n_est
         log_entry = "\nPhase 2: Splitting data for training and testing."
         status_dict['log'].append(log_entry)
         logger.info(log_entry.strip())
-        
+
         X_train, X_test, y_train, y_test = train_test_split(
             texts, labels, test_size=test_size, random_state=42, stratify=labels
         )
@@ -144,7 +144,7 @@ def run_training_task(status_dict: dict, data_path: str, test_size: float, n_est
         status_dict['log'].append(log_entry)
         logger.info(log_entry)
         time.sleep(1)
-        
+
         log_entry = "\nPhase 4: Evaluating model performance."
         status_dict['log'].append(log_entry)
         logger.info(log_entry.strip())
@@ -157,17 +157,17 @@ def run_training_task(status_dict: dict, data_path: str, test_size: float, n_est
         status_dict['log'].append(log_entry)
         logger.info(log_entry)
         time.sleep(1)
-        
+
         log_entry = "\nPhase 5: Saving the new model to 'document_classifier.ml'."
         status_dict['log'].append(log_entry)
         logger.info(log_entry.strip())
 
-        ml.dump(pipeline, CLASSIFIER_MODEL_PATH) 
+        ml.dump(pipeline, CLASSIFIER_MODEL_PATH)
 
         log_entry = "-> Model saved successfully. It will be used on the next app restart."
         status_dict['log'].append(log_entry)
         logger.info(log_entry)
-        
+
         status_dict['status'] = 'complete'
 
     except Exception as e:
