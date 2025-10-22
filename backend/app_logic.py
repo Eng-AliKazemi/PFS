@@ -3,13 +3,13 @@
 """
 # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 Handles the core business logic for the Precision File Search application.
 
-This module contains the primary functions for running the document content 
-classifier and extracting text from various file formats. It operates 
+This module contains the primary functions for running the document content
+classifier and extracting text from various file formats. It operates
 independently of the web server's API endpoints, focusing on the backend tasks.
 
 The "classic" file search functionality is now delegated to the high-performance
@@ -85,7 +85,7 @@ def run_classification_task(search_path: str):
             for filename in filenames
             if not any(d in Path(dirpath).parts for d in DEFAULT_EXCLUDED_FOLDERS) and not any(part.startswith('.') for part in Path(dirpath).parts)
         ]
-        
+
         classifier_status['total'] = len(files_to_scan)
         logger.info(f"Found {len(files_to_scan)} files to classify.")
         conn = sqlite3.connect(DB_FILE)
@@ -94,16 +94,16 @@ def run_classification_task(search_path: str):
         for i, file_path in enumerate(files_to_scan):
             classifier_status['progress'] = i + 1
             classifier_status['current_file'] = str(file_path.name)
-            
+
             try:
                 mod_time = file_path.stat().st_mtime
                 cursor.execute("SELECT modified_time FROM classified_files WHERE path = ?", (str(file_path),))
                 result = cursor.fetchone()
-                
+
                 if result and result[0] == mod_time:
                     logger.debug(f"Skipping unmodified file: {file_path}")
                     continue
-                    
+
                 text = extract_text_from_file(file_path)
                 if text and len(text) > 50:
                     prediction = CLASSIFIER_MODEL.predict([text])[0]
@@ -133,7 +133,7 @@ async def run_search(websocket, search_id: str, req):
     # --- FIX: Update the correctly named instance ---
     FILE_SEARCH_ENGINE.default_excluded_folders = DEFAULT_EXCLUDED_FOLDERS
     FILE_SEARCH_ENGINE.default_file_extensions = DEFAULT_FILE_EXTENSIONS
-    
+
     logger.info(f"Delegating classic search (ID: {search_id}) to high-performance engine.")
     # --- FIX: Call the correctly named instance ---
     await FILE_SEARCH_ENGINE.run_search(websocket, search_id, req)

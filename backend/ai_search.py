@@ -3,7 +3,7 @@
 """
 # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 Handles the AI-powered search orchestration for the application.
@@ -67,7 +67,7 @@ def get_llm_instance(temperature: Optional[float] = None) -> ChatOpenAI:
     """Creates and returns an instance of the ChatOpenAI LLM."""
     if not LLM_CONFIG.get("api_key"):
         raise RuntimeError("AI Search is not available. Configure a valid LLM API key in Settings.")
-    
+
     temp = temperature if temperature is not None else AI_SEARCH_PARAMS.get("default_temperature", 0.2)
 
     logger.debug(f"Creating LLM instance with temperature={temp}")
@@ -167,17 +167,17 @@ def answer_from_knowledge_base(query: str, temperature: float, max_tokens: int) 
             Answer:
             """)
                 ])
-    
+
     llm = get_llm_instance(temperature=temperature)
     configured_llm = llm.with_config({"max_tokens": max_tokens})
     parser = StrOutputParser()
     chain = prompt | configured_llm | parser
-    
+
     summary = chain.invoke(
         {"query": query, "context": context_str},
         config={"run_name": "AnswerFromKnowledgeBase"}
     )
-    
+
     logger.info("Successfully generated answer from knowledge base.")
     return {
         "summary": summary,
@@ -259,12 +259,12 @@ def summarize_results_with_llm(user_query: str, search_results: List[Any], strat
         for res in search_results[:15]:
             context_str += "--- Document Chunk ---\n"
             context_str += f"File Path: {res.get('path', 'N/A')}\n"
-            if 'vector_score' in res: 
+            if 'vector_score' in res:
                 context_str += f"Vector Score: {res['vector_score']:.4f}\n"
-            if 'rerank_score' in res: 
+            if 'rerank_score' in res:
                 context_str += f"Rerank Score: {res['rerank_score']:.4f}\n"
             context_str += f"Content Snippet: {res.get('chunk', 'N/A')}\n\n"
-    else: 
+    else:
         context_str += "\n".join([f"- {path}" for path in search_results[:50]])
 
     llm = get_llm_instance(temperature=temperature)
@@ -349,8 +349,8 @@ async def run_file_search_pipeline(
             validated_path = validate_and_resolve_path(search_path)
             logger.info(f"Executing classic filename search in validated path '{validated_path}' for pattern: '{keywords}'")
             raw_results = await perform_classic_search(
-                search_path=validated_path, 
-                keywords=[keywords], 
+                search_path=validated_path,
+                keywords=[keywords],
                 search_type="file_name"
             )
         except ValueError as e:
@@ -386,7 +386,7 @@ async def run_ai_search(
 
         if intent == "app_knowledge_query":
             return answer_from_knowledge_base(query, temperature, max_tokens)
-        
+
         elif intent == "file_search_query":
             return await run_file_search_pipeline(
                 query, temperature, max_tokens, k_fetch_initial, vector_score_threshold,

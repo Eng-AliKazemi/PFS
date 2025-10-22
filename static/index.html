@@ -2,7 +2,7 @@
 
 <!-- # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice. -->
 
 
@@ -61,7 +61,7 @@
                 </div>
                 <div id="category_selector_container" class="form-field hidden"><i class="fas fa-tags"></i><select id="file_category" aria-label="Select File Category"></select></div>
                 <div class="form-field"><i class="fas fa-key"></i><input type="text" id="keywords" title="Keywords" placeholder="Enter keywords" data-i18n-placeholder-key="keywordsPlaceholder" data-i18n-aria-label-key="keywordsAriaLabel" required></div>
-                
+
                 <div id="size-filter-container" class="panel">
                     <h3><i class="fas fa-balance-scale"></i> <span data-i18n-key="filterBySize">Filter by Size (Optional)</span></h3>
                     <div class="size-filter-grid">
@@ -103,7 +103,7 @@
             </div>
             <div id="statusSection" class="data-panel hidden"><h2><i class="fas fa-wave-square"></i> <span data-i18n-key="liveTelemetry">LIVE TELEMETRY</span></h2><div id="log"></div></div>
             <div id="resultsSection" class="data-panel hidden"><h2><i class="fas fa-file-invoice"></i> <span data-i18n-key="scanResults">SCAN RESULTS</span></h2><div id="results"></div><button id="exportButton" class="primary-btn hidden"><i class="fas fa-file-export"></i> <span data-i18n-key="exportDatalog">EXPORT DATALOG</span></button></div>
-            
+
             <div class="panel-grid">
                 <div id="saved-searches-container" class="panel visible">
                     <h2><i class="fas fa-bookmark"></i> <span data-i18n-key="savedSearches">Saved Searches</span></h2>
@@ -127,7 +127,7 @@
         <div id="ai-search-view" class="hidden">
             <h2><i class="fas fa-magic-wand-sparkles"></i> <span data-i18n-key="aiSearchTitle">AI-Powered Search</span></h2>
             <p class="about-intro" data-i18n-key="aiSearchIntro">Use natural language to find files, ask about file content, and get insights from files. The AI will determine the best search strategy, analyze the results, and provide a comprehensive summary.</p>
-            
+
             <div class="panel visible">
                 <form id="aiSearchForm">
                     <div class="form-field">
@@ -189,9 +189,9 @@
                         <i class="fas fa-key"></i>
                         <input type="text" id="semantic_query" title="Semantic Query" placeholder="Enter a question or search concept..." data-i18n-placeholder-key="semanticQueryPlaceholderNew" required>
                     </div>
-                    
+
                     <div class="settings-divider-with-title" data-i18n-key="vectorSearchParams">Vector Search Parameters</div>
-                    
+
                     <div class="quick-settings-grid">
                         <div class="settings-group">
                             <label for="quick_k_fetch_initial" data-i18n-key="settingsKFetchInitial">Initial Candidates (K)</label>
@@ -215,9 +215,9 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="settings-divider-with-title" data-i18n-key="rerankerParams">Reranker Parameters</div>
-                    
+
                     <div id="reranker-controls-wrapper">
                         <div class="quick-settings-grid single-item">
                             <div class="settings-group">
@@ -247,7 +247,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <button type="submit" class="primary-btn">
                         <i class="fas fa-search"></i> <span data-i18n-key="semanticSearchButton">SEMANTIC SEARCH</span>
                     </button>
@@ -272,7 +272,7 @@
                 <button type="button" id="startClassificationButton" class="primary-btn"><i class="fas fa-play-circle"></i> <span data-i18n-key="classifierStartButton">START CLASSIFICATION</span></button>
             </div>
             <div id="classifier-progress-section" class="data-panel hidden"><h2><i class="fas fa-wave-square"></i> <span data-i18n-key="classifierProgressTitle">CLASSIFICATION PROGRESS</span></h2><div class="progress-bar-container"><div id="classifier-progress-bar" class="progress-bar"></div></div><div id="classifier-status-text"></div></div>
-            
+
             <div id="classifier-results-section" class="data-panel hidden">
                 <div class="results-header-with-action">
                     <h2><i class="fas fa-file-invoice"></i> <span data-i18n-key="classifierResultsTitle">CLASSIFIED DOCUMENTS</span></h2>
@@ -295,13 +295,13 @@
                 </div>
 
                 <hr class="settings-divider" />
-                
+
                 <h3><i class="fas fa-search"></i> <span data-i18n-key="settingsFileScanTitle">File Scan Settings</span></h3>
                 <p class="about-intro mb-1" data-i18n-key="settingsFileScanDesc">Default settings for the traditional Keyword Search tool. These also affect which files are indexed by the Semantic engine.</p>
                 <div class="settings-group"><label for="excluded_folders" data-i18n-key="settingsExcludedFolders">Excluded Folders</label><div class="form-field"><i class="fas fa-folder-minus"></i><input type="text" id="excluded_folders" placeholder="e.g., node_modules, build, dist"></div></div>
                 <div class="settings-group"><label for="file_extensions" data-i18n-key="settingsFileExtensions">File Extensions (for content/category search)</label><div class="form-field"><i class="fas fa-file-code"></i><input type="text" id="file_extensions" placeholder="e.g., .py, .txt, .md, .pdf, .docx"></div></div>
                 <div class="settings-group"><div class="checkbox-field"><input type="checkbox" id="include_dot_folders"><label for="include_dot_folders" data-i18n-key="settingsIncludeDotFolders">Include folders starting with "."</label></div></div>
-                
+
                 <hr class="settings-divider" />
 
                 <h3><i class="fas fa-robot"></i> <span data-i18n-key="settingsLlmTitle">LLM Settings</span></h3>
@@ -320,7 +320,7 @@
                 </div>
 
                 <hr class="settings-divider" />
-                
+
                 <h3><i class="fas fa-database"></i> <span data-i18n-key="settingsVectorDbTitle">Vector Database Settings</span></h3>
                 <p class="about-intro mb-1" data-i18n-key="settingsVectorDbDesc">Qdrant vector store configurations.</p>
                 <div class="settings-group">
@@ -333,7 +333,7 @@
                 </div>
 
                 <hr class="settings-divider" />
-                
+
                 <h3><i class="fas fa-brain"></i> <span data-i18n-key="settingsSemanticModelsTitle">Semantic Model Settings</span></h3>
                 <p class="about-intro mb-1" data-i18n-key="settingsSemanticModelsDesc">Hugging Face models for the retrieval pipeline. </p>
                 <div class="settings-group">
@@ -349,7 +349,7 @@
 
                 <h3><i class="fas fa-cogs"></i> <span data-i18n-key="settingsRetrievalTitle">Advanced Retrieval Settings</span></h3>
                 <p class="about-intro mb-1" data-i18n-key="settingsRetrievalDesc"></p>
-                
+
                 <div class="settings-group">
                     <div class="checkbox-field">
                         <input type="checkbox" id="enable_reranker_setting">
@@ -405,7 +405,7 @@
                 </div>
 
                 <hr class="settings-divider" />
-                
+
                 <div class="settings-buttons-container">
                     <button type="button" id="saveSettingsButton" class="primary-btn"><i class="fas fa-save"></i> <span data-i18n-key="settingsSaveButton">SAVE ALL SETTINGS</span></button>
                     <button type="button" id="resetSettingsButton" class="secondary-btn danger"><i class="fas fa-undo"></i> <span data-i18n-key="settingsResetButton">RESET TO DEFAULTS</span></button>
@@ -420,7 +420,7 @@
             <div class="about-content">
                 <h2 class="modal-title"><i class="fas fa-info-circle"></i> <span data-i18n-key="aboutTitle">About Precision File Search</span></h2>
                 <p class="about-intro" data-i18n-key="aboutIntro1">
-                    This project represents a thoughtful combination of five critical technology disciplines, creating a combined solutions architecture that addresses real-world problems in an innovative and intuitive form. As a full-stack development initiative, it demonstrates the combination of Python as a versatile programming language alongside the most popular web design technologies including HTML, CSS, and JavaScript. 
+                    This project represents a thoughtful combination of five critical technology disciplines, creating a combined solutions architecture that addresses real-world problems in an innovative and intuitive form. As a full-stack development initiative, it demonstrates the combination of Python as a versatile programming language alongside the most popular web design technologies including HTML, CSS, and JavaScript.
                 </p>
                 <p class="about-intro" data-i18n-key="aboutBestPractices">
                     It is a showcase of best practices from:
@@ -463,7 +463,7 @@
                     <span data-i18n-key="aboutIssues">For any issue or question, please refer to the:</span><br>
                     <a href="https://github.com/Eng-AliKazemi/PFS/issues" target="_blank" rel="noopener">GitHub Issues and Discussions</a>
                     <br><br>
-                    <span data-i18n-key="aboutCollaborate">If you want to collaborate to extend the app and develop new systems, you can contact the author by email:</span> 
+                    <span data-i18n-key="aboutCollaborate">If you want to collaborate to extend the app and develop new systems, you can contact the author by email:</span>
                     <br>
                     <a href="mailto:eng.ali.kazemi@outlook.com" rel="noopener">eng.ali.kazemi@outlook.com</a>
                 <br>
@@ -475,14 +475,14 @@
 
     <!-- 10. FOOTER ############################################################################################## -->
     <div class="footer-bar">
-        <span data-i18n-key="footerDevelopedBy">Developed by:</span> 
+        <span data-i18n-key="footerDevelopedBy">Developed by:</span>
         <a href="https://www.linkedin.com/in/e-a-k/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i> Ali Kazemi</a> |
         <a href="https://github.com/Eng-AliKazemi/PFS" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a> |
-        <a href="/license" target="_blank"><i class="fas fa-file-contract"></i> License</a> | 
-        <span class="footer-item"><i class="fas fa-calendar-alt"></i> 2025</span> | 
+        <a href="/license" target="_blank"><i class="fas fa-file-contract"></i> License</a> |
+        <span class="footer-item"><i class="fas fa-calendar-alt"></i> 2025</span> |
         <span class="footer-item"><i class="fas fa-code-branch"></i> V1.0.15</span>
     </div>
-    
+
     <!-- 11. MODAL DIALOGS ####################################################################################### -->
     <div id="file-op-modal-overlay" class="modal-overlay hidden">
         <div id="file-op-modal" class="modal-box">
@@ -504,7 +504,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- 12. SCRIPT IMPORTS ###################################################################################### -->
     <script src="/static/main_app.js" type="module"></script>
     <script src="/static/ui_handlers.js" type="module"></script>

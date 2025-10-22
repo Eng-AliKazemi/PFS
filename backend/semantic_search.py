@@ -3,7 +3,7 @@
 """
 # Precision File Search
 # Copyright (c) 2025 Ali Kazemi
-# Licensed under AGPL v3
+# Licensed under MPL 2.0
 # This file is part of a derivative work and must retain this notice.
 
 Manages the semantic search capabilities of the application.
@@ -64,7 +64,7 @@ from .security_utils import validate_and_resolve_path
 # 2. CONFIGURATION & GLOBAL STATE ###############################################################################
 logger = logging.getLogger(__name__)
 
-STATUS_FILE = os.path.join(DATA_FOLDER, "semantic_status.json") 
+STATUS_FILE = os.path.join(DATA_FOLDER, "semantic_status.json")
 DOCSTORE_DB_FILE = os.path.join(DATA_FOLDER, "docstore.db")
 
 EMBEDDING_CONFIG = get_config("embedding_model")
@@ -186,7 +186,7 @@ def _get_parent_chunks_from_db(parent_ids: List[str]) -> Dict[str, str]:
     """
     if not parent_ids:
         return {}
-    
+
     try:
         with sqlite3.connect(DOCSTORE_DB_FILE) as conn:
             cursor = conn.cursor()
@@ -205,10 +205,10 @@ def is_index_ready():
     try:
         if not EMBEDDINGS:
             return False
-        
+
         qdrant_cfg = get_config("vectordb").get("qdrant", {})
         storage_path = Path(os.path.join(DATA_FOLDER, qdrant_cfg.get("storage_path", "qds")))
-        
+
         docstore_has_content = False
         if Path(DOCSTORE_DB_FILE).exists():
             with sqlite3.connect(DOCSTORE_DB_FILE) as conn:
@@ -245,41 +245,41 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
         _update_status("error", 0, 0, err_msg)
         logger.error(err_msg)
         return
-        
+
     _update_status("running", 0, 0, "Starting scan...")
     collection_name = QDRANT_CONFIG["collection_name"]
     try:
         logger.info("Phase 1: Discovering files...")
         root_path = Path(validated_path)
         allowed_extensions = {ext.lower() for ext in file_extensions}
-        
+
         previous_file_states = _get_file_state()
-        
+
         all_filepaths = [
-            p for p in root_path.rglob('*') 
+            p for p in root_path.rglob('*')
             if p.is_file() and p.suffix.lower() in allowed_extensions and
             not any(excluded in p.parts for excluded in excluded_folders) and
             (include_dot_folders or not any(part.startswith('.') for part in p.parts))
         ]
-        
+
         files_to_process = []
         for file_path in all_filepaths:
             current_mtime = file_path.stat().st_mtime
             previous_mtime = previous_file_states.get(str(file_path))
             if previous_mtime is None or current_mtime != previous_mtime:
                 files_to_process.append(file_path)
-        
+
         files_to_index = len(files_to_process)
         if files_to_index == 0:
             logger.info("No new or modified files to index.")
             _update_status("complete", len(all_filepaths), len(all_filepaths), "No changes detected.")
             return
-            
+
         logger.info(f"Phase 2: Loading and processing {files_to_index} new/modified documents...")
         _update_status("running", 0, files_to_index, f"Found {files_to_index} changed files, starting processing...")
         docs = []
         processed_file_states = {}
-        
+
         for i, file_path in enumerate(files_to_process):
             _update_status("running", i + 1, files_to_index, f"Loading: {file_path.name}")
             try:
@@ -287,7 +287,7 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
                 if file_path.suffix.lower() == ".pdf":
                     with fitz.open(file_path) as pdf_doc:
                         full_text = "".join(page.get_text() for page in pdf_doc)
-                    
+
                     if full_text.strip():
                         metadata = {'source': str(file_path)}
                         doc = Document(page_content=full_text, metadata=metadata)
@@ -318,12 +318,12 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
             _update_status("complete", files_to_index, files_to_index, "No processable documents found.")
             logger.warning("File discovery found files, but none could be processed by the loader.")
             return
-            
+
         logger.info("Phase 3: Splitting documents into parent/child chunks...")
         _update_status("running", files_to_index, files_to_index, "Splitting documents...")
         parent_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
         child_splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=50)
-        
+
         parent_docs = parent_splitter.split_documents(docs)
         child_docs_to_index = []
         parent_docs_to_save = []
@@ -332,7 +332,7 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
             parent_id = str(uuid.uuid4())
             source_path = parent_doc.metadata.get('source', '')
             parent_docs_to_save.append((parent_id, parent_doc.page_content, source_path))
-            
+
             child_chunks = child_splitter.split_documents([parent_doc])
             for chunk in child_chunks:
                 chunk.metadata = parent_doc.metadata.copy()
@@ -347,7 +347,7 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
 
         logger.info(f"Phase 4: Indexing {len(child_docs_to_index)} child chunks into Qdrant collection '{collection_name}'.")
         _update_status("running", files_to_index, files_to_index, "Setting up vector collection...")
-        
+
         collection_exists = any(
             coll.name == collection_name for coll in client.get_collections().collections
         )
@@ -356,7 +356,7 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
                 collection_name=collection_name,
                 vectors_config=models.VectorParams(size=EMBEDDING_DIMENSION, distance=models.Distance.COSINE)
             )
-        
+
         _update_status("running", files_to_index, files_to_index, f"Embedding {len(child_docs_to_index)} chunks...")
         contents_to_embed = [doc.page_content for doc in child_docs_to_index]
         vectors = EMBEDDINGS.embed_documents(contents_to_embed)
@@ -376,7 +376,7 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
         master_file_state = _get_file_state()
         master_file_state.update(processed_file_states)
         _save_file_state(master_file_state)
-        
+
         _update_status("complete", files_to_index, files_to_index, "Indexing complete.")
         logger.info("Qdrant indexing task finished successfully.")
 
@@ -387,19 +387,19 @@ def run_indexing_task(search_path: str, excluded_folders: Set[str], file_extensi
 
 # 6. CORE SEARCH LOGIC ##########################################################################################
 def perform_semantic_search(
-    query: str, 
-    k_initial: int, 
+    query: str,
+    k_initial: int,
     vector_score_threshold: float,
     vector_top_n: int,
     enable_reranker: bool,
-    rerank_top_n: int, 
+    rerank_top_n: int,
     score_threshold: float
 ) -> List[Dict[str, Any]]:
     """Performs vector search and optional reranking to find relevant documents."""
     client = get_qdrant_client()
     if not all([EMBEDDINGS, client]):
         raise RuntimeError("Cannot search: Embedding model is not configured or Qdrant client is not available.")
-    
+
     effective_reranker = enable_reranker and RERANKER_COMPONENTS is not None
     if enable_reranker and RERANKER_COMPONENTS is None:
         logger.warning("Reranking was requested but model is not loaded. Falling back to vector search only.")
@@ -407,7 +407,7 @@ def perform_semantic_search(
     logger.info(f"Performing semantic search for query: '{query[:100]}...'")
     collection_name = QDRANT_CONFIG["collection_name"]
     query_vector = EMBEDDINGS.embed_query(query)
-    
+
     logger.debug(f"Searching Qdrant collection '{collection_name}' with k={k_initial} and threshold={vector_score_threshold}.")
     child_chunk_results = client.search(
         collection_name=collection_name,
@@ -421,12 +421,12 @@ def perform_semantic_search(
         return []
 
     logger.debug(f"Vector search returned {len(child_chunk_results)} initial child chunks. Retrieving parent documents.")
-    
+
     parent_ids_to_fetch = list(set(
         point.payload.get("parent_id") for point in child_chunk_results if point.payload.get("parent_id")
     ))
     retrieved_parent_chunks = _get_parent_chunks_from_db(parent_ids_to_fetch)
-    
+
     if not retrieved_parent_chunks:
         logger.warning("Vector search found chunks, but could not retrieve any parent documents from the docstore.")
         return []
@@ -438,7 +438,7 @@ def perform_semantic_search(
             if parent_id not in parent_docs_to_process or point.score > parent_docs_to_process[parent_id]["vector_score"]:
                  parent_docs_to_process[parent_id] = {
                     "path": point.payload.get("source", "Unknown"),
-                    "chunk": retrieved_parent_chunks[parent_id], 
+                    "chunk": retrieved_parent_chunks[parent_id],
                     "vector_score": float(point.score)
                 }
 

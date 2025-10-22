@@ -2,7 +2,7 @@
 
 // # Precision File Search
 // # Copyright (c) 2025 Ali Kazemi
-// # Licensed under AGPL v3
+// # Licensed under MPL 2.0
 // # This file is part of a derivative work and must retain this notice.
 
 // 1. IMPORTS ####################################################################################################
@@ -173,7 +173,7 @@ export async function handleAIResultsClick(event) {
 export async function startIndexing() {
     finishSound.play().catch(() => {}); finishSound.pause(); finishSound.currentTime = 0;
     const path = semanticPathInput.value; if (!path) { alert("Please enter a directory path to index."); return; }
-    
+
     startIndexingButton.disabled = true;
     startIndexingButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> STARTING...';
     try {
@@ -236,14 +236,14 @@ export async function performSemanticSearch(event) {
     const query = semanticQueryInput.value; if (!query) { return; }
     semanticResultsSection.classList.remove('hidden');
     semanticResultsDiv.innerHTML = '<div><i class="fas fa-spinner fa-spin"></i> Searching for meaning...</div>';
-    
+
     lastSemanticResults = [];
 
     try {
         const response = await fetch('/api/semantic/search', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                query: query, 
+            body: JSON.stringify({
+                query: query,
                 k_fetch_initial: parseInt(quickKFetch.value, 10),
                 vector_score_threshold: parseFloat(quickVectorScoreThreshold.value),
                 vector_top_n: parseInt(quickVectorTopN.value, 10),
@@ -252,18 +252,18 @@ export async function performSemanticSearch(event) {
                 rerank_top_n: parseInt(quickTopN.value, 10)
             })
         });
-        if (!response.ok) { 
-            const err = await response.json(); 
+        if (!response.ok) {
+            const err = await response.json();
             const error = new Error(err.detail);
             error.statusCode = response.status;
-            throw error; 
+            throw error;
         }
         const results = await response.json();
-        
+
         lastSemanticResults = results;
-        
+
         renderSemanticResults(results);
-        finishSound.play().catch(error => console.error("Audio playback failed:", error)); 
+        finishSound.play().catch(error => console.error("Audio playback failed:", error));
     } catch (error) {
         semanticResultsDiv.innerHTML = `<div class="status-error">Error: ${error.message}</div>`;
         if (error.statusCode === 409) {
@@ -389,13 +389,13 @@ async function updateClassificationProgress() {
 export async function renderClassificationResults() {
     try {
         const response = await fetch('/api/classifier/results');
-        const data = await response.json(); 
+        const data = await response.json();
         resultsAccordion.innerHTML = '';
-        
-        if (Object.keys(data).length === 0) { 
+
+        if (Object.keys(data).length === 0) {
             resultsSectionClassifier.classList.add('hidden');
             organizeAllButton.classList.add('hidden');
-            return; 
+            return;
         }
         resultsSectionClassifier.classList.remove('hidden');
         organizeAllButton.classList.remove('hidden');
@@ -477,7 +477,7 @@ async function handleFileOperation(button) {
 async function handleDeleteClassification(button) {
     const tag = button.dataset.tag;
     const confirmationMessage = currentTranslations.deleteClassificationConfirmation || `Are you sure you want to delete all classification results for the tag "${tag}"? This will not delete the files from your disk, but the entry will be removed from this list.`;
-    
+
     if (confirm(confirmationMessage)) {
         const originalIcon = button.innerHTML; button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; button.disabled = true;
         try {
