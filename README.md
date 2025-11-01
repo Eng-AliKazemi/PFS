@@ -512,13 +512,24 @@ For a complete list of third-party dependencies and their licenses, please see t
 
 ---
 
-## 📝 License
+### 📄 License
 
-**This project is licensed under the [Mozilla Public License 2.0 (MPL-2.0)](https://www.mozilla.org/en-US/MPL/2.0/).**
+This project is licensed under the **Mozilla Public License 2.0 (MPL-2.0)**.
 
-This means you are free to use, study, share, and modify the software. If you modify any of the MPL-licensed files, you must make the source code of your changes to those specific files available. However, you are free to combine this software with your own proprietary code in a larger project without needing to release the source code of your other components.
+You are free to use, study, share, and modify the software. If you modify any MPL-licensed files, you must make the source code of those specific files available. You may combine this software with proprietary code in a larger project without needing to release the source code of your other components.
 
-For the full license text, please see the [LICENSE.md](LICENSE) file.
+**🔔 Additional Attribution Requirement**  
+In accordance with MPL 2.0, all distributions of this software in **binary and source form** must include the following user-visible attribution in at least one of the following locations:
+- In the README  
+- On a startup/splash screen  
+- In an "About" or "Acknowledgements" dialog box  
+- In the primary documentation or "Help" menu  
+- As a footer on a command-line tool's initial output  
+
+**Required attribution text:**  
+> *Powered by Precision File Search (PFS) from https://github.com/PFS-AI.*
+
+For the full license text, please see the [LICENSE](LICENSE) file.
 
 ---
 
