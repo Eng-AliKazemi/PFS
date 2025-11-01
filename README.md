@@ -13,9 +13,9 @@
     <img src="https://img.shields.io/badge/Qdrant-Vector_DB-953da1" alt="Qdrant">
     <br>
 	<img src="https://img.shields.io/badge/License-MPL_2.0-blue.svg" alt="License: MPL 2.0">
-    <img src="https://img.shields.io/github/issues/Eng-AliKazemi/PFS" alt="GitHub issues">
-    <img src="https://img.shields.io/github/discussions/Eng-AliKazemi/PFS" alt="GitHub discussions">
-    <br>
+	<img src="https://img.shields.io/github/issues/PFS-AI/PFS" alt="GitHub issues">
+	<img src="https://img.shields.io/github/discussions/PFS-AI/PFS" alt="GitHub discussions">
+	 <br>
     <a href="https://sonarcloud.io/summary/new_code?id=Eng-AliKazemi_PFS"><img src="https://sonarcloud.io/api/project_badges/measure?project=Eng-AliKazemi_PFS&metric=alert_status" alt="Quality Gate Status"></a>
     <a href="https://sonarcloud.io/summary/new_code?id=Eng-AliKazemi_PFS"><img src="https://sonarcloud.io/api/project_badges/measure?project=Eng-AliKazemi_PFS&metric=security_rating" alt="Security Rating"></a>
     <a href="https://sonarcloud.io/summary/new_code?id=Eng-AliKazemi_PFS"><img src="https://sonarcloud.io/api/project_badges/measure?project=Eng-AliKazemi_PFS&metric=sqale_rating" alt="Maintainability Rating"></a>
@@ -153,7 +153,7 @@ This guide provides instructions for both regular users (via a simple installer)
 
 The easiest way to install Precision File Search is to download the latest official installer for Windows.
 
-[![Latest Release](https://img.shields.io/badge/Download-V1.0.15-blueviolet?style=for-the-badge)](https://github.com/Eng-AliKazemi/PFS/releases/latest)
+[![Latest Release](https://img.shields.io/badge/Download-V1.0.15-blueviolet?style=for-the-badge)](https://github.com/PFS-AI/PFS/releases/latest)
 
 1.  Click the button above to go to the latest release page.
 2.  Under the **Assets** section, download the `PFS-SETUP_vX.X.X.exe` file.
@@ -213,7 +213,7 @@ For offline use, we recommend **Ollama** for its simplicity, speed, and compatib
 1.  **Clone the Repository:**
     Open your terminal and clone the PFS repository:
     ```bash
-    git clone https://github.com/Eng-AliKazemi/PFS.git
+    git clone https://github.com/PFS-AI/PFS.git
     cd PFS
     ```
 
@@ -395,8 +395,8 @@ The backend exposes a RESTful API and a WebSocket for real-time communication. T
 
  We kindly request that you test the application and report any issues or suggestions.
 
--   **Report Bugs:** If you encounter a bug, an error, or unexpected behavior, please [**open an issue**](https://github.com/Eng-AliKazemi/PFS/issues) on GitHub. Include steps to reproduce the problem and any relevant logs from the terminal.
--   **Suggest Features:** Have an idea for a new feature or an improvement to an existing one? We'd love to hear it! Please [**start a discussion**](https://github.com/Eng-AliKazemi/PFS/discussions) to share your thoughts.
+-   **Report Bugs:** If you encounter a bug, an error, or unexpected behavior, please [**open an issue**](https://github.com/PFS-AI/PFS/issues) on GitHub. Include steps to reproduce the problem and any relevant logs from the terminal.
+-   **Suggest Features:** Have an idea for a new feature or an improvement to an existing one? We'd love to hear it! Please [**start a discussion**](https://github.com/PFS-AI/PFS/discussions) to share your thoughts.
 
 ---
 
@@ -408,7 +408,7 @@ We are excited to welcome contributions from the community! Whether it's reporti
 
 *   **Code Contributions:** Fixing bugs or implementing new features.
 *   **Documentation:** Improving the README, documentation pages, or inline code comments.
-*   **Bug Reports & Feature Requests:** Submitting detailed issues and well-thought-out ideas in the [Issues tab](https://github.com/Eng-AliKazemi/PFS/issues).
+*   **Bug Reports & Feature Requests:** Submitting detailed issues and well-thought-out ideas in the [Issues tab](https://github.com/PFS-AI/PFS/issues).
 
 
 ### 🌍 A Special Call for Translators
@@ -442,7 +442,7 @@ While these translations are a great start, they may not be perfect. We rely on 
 1.  Navigate to the `static/lang/` directory in this repository.
 2.  Find the JSON file corresponding to your language from the list above (e.g., `es.json` for Spanish, `de.json` for German).
 3.  Review the text values for any grammatical errors, awkward phrasing, or incorrect terminology.
-4.  If you find something to improve, please [**open a new GitHub Issue**](https://github.com/Eng-AliKazemi/PFS/issues/new). In the issue, please include:
+4.  If you find something to improve, please [**open a new GitHub Issue**](https://github.com/PFS-AI/PFS/issues/new). In the issue, please include:
     *   The language file name (e.g., `de.json`).
     *   The specific key (e.g., `"appTitleAdvanced"`).
     *   The incorrect text and your suggested improvement.
@@ -465,7 +465,7 @@ This approach helps us:
 
 **Workflow Steps:**
 
-1.  **Start a Discussion:** Go to the [**Discussions tab**](https://github.com/Eng-AliKazemi/PFS/discussions) and open a new topic. Clearly describe the bug you want to fix or the feature you want to add. We'll work with you to define the scope and plan.
+1.  **Start a Discussion:** Go to the [**Discussions tab**](https://github.com/PFS-AI/PFS/discussions) and open a new topic. Clearly describe the bug you want to fix or the feature you want to add. We'll work with you to define the scope and plan.
 
 2.  **Fork & Branch:** Once the idea is discussed and agreed upon, fork the repository and create a new branch for your work.
     ```bash
