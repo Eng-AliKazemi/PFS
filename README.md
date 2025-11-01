@@ -1,7 +1,7 @@
 <div align="center">
   <img src="./static/logo.png" alt="Logo" width="150" style="border: 1px solid #ddd; border-radius: 4px; padding: 5px;"/>
   <h1>Precision File Search (PFS)</h1>
-  <a href="https://eng-alikazemi.github.io/PFS/" target="_blank">Project Official Website</a>
+  <a href="https://pfs-ai.github.io/PFS/" target="_blank">Project Official Website</a>
 <p><strong>An AI-powered, locally-run platform that transforms digital chaos into organized clarity.</strong></p>
 
  <p>
