@@ -2,9 +2,27 @@ Copyright (c) 2025, Ali Kazemi
 
 Mozilla Public License
 Version 2.0
+
 1. Definitions
 1.1. “Contributor”
 means each individual or legal entity that creates, contributes to the creation of, or owns Covered Software.
+
+...
+
+Additional Terms:
+
+In accordance with MPL 2.0 Section 3.3, the following attribution requirement applies to all distributions of this software in binary and source form:
+
+All such distributions must include the following user-visible attribution in at least one of the following locations:
+  - In the README
+  - On a startup/splash screen
+  - In an "About" or "Acknowledgements" dialog box
+  - In the primary documentation or "Help" menu
+  - As a footer on a command-line tool's initial output
+
+Required attribution text:
+  "Powered by Precision File Search (PFS) from https://github.com/PFS-AI."
+...
 
 1.2. “Contributor Version”
 means the combination of the Contributions of others (if any) used by a Contributor and that particular Contributor’s Contribution.
